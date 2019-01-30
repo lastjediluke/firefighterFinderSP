@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Map Playaround</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <script src="https://www.gstatic.com/firebasejs/5.7.0/firebase.js"></script>
+    <header>
+      <h1 align="center">Firefighter Finder</h1>
+    </header>
+    <link rel="stylesheet" href="css/main.css">
+  </head>
+  <body>
+    
+    <section id = 'floorInput'>
+      <input type='text' id='numFloorsInput' placeholder="Enter Number of Floors"/>
+      <button id='floorButton' onclick='numFloors()'>Enter</button>
+    </section>
+
+    <section id = 'statusSection'>
+      <div class="titleRow">
+        <h2 align="center" class="titleColumn">Status</h2>
+        
+        <h2 align="center" class="titleColumn">Tools</h2>
+      </div>
+      <div class="row">
+        <div class="column">Jenkins</div>
+        
+        <div class="column">column 2</div>
+      </div>
+    </section>
+
+    <div id = 'map_canvas3'></div>
+
+    <pre id = 'object'></pre>
+
+    <div class="titleRow">
+      <h2 align="center" class="titleColumn">Floor Number</h2>
+      
+      <h2 align="center" class="titleColumn">Personel</h2>
+    </div>
+
+    <section id="floorDisplay">
+      <div class="row">
+        <div id="mapColumn"></div>
+        
+        <div class="column">column 2</div>
+      </div>
+    </section>
+
+    
+    
+
+    
+    
+      
+    
+    
+    <script type="text/javascript" src="js/main.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBSh3k5GTj5kOsmkuUM56wNk8QJ6NbCsTE&callback=initMap"
+    async defer></script>
+  </body>
+</html>
+
+
+

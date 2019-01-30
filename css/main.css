@@ -1,0 +1,105 @@
+body 
+{
+    font-family: 'PT Sans', sans-serif;
+    position: relative;
+    width: 100%;
+    margin-top: 0;
+    margin-right: auto;
+    margin-bottom: 4em;
+    margin-left: auto;    
+}
+
+header
+{
+    padding-top: 1em;
+    background: yellow;
+    padding-bottom: 1em;
+}
+
+#numFloorsInput
+{
+    margin: 1em;
+    
+}
+
+#floorInput
+{
+    
+    background: rgb(252, 90, 90);
+}
+
+#floorButton:hover
+{
+    border: 1px solid yellow;
+}
+
+#statusSection
+{
+    background: #FFFFEB;
+    padding-bottom: 1em;
+}
+
+#map_canvas3
+{
+    
+    height:500px;
+    width:90%;
+    background-color: gray;
+    margin: 1em auto;
+    
+}
+
+#newMapCanvas
+{
+    height:300px;
+    width:90%;
+    background-color: gray;
+    margin: 0 auto;
+}
+
+
+#maps_section
+{
+    background: #FFFFEB;
+    color: #333;
+    padding-bottom: 10px;
+      
+}
+
+.titleRow 
+{
+    display: flex;
+      
+}
+  
+.titleColumn 
+{
+    flex: 50%;
+    
+}
+
+.row 
+{
+    display: flex;
+    margin: 1em;
+    border: 1px solid black;
+    
+}
+  
+.column 
+{
+    flex: 50%;
+    margin-left: 1em;
+    
+}
+
+#mapColumn 
+{
+    height:300px;
+    width: 100%;
+    background-color: gray;
+    margin: 0 auto;
+    flex: 50%;
+}
+
+
