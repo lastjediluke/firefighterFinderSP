@@ -21,6 +21,7 @@
 
 }());
 
+// comment to test push to my branch
 
 var map, map2;
 function initMap() 
