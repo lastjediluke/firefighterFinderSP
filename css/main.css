@@ -41,35 +41,45 @@ header
 
 #map_canvas3
 {
-    
     height:500px;
+    width:90%;
+    background-color: gray;
+    margin: 1em auto; 
+    
+}
+
+#newMapCanvas0
+{
+    height:300px;
     width:90%;
     background-color: gray;
     margin: 1em auto;
     
 }
 
-#newMapCanvas
+#newMapCanvas1
 {
     height:300px;
     width:90%;
     background-color: gray;
-    margin: 0 auto;
+    margin: 1em auto;
+    
 }
 
+#blank0{}
+
+#blank1{}
 
 #maps_section
 {
     background: #FFFFEB;
     color: #333;
-    padding-bottom: 10px;
-      
+    padding-bottom: 10px;   
 }
 
 .titleRow 
 {
-    display: flex;
-      
+    display: flex;   
 }
   
 .titleColumn 
@@ -83,14 +93,12 @@ header
     display: flex;
     margin: 1em;
     border: 1px solid black;
-    
 }
   
 .column 
 {
     flex: 50%;
-    margin-left: 1em;
-    
+    margin-left: 1em;  
 }
 
 #mapColumn 

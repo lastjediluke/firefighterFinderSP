@@ -31,7 +31,6 @@ function initMap()
         zoom: 17.5,
         center: {lat: 37.336294, lng: -121.881068},
         mapTypeId: google.maps.MapTypeId.ROADMAP
-        
     }
     map = new google.maps.Map(document.getElementById('map_canvas3'), myOptions);
 
@@ -40,31 +39,58 @@ function initMap()
     // map3 = new google.maps.Map(document.getElementById('map_canvas3'), myOptions);
 } 
 
-
+var floorInputVal = 0;
+var newMaps = [5];
+var newDivs = [5];
+var beenPressed = 0;
 function numFloors()
 {
-    var newDiv = document.createElement('div');
-    newDiv.id = 'newMapCanvas';
-    var txt = document.getElementById('numFloorsInput').value;
-    var node = document.createTextNode(txt);
-    // var staticNode = document.createTextNode('boo hoo');
+    // if I already entered the floors, don't make more maps
+    if (beenPressed > 0) 
+    {
+        return;
+    }
 
+    beenPressed = 1;
+    console.log(floorInputVal);
+    floorInputVal = document.getElementById('numFloorsInput').value;
+    
     // options for my map
     var myOptions = 
     {
         zoom: 17.5,
         center: {lat: 37.336294, lng: -121.881068},
         mapTypeId: google.maps.MapTypeId.ROADMAP
-        
     }
     
-    
-    // newP.appendChild(node);
-    document.body.appendChild(newDiv);
-    var newMap = new google.maps.Map(document.getElementById('newMapCanvas'), myOptions);
-    
-    // var currentDiv = document.getElementsByClassName(pageTopLeft);
-    
+    console.log(floorInputVal);
+    for (var i = 0; i < floorInputVal; i = i + 1)
+    {
+
+        console.log(i);
+        newDivs[i] = document.createElement('div');
+
+        // ids that don't really exist
+        newDivs[i].id = 'blank' + i;
+
+        // setAttribute not working
+        // newDivs[i].setAttribute("style", "height: 300px, width: 90%, margin: 1em auto"); 
+
+        // setting the attributes of my new 'blank' ids
+        newDivs[i].style.backgroundColor = 'gray';
+        newDivs[i].style.height = '300px';
+        newDivs[i].style.width = '90%';
+        newDivs[i].style.margin = '1em auto';
+        
+        // newDivs[i].id = 'newMapCanvas' + i;
+        console.log(newDivs[i].id);
+        // add new div
+        document.body.appendChild(newDivs[i]);
+
+        // create a map for each floor
+        newMaps[i] = new google.maps.Map(document.getElementById(newDivs[i].id), myOptions);
+
+    }
 }
 
  
