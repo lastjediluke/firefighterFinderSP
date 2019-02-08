@@ -15,8 +15,26 @@
     <section id = 'floorInput'>
       <input type='text' id='numFloorsInput' placeholder="Enter Number of Floors"/>
       <button id='floorButton' onclick='numFloors()'>Enter</button>
+      <input type='text' id='squadInput' placeholder="Enter Squadron"/>
+      <button id='floorButton' onclick="squadron()">Enter Squadron</button>
     </section>
 
+    <table class='floorTable' align="center">
+      <tr>
+        <th>Name</th>
+        <th>Status</th> 
+        <th>Floor Number</th>
+        <th>Marker Color</th>
+      </tr>
+      <tr>
+        <td>Bob</td>
+        <td id='statusColor'>Bueno</td>
+        <td>3</td>
+        <td>Red</td>
+      </tr>
+    </table>
+
+    <!--
     <section id = 'statusSection'>
       <div class="titleRow">
         <h2 align="center" class="titleColumn">Status</h2>
@@ -29,11 +47,13 @@
         <div class="column">column 2</div>
       </div>
     </section>
+    -->
 
     <div id = 'map_canvas3'></div>
 
     <pre id = 'object'></pre>
 
+    <!--
     <div class="titleRow">
       <h2 align="center" class="titleColumn">Floor Number</h2>
       
@@ -47,14 +67,13 @@
         <div class="column">column 2</div>
       </div>
     </section>
+    -->
+
+    
 
     
     
 
-    
-    
-      
-    
     
     <script type="text/javascript" src="js/main.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBSh3k5GTj5kOsmkuUM56wNk8QJ6NbCsTE&callback=initMap"

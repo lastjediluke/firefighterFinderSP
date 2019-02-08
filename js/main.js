@@ -1,3 +1,4 @@
+// I think these functions get run without needing to be called
 (function ()
 {
     var config = 
@@ -12,7 +13,13 @@
     firebase.initializeApp(config);
 
     const preObject = document.getElementById('object');
+
+    // reference to the database
     var db = firebase.database().ref().child('object');
+    
+    // key = 'object'
+    // value = 'lala'
+
     // db.on('value', snapshot => console.log(snapshot.val()));   
     db.on('value', snap => 
     {
@@ -21,7 +28,6 @@
 
 }());
 
-// comment to test push to my branch
 
 var map, map2;
 function initMap() 
@@ -30,13 +36,39 @@ function initMap()
     {
         zoom: 17.5,
         center: {lat: 37.336294, lng: -121.881068},
-        mapTypeId: google.maps.MapTypeId.ROADMAP
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        styles: [
+        {
+            featureType: 'poi.business',
+            elementType: 'labels.icon',
+            stylers: [{visibility: 'off'}]
+        },
+        {
+            featureType: 'transit',
+            elementType: 'labels.icon',
+            stylers: [{visibility: 'off'}]
+        }
+        ]    
     }
     map = new google.maps.Map(document.getElementById('map_canvas3'), myOptions);
 
-    map2 = new google.maps.Map(document.getElementById('mapColumn'), myOptions);
+    // map2 = new google.maps.Map(document.getElementById('mapColumn'), myOptions);
 
     // map3 = new google.maps.Map(document.getElementById('map_canvas3'), myOptions);
+
+    // marker playaround
+    var marker = new google.maps.Marker({
+        position: {lat: 37.336294, lng: -121.881068},
+        title: 'Hello World!'
+      });
+
+    
+
+      // adding the marker to the map
+      marker.setMap(map);
+
+      // marker2.setPosition({lat: 37.336294, lng: -121.881068});
+      
 } 
 
 var floorInputVal = 0;
@@ -92,6 +124,66 @@ function numFloors()
 
     }
 }
+
+function thot()
+{
+    var topDiv = document.createElement('div');
+    topDiv.className = 'titleRow';
+
+    var header1 = document.createElement('h2');
+    header1.className = 'titleColumn';
+
+    // testing adding text to an element
+    var num = 15;
+    var n = num.toString();
+    var t = document.createTextNode(' ' + n);
+    document.getElementById('fn').appendChild(t);
+
+    // converting int to string
+    // var num = 15;
+    // var n = num.toString();
+
+}
+
+window.onload = thot;
+
+// testing the time
+// setInterval(function(){ alert("Hello"); }, 3000);
+
+// marker playaround
+
+/*  Status Layout
+
+Name    |   Status  |   Floor
+
+Bob     |   Green   |   2
+
+*/
+
+// enter the squad and write to the db
+function squadron()
+{
+
+    // get the name that was entered
+    var sqInputVal = document.getElementById('squadInput').value;
+
+    // make a section called squad
+    var squadRef = firebase.database().ref("squad/" + sqInputVal);
+
+    
+
+    squadRef.set({
+        
+        status: "Good",
+        floor: 1,
+        marker: "blue",
+        lat: 22.2,
+        long: 22.2
+        
+    });
+
+}
+
 
  
 

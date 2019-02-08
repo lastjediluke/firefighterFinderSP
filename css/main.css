@@ -19,7 +19,11 @@ header
 #numFloorsInput
 {
     margin: 1em;
-    
+}
+
+#squadInput
+{
+    margin: 1em;
 }
 
 #floorInput
@@ -92,7 +96,7 @@ header
 {
     display: flex;
     margin: 1em;
-    border: 1px solid black;
+    /* border: 1px solid black; */
 }
   
 .column 
@@ -103,11 +107,29 @@ header
 
 #mapColumn 
 {
+    
     height:300px;
     width: 100%;
     background-color: gray;
     margin: 0 auto;
-    flex: 50%;
+    flex: 50%; 
+    
+}
+
+.floorTable
+{
+    margin-top: 1em;
+    width: 90%;
+}
+
+#statusColor
+{
+    color: green;
+}
+
+table, td, th
+{
+    border: 1px solid black;
 }
 
 
