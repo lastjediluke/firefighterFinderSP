@@ -28,13 +28,25 @@
 
 }());
 
+// squad member class
+class squadMember
+{
+    constructor(name, status, floor, markerColor)
+    {
+        this.name = name;
+        this.status = status;
+        this.floor = floor;
+        this.markerColor = markerColor;
+    }
+}
+
 
 var map, map2;
 function initMap() 
 {
     var myOptions = 
     {
-        zoom: 17.5,
+        zoom: 18,
         center: {lat: 37.336294, lng: -121.881068},
         mapTypeId: google.maps.MapTypeId.ROADMAP,
         styles: [
@@ -52,23 +64,25 @@ function initMap()
     }
     map = new google.maps.Map(document.getElementById('map_canvas3'), myOptions);
 
-    // map2 = new google.maps.Map(document.getElementById('mapColumn'), myOptions);
-
-    // map3 = new google.maps.Map(document.getElementById('map_canvas3'), myOptions);
-
     // marker playaround
     var marker = new google.maps.Marker({
         position: {lat: 37.336294, lng: -121.881068},
-        title: 'Hello World!'
-      });
+        title: 'Hello World!',
 
-    
+        // changes color of icon to blue!
+        icon: {                             
+            url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"                           
+        }
+      });
 
       // adding the marker to the map
       marker.setMap(map);
 
+      // setting position of marker
       // marker2.setPosition({lat: 37.336294, lng: -121.881068});
-      
+
+      // remove marker
+      // marker2.setMap(null);   
 } 
 
 var floorInputVal = 0;
@@ -125,6 +139,7 @@ function numFloors()
     }
 }
 
+/*
 function thot()
 {
     var topDiv = document.createElement('div');
@@ -146,11 +161,10 @@ function thot()
 }
 
 window.onload = thot;
+*/
 
 // testing the time
 // setInterval(function(){ alert("Hello"); }, 3000);
-
-// marker playaround
 
 /*  Status Layout
 
@@ -161,6 +175,7 @@ Bob     |   Green   |   2
 */
 
 // enter the squad and write to the db
+// then read from db and insert into table
 function squadron()
 {
 
@@ -170,19 +185,53 @@ function squadron()
     // make a section called squad
     var squadRef = firebase.database().ref("squad/" + sqInputVal);
 
-    
+    // var arr = []
+    // arr.push() puts stuff into the array
+
+    var newSquadMember = new squadMember(sqInputVal, "great", 4, "pink");
 
     squadRef.set({
         
-        status: "Good",
-        floor: 1,
-        marker: "blue",
+        status: newSquadMember.status,
+        floor: newSquadMember.floor,
+        marker: newSquadMember.markerColor,
         lat: 22.2,
         long: 22.2
         
     });
 
+    // Find a <table> element
+    var table = document.getElementById("floorTableID");
+
+    // Create an empty <tr> element and add it to the 1st position of the table:
+    var row = table.insertRow(2);
+
+    // Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
+    var cell1 = row.insertCell(0);      // name
+    var cell2 = row.insertCell(1);      // status
+    var cell3 = row.insertCell(2);      // floor
+    var cell4 = row.insertCell(3);      // marker color
+
+    // Add some text to the new cells:
+    cell1.innerHTML = sqInputVal;
+    cell2.innerHTML = newSquadMember.status;
+    cell3.innerHTML = newSquadMember.floor;
+    cell4.innerHTML = newSquadMember.markerColor;
+
 }
+
+// test reading from firebase to the console
+var squadRef = firebase.database().ref("squad/");
+
+squadRef.on("child_added", function(data, prevChildKey) {
+   var newPlayer = data.val();
+   console.log("marker: " + newPlayer.marker);
+   console.log("status: " + newPlayer.status);
+   console.log("number: " + newPlayer.number);
+   console.log("Previous Player: " + prevChildKey);
+});
+
+
 
 
  
