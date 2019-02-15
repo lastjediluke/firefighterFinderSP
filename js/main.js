@@ -31,17 +31,22 @@
 // squad member class
 class squadMember
 {
-    constructor(name, status, floor, markerColor)
+    constructor(name, status, floor, marker, lat, long)
     {
         this.name = name;
         this.status = status;
         this.floor = floor;
-        this.markerColor = markerColor;
+        this.marker = marker;
+        this.lat = lat;
+        this.long = long;
     }
 }
 
+// array of squad members
+var squadArray = [];
 
-var map, map2;
+
+var map;
 function initMap() 
 {
     var myOptions = 
@@ -178,7 +183,6 @@ Bob     |   Green   |   2
 // then read from db and insert into table
 function squadron()
 {
-
     // get the name that was entered
     var sqInputVal = document.getElementById('squadInput').value;
 
@@ -188,16 +192,21 @@ function squadron()
     // var arr = []
     // arr.push() puts stuff into the array
 
-    var newSquadMember = new squadMember(sqInputVal, "great", 4, "pink");
+    var newSquadMember = new squadMember(sqInputVal, "great", 4, "pink", 37.336294, -121.881068);
 
+    // insert new member into the squad array
+    squadArray.push(newSquadMember);
+    for (var i = 0; i < squadArray.length; i = i + 1)
+    {
+        console.log(squadArray[i]);
+    }
     squadRef.set({
-        
+        name: sqInputVal,
         status: newSquadMember.status,
         floor: newSquadMember.floor,
-        marker: newSquadMember.markerColor,
+        marker: newSquadMember.marker,
         lat: 22.2,
         long: 22.2
-        
     });
 
     // Find a <table> element
@@ -216,20 +225,86 @@ function squadron()
     cell1.innerHTML = sqInputVal;
     cell2.innerHTML = newSquadMember.status;
     cell3.innerHTML = newSquadMember.floor;
-    cell4.innerHTML = newSquadMember.markerColor;
-
+    cell4.innerHTML = newSquadMember.marker;
 }
 
 // test reading from firebase to the console
 var squadRef = firebase.database().ref("squad/");
-
 squadRef.on("child_added", function(data, prevChildKey) {
    var newPlayer = data.val();
-   console.log("marker: " + newPlayer.marker);
-   console.log("status: " + newPlayer.status);
-   console.log("number: " + newPlayer.number);
-   console.log("Previous Player: " + prevChildKey);
+//    console.log("marker: " + newPlayer.marker);
+//    console.log("status: " + newPlayer.status);
+//    console.log("number: " + newPlayer.number);
 });
+
+// checking for updates to the firebase
+var squadRef = firebase.database().ref("squad/");
+squadRef.on("child_changed", function(snapshot) {
+    var squadMemSnap = snapshot.val();
+    console.log("The updated player name is " + squadMemSnap.name);
+
+    // now I need to find the squad member object and update it
+    for (var i = 0; i < squadArray.length; i = i + 1)
+    {
+        if (squadMemSnap.name == squadArray[i].name)
+        {
+            // update the squad object
+            squadArray[i].name = squadMemSnap.name;
+            squadArray[i].status = squadMemSnap.status;
+            squadArray[i].floor = squadMemSnap.floor;
+            squadArray[i].marker = squadMemSnap.marker;
+            squadArray[i].lat = squadMemSnap.lat;
+            squadArray[i].long = squadMemSnap.long;
+            break;
+        }
+    }
+
+    // update the table
+    var squadArrayNum = i;
+    var table = document.getElementById('floorTableID');
+    var tableRows = table.rows;
+    
+
+    // var x=document.getElementById('myTable').rows[parseInt(rn,10)].cells;
+    // x[parseInt(cn,10)].innerHTML=content;
+    
+    for (i = 1; i < tableRows.length; i++)
+    {
+        // print the names to console
+        console.log("From squad array updated color" + squadArray[squadArrayNum].marker);
+        console.log("Row " + i + "name is " + tableRows[i].cells[0].innerHTML + " color is " + tableRows[i].cells[3].innerHTML);
+        if (tableRows[i].cells[0].innerHTML == squadArray[squadArrayNum].name)
+        {
+            console.log("Match!");
+            tableRows[i].cells[0].innerHTML = squadArray[squadArrayNum].name;
+            tableRows[i].cells[1].innerHTML = squadArray[squadArrayNum].status;
+            tableRows[i].cells[2].innerHTML = squadArray[squadArrayNum].floor;
+            tableRows[i].cells[3].innerText = squadArray[squadArrayNum].marker;
+            break;
+        }
+    }
+});
+
+/*
+var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("myTable");
+  tr = table.getElementsByTagName("tr");
+
+  // Loop through all table rows, and hide those who don't match the search query
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[0];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    } 
+  }
+*/
 
 
 
