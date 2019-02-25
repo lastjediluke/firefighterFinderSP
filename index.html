@@ -5,18 +5,19 @@
     <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
     <script src="https://www.gstatic.com/firebasejs/5.7.0/firebase.js"></script>
-    <header>
-      <h1 align="center">Firefighter Finder</h1>
-    </header>
     <link rel="stylesheet" href="css/main.css">
   </head>
+  <header>
+    <h1 align="center">Firefighter Finder</h1>
+  </header>
   <body>
     
     <section id = 'floorInput'>
       <input type='text' id='numFloorsInput' placeholder="Enter Number of Floors"/>
       <button id='floorButton' onclick='numFloors()'>Enter</button>
-      <input type='text' id='squadInput' placeholder="Enter Squadron"/>
-      <button id='floorButton' onclick="squadron()">Enter Squadron</button>
+      <br>
+      <input type='text' id='squadInput' placeholder="Squad Member Name"/>
+      <button id='squadButton' onclick="squadron()">Enter Squadron</button>
     </section>
 
     <table class='floorTable' id='floorTableID' align="center">
@@ -27,10 +28,10 @@
         <th>Marker Color</th>
       </tr>
       <tr>
-        <td>Bob</td>
+        <!-- <td>Bob</td>
         <td id='statusColor'>Bueno</td>
         <td>3</td>
-        <td>Red</td>
+        <td>Red</td> -->
       </tr>
     </table>
 
@@ -69,12 +70,8 @@
     </section>
     -->
 
-    
+    <p class='blink'>Example of blinking text using JavaScript.</p>
 
-    
-    
-
-    
     <script type="text/javascript" src="js/main.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBSh3k5GTj5kOsmkuUM56wNk8QJ6NbCsTE&callback=initMap"
     async defer></script>

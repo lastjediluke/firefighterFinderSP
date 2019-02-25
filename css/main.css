@@ -1,12 +1,11 @@
 body 
 {
     font-family: 'PT Sans', sans-serif;
-    position: relative;
-    width: 100%;
+    /* width: 100%;
     margin-top: 0;
     margin-right: auto;
     margin-bottom: 4em;
-    margin-left: auto;    
+    margin-left: auto;  */
 }
 
 header
@@ -49,6 +48,9 @@ header
     width:90%;
     background-color: gray;
     margin: 1em auto; 
+
+    position: relative;
+    
     
 }
 
@@ -130,6 +132,44 @@ header
 table, td, th
 {
     border: 1px solid black;
+}
+
+.blink {
+	-webkit-animation: blink .75s linear infinite;
+	-moz-animation: blink .75s linear infinite;
+	-ms-animation: blink .75s linear infinite;
+	-o-animation: blink .75s linear infinite;
+	 animation: blink .75s linear infinite;
+}
+@-webkit-keyframes blink {
+	0% { opacity: 1; }
+	50% { opacity: 1; }
+	50.01% { opacity: 0; }
+	100% { opacity: 0; }
+}
+@-moz-keyframes blink {
+	0% { opacity: 1; }
+	50% { opacity: 1; }
+	50.01% { opacity: 0; }
+	100% { opacity: 0; }
+}
+@-ms-keyframes blink {
+	0% { opacity: 1; }
+	50% { opacity: 1; }
+	50.01% { opacity: 0; }
+	100% { opacity: 0; }
+}
+@-o-keyframes blink {
+	0% { opacity: 1; }
+	50% { opacity: 1; }
+	50.01% { opacity: 0; }
+	100% { opacity: 0; }
+}
+@keyframes blink {
+	0% { opacity: 1; }
+	50% { opacity: 1; }
+	50.01% { opacity: 0; }
+	100% { opacity: 0; }
 }
 
 

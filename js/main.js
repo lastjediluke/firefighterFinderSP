@@ -1,3 +1,30 @@
+// Globals
+var markerCount = 0;
+var markersArray = [];
+var squadArray = [];    // array of squad members
+var map;
+var colorNum = 0;
+let color = ["blue", "pink", "green", "purple", "yellow", 
+"white", "brown", "gray", "orange", "black"];
+var floorInputVal = 0;
+var newMaps = [5];
+var newDivs = [5];
+var beenPressed = 0;
+
+// squad member class
+class squadMember
+{
+    constructor(name, status, floor, marker, lat, long)
+    {
+        this.name = name;
+        this.status = status;
+        this.floor = floor;
+        this.marker = marker;
+        this.lat = lat;
+        this.long = long;
+    }
+}
+
 // I think these functions get run without needing to be called
 (function ()
 {
@@ -16,6 +43,8 @@
 
     // reference to the database
     var db = firebase.database().ref().child('object');
+
+    firebase.database().ref("/squad").set(null);
     
     // key = 'object'
     // value = 'lala'
@@ -28,25 +57,22 @@
 
 }());
 
-// squad member class
-class squadMember
-{
-    constructor(name, status, floor, marker, lat, long)
-    {
-        this.name = name;
-        this.status = status;
-        this.floor = floor;
-        this.marker = marker;
-        this.lat = lat;
-        this.long = long;
-    }
-}
+// Get the input field
+var input = document.getElementById("squadInput");
 
-// array of squad members
-var squadArray = [];
+// Execute a function when the user releases a key on the keyboard
+input.addEventListener("keyup", function(event) {
+  // Number 13 is the "Enter" key on the keyboard
+  if (event.keyCode === 13) {
+    // Cancel the default action, if needed
+    event.preventDefault();
+    // Trigger the button element with a click
+    document.getElementById("squadButton").click();
+    input.value = "";
+  }
+});
 
 
-var map;
 function initMap() 
 {
     var myOptions = 
@@ -73,6 +99,7 @@ function initMap()
     var marker = new google.maps.Marker({
         position: {lat: 37.336294, lng: -121.881068},
         title: 'Hello World!',
+        draggable: false,
 
         // changes color of icon to blue!
         icon: {                             
@@ -81,7 +108,7 @@ function initMap()
       });
 
       // adding the marker to the map
-      marker.setMap(map);
+      // marker.setMap(map);
 
       // setting position of marker
       // marker2.setPosition({lat: 37.336294, lng: -121.881068});
@@ -90,10 +117,6 @@ function initMap()
       // marker2.setMap(null);   
 } 
 
-var floorInputVal = 0;
-var newMaps = [5];
-var newDivs = [5];
-var beenPressed = 0;
 function numFloors()
 {
     // if I already entered the floors, don't make more maps
@@ -117,7 +140,6 @@ function numFloors()
     console.log(floorInputVal);
     for (var i = 0; i < floorInputVal; i = i + 1)
     {
-
         console.log(i);
         newDivs[i] = document.createElement('div');
 
@@ -140,29 +162,15 @@ function numFloors()
 
         // create a map for each floor
         newMaps[i] = new google.maps.Map(document.getElementById(newDivs[i].id), myOptions);
-
     }
 }
 
 /*
 function thot()
 {
-    var topDiv = document.createElement('div');
-    topDiv.className = 'titleRow';
-
-    var header1 = document.createElement('h2');
-    header1.className = 'titleColumn';
-
-    // testing adding text to an element
-    var num = 15;
-    var n = num.toString();
-    var t = document.createTextNode(' ' + n);
-    document.getElementById('fn').appendChild(t);
-
     // converting int to string
     // var num = 15;
     // var n = num.toString();
-
 }
 
 window.onload = thot;
@@ -171,18 +179,11 @@ window.onload = thot;
 // testing the time
 // setInterval(function(){ alert("Hello"); }, 3000);
 
-/*  Status Layout
-
-Name    |   Status  |   Floor
-
-Bob     |   Green   |   2
-
-*/
-
 // enter the squad and write to the db
 // then read from db and insert into table
 function squadron()
 {
+    
     // get the name that was entered
     var sqInputVal = document.getElementById('squadInput').value;
 
@@ -192,28 +193,49 @@ function squadron()
     // var arr = []
     // arr.push() puts stuff into the array
 
-    var newSquadMember = new squadMember(sqInputVal, "great", 4, "pink", 37.336294, -121.881068);
+    var marker = new google.maps.Marker({
+        position: new google.maps.LatLng(37.337032, -121.880224),
+        title: sqInputVal,
+        draggable: false,
+        icon: {
+            path: google.maps.SymbolPath.CIRCLE,
+            scale: 7,
+            fillColor: color[colorNum],
+            fillOpacity: 0.8,
+            strokeWeight: 1
+        }
+    });
+    markersArray.push(marker);
+
+    // adding the marker to the map
+    marker.setMap(map);
+
+    var newSquadMember = new squadMember(sqInputVal, "Good", 1, color[colorNum], 37.337032, -121.880224);
+    colorNum++;
 
     // insert new member into the squad array
     squadArray.push(newSquadMember);
     for (var i = 0; i < squadArray.length; i = i + 1)
     {
-        console.log(squadArray[i]);
+        // console.log(squadArray[i]);
     }
     squadRef.set({
         name: sqInputVal,
         status: newSquadMember.status,
         floor: newSquadMember.floor,
         marker: newSquadMember.marker,
-        lat: 22.2,
-        long: 22.2
+        lat: newSquadMember.lat,
+        long: newSquadMember.long,
+        markerNum: markerCount
     });
+    markerCount++;
+
 
     // Find a <table> element
     var table = document.getElementById("floorTableID");
 
     // Create an empty <tr> element and add it to the 1st position of the table:
-    var row = table.insertRow(2);
+    var row = table.insertRow(1);
 
     // Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
     var cell1 = row.insertCell(0);      // name
@@ -224,6 +246,7 @@ function squadron()
     // Add some text to the new cells:
     cell1.innerHTML = sqInputVal;
     cell2.innerHTML = newSquadMember.status;
+    cell2.style.color = "limegreen";
     cell3.innerHTML = newSquadMember.floor;
     cell4.innerHTML = newSquadMember.marker;
 }
@@ -232,16 +255,16 @@ function squadron()
 var squadRef = firebase.database().ref("squad/");
 squadRef.on("child_added", function(data, prevChildKey) {
    var newPlayer = data.val();
-//    console.log("marker: " + newPlayer.marker);
-//    console.log("status: " + newPlayer.status);
-//    console.log("number: " + newPlayer.number);
 });
 
 // checking for updates to the firebase
 var squadRef = firebase.database().ref("squad/");
 squadRef.on("child_changed", function(snapshot) {
     var squadMemSnap = snapshot.val();
-    console.log("The updated player name is " + squadMemSnap.name);
+    console.log("Updated Member: " + squadMemSnap.name);
+
+    // it has to have new!!
+    var latlng = new google.maps.LatLng(squadMemSnap.lat, squadMemSnap.long);
 
     // now I need to find the squad member object and update it
     for (var i = 0; i < squadArray.length; i = i + 1)
@@ -255,6 +278,7 @@ squadRef.on("child_changed", function(snapshot) {
             squadArray[i].marker = squadMemSnap.marker;
             squadArray[i].lat = squadMemSnap.lat;
             squadArray[i].long = squadMemSnap.long;
+            markersArray[squadMemSnap.markerNum].setPosition(latlng);
             break;
         }
     }
@@ -264,15 +288,8 @@ squadRef.on("child_changed", function(snapshot) {
     var table = document.getElementById('floorTableID');
     var tableRows = table.rows;
     
-
-    // var x=document.getElementById('myTable').rows[parseInt(rn,10)].cells;
-    // x[parseInt(cn,10)].innerHTML=content;
-    
     for (i = 1; i < tableRows.length; i++)
     {
-        // print the names to console
-        console.log("From squad array updated color" + squadArray[squadArrayNum].marker);
-        console.log("Row " + i + "name is " + tableRows[i].cells[0].innerHTML + " color is " + tableRows[i].cells[3].innerHTML);
         if (tableRows[i].cells[0].innerHTML == squadArray[squadArrayNum].name)
         {
             console.log("Match!");
@@ -283,31 +300,57 @@ squadRef.on("child_changed", function(snapshot) {
             break;
         }
     }
+
+
+    // change marker to red color
+    if (squadArray[squadArrayNum].status == "Danger")
+    {
+        console.log("Status changed to Danger");
+
+        // blink the text
+        tableRows[i].cells[1].className = "blink";
+
+        // change font to red
+        tableRows[i].cells[1].style.color = "red";
+        /*
+        markersArray[squadMemSnap.markerNum].setIcon({
+            path: google.maps.SymbolPath.CIRCLE,
+            scale: 7,
+            fillColor: "red",
+            fillOpacity: 0.8,
+            strokeWeight: 1,
+        });
+        */
+
+        // make the marker bounce 
+        markersArray[squadMemSnap.markerNum].setAnimation(google.maps.Animation.BOUNCE);
+    }
+
+    if (squadArray[squadArrayNum].status == "Good")
+    {
+        console.log("Status changed to Good");
+
+        // stop the blink
+        tableRows[i].cells[1].className = "";
+
+        // back to black
+        tableRows[i].cells[1].style.color = "limegreen";
+        markersArray[squadMemSnap.markerNum].setIcon({
+            path: google.maps.SymbolPath.CIRCLE,
+            scale: 7,
+            fillColor: squadMemSnap.marker,
+            fillOpacity: 0.8,
+            strokeWeight: 1
+        });
+
+        // stop the bounce
+        markersArray[squadMemSnap.markerNum].setAnimation(null);
+    }
 });
 
-/*
-var input, filter, table, tr, td, i, txtValue;
-  input = document.getElementById("myInput");
-  filter = input.value.toUpperCase();
-  table = document.getElementById("myTable");
-  tr = table.getElementsByTagName("tr");
 
-  // Loop through all table rows, and hide those who don't match the search query
-  for (i = 0; i < tr.length; i++) {
-    td = tr[i].getElementsByTagName("td")[0];
-    if (td) {
-      txtValue = td.textContent || td.innerText;
-      if (txtValue.toUpperCase().indexOf(filter) > -1) {
-        tr[i].style.display = "";
-      } else {
-        tr[i].style.display = "none";
-      }
-    } 
-  }
-*/
-
-
-
+// 37.337032, -121.880224 = Northeast
+// 37.336708, -121.879543 = Southeast
 
  
 
