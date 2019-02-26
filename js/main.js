@@ -7,9 +7,21 @@ var colorNum = 0;
 let color = ["blue", "pink", "green", "purple", "yellow", 
 "white", "brown", "gray", "orange", "black"];
 var floorInputVal = 0;
-var newMaps = [5];
-var newDivs = [5];
+var newMapsArray = [];
+var newDivsArray = [];
 var beenPressed = 0;
+
+function logIt(msg)
+{
+    var newLog = document.createElement("li");       // Create a <li> node
+    var txt = document.createTextNode(msg);
+    newLog.appendChild(txt);                    // Append the text to <li>
+    var list = document.getElementById("myLog");    // Get the <ul> element to insert a new node
+    list.insertBefore(newLog, list.childNodes[0]);  // Insert <li> before the first child of <ul>
+}
+
+// logging
+
 
 // squad member class
 class squadMember
@@ -44,6 +56,7 @@ class squadMember
     // reference to the database
     var db = firebase.database().ref().child('object');
 
+    // reset firebase data on page refresh
     firebase.database().ref("/squad").set(null);
     
     // key = 'object'
@@ -71,7 +84,6 @@ input.addEventListener("keyup", function(event) {
     input.value = "";
   }
 });
-
 
 function initMap() 
 {
@@ -128,6 +140,8 @@ function numFloors()
     beenPressed = 1;
     console.log(floorInputVal);
     floorInputVal = document.getElementById('numFloorsInput').value;
+
+    logIt(floorInputVal.toString() + " floors created");
     
     // options for my map
     var myOptions = 
@@ -141,27 +155,34 @@ function numFloors()
     for (var i = 0; i < floorInputVal; i = i + 1)
     {
         console.log(i);
-        newDivs[i] = document.createElement('div');
+        var newDiv = document.createElement('div');
+
+        var newHeaders = document.createElement('h2');
+        newHeaders.style.textAlign = 'center';
+        var floorPlusPlus = i + 1; 
+        newHeaders.innerHTML = "Floor " + floorPlusPlus.toString();
 
         // ids that don't really exist
-        newDivs[i].id = 'blank' + i;
+        newDiv.id = 'blank' + i;
 
         // setAttribute not working
         // newDivs[i].setAttribute("style", "height: 300px, width: 90%, margin: 1em auto"); 
 
         // setting the attributes of my new 'blank' ids
-        newDivs[i].style.backgroundColor = 'gray';
-        newDivs[i].style.height = '300px';
-        newDivs[i].style.width = '90%';
-        newDivs[i].style.margin = '1em auto';
-        
-        // newDivs[i].id = 'newMapCanvas' + i;
-        console.log(newDivs[i].id);
-        // add new div
-        document.body.appendChild(newDivs[i]);
+        newDiv.style.backgroundColor = 'gray';
+        newDiv.style.height = '300px';
+        newDiv.style.width = '90%';
+        newDiv.style.margin = '1em auto';
 
+        // add new div
+        document.body.appendChild(newHeaders);
+        document.body.appendChild(newDiv);
+
+        newDivsArray.push(newDiv);
+        
         // create a map for each floor
-        newMaps[i] = new google.maps.Map(document.getElementById(newDivs[i].id), myOptions);
+        var newMap= new google.maps.Map(document.getElementById(newDiv.id), myOptions);
+        newMapsArray.push(newMap);
     }
 }
 
@@ -189,6 +210,8 @@ function squadron()
 
     // make a section called squad
     var squadRef = firebase.database().ref("squad/" + sqInputVal);
+
+    logIt("New member added: " + sqInputVal);
 
     // var arr = []
     // arr.push() puts stuff into the array
@@ -230,7 +253,6 @@ function squadron()
     });
     markerCount++;
 
-
     // Find a <table> element
     var table = document.getElementById("floorTableID");
 
@@ -252,10 +274,20 @@ function squadron()
 }
 
 // test reading from firebase to the console
-var squadRef = firebase.database().ref("squad/");
-squadRef.on("child_added", function(data, prevChildKey) {
-   var newPlayer = data.val();
-});
+// var squadRef = firebase.database().ref("squad/");
+// squadRef.on("child_added", function(data, prevChildKey) {
+//    var newPlayer = data.val();
+// });
+
+function changeCheck(a, b)
+{
+    if (a.name != b.name) logIt(a.name + " has changed their name");
+    else if (a.status != b.status) logIt(a.name + "'s status has changed");
+    else if (a.floor != b.floor) logIt(a.name + " has moved to floor " + b.floor.toString());
+    else if (a.marker != b.marker) logIt(a.name + " has changed their marker color to " + b.marker);
+    else if (a.lat != b.lat) logIt (a.name + " has changed location");
+    else if (a.long != b.long) logIt(a.name + " has changed location");
+}
 
 // checking for updates to the firebase
 var squadRef = firebase.database().ref("squad/");
@@ -270,7 +302,18 @@ squadRef.on("child_changed", function(snapshot) {
     for (var i = 0; i < squadArray.length; i = i + 1)
     {
         if (squadMemSnap.name == squadArray[i].name)
-        {
+        {   
+            // if we member went up a floor
+            if (squadArray[i].floor != squadMemSnap.floor)
+            {
+                // console.log(squadArray[i].name + " changed floors");
+                // markersArray[squadMemSnap.markerNum].setMap(null);
+                // markersArray[squadMemSnap.markerNum].setMap(newMapsArray[0]);
+                // markersArray[squadMemSnap.markerNum].setMap(map);
+            }
+
+            changeCheck(squadArray[i], squadMemSnap);
+
             // update the squad object
             squadArray[i].name = squadMemSnap.name;
             squadArray[i].status = squadMemSnap.status;
@@ -312,15 +355,6 @@ squadRef.on("child_changed", function(snapshot) {
 
         // change font to red
         tableRows[i].cells[1].style.color = "red";
-        /*
-        markersArray[squadMemSnap.markerNum].setIcon({
-            path: google.maps.SymbolPath.CIRCLE,
-            scale: 7,
-            fillColor: "red",
-            fillOpacity: 0.8,
-            strokeWeight: 1,
-        });
-        */
 
         // make the marker bounce 
         markersArray[squadMemSnap.markerNum].setAnimation(google.maps.Animation.BOUNCE);
