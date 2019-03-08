@@ -13,21 +13,23 @@
   <body>
     
     <section id = 'floorInput'>
-      <input type='text' id='numFloorsInput' placeholder="Enter Number of Floors"/>
+      <input type='text' id='numFloorsInput' placeholder="How many floors?"/>
       <button id='floorButton' onclick='numFloors()'>Enter</button>
       <br>
       <input type='text' id='squadInput' placeholder="Squad Member Name"/>
-      <button id='squadButton' onclick="squadron()">Enter Squadron</button>
+      <button id='squadButton' onclick="squadron()">Enter</button>
     </section>
 
-    <table class='floorTable' id='floorTableID' align="center">
-      <tr>
-        <th>Name</th>
-        <th>Status</th> 
-        <th>Floor Number</th>
-        <th>Marker Color</th>
-      </tr>
-    </table>
+    <section style='background-color: #3d445e; padding: 1em; color: whitesmoke'>
+      <table class='floorTable' id='floorTableID' align="center">
+        <tr>
+          <th>Name</th>
+          <th>Status</th> 
+          <th>Floor Number</th>
+          <th>Marker Color</th>
+        </tr>
+      </table>
+    </section>
 
     <!--
     <section id = 'statusSection'>
@@ -40,11 +42,12 @@
         <div class="column">Jenkins</div>
         
         <div class="column">column 2</div>
-      </div>
+      </div> 
     </section>
     -->
-
-    <div id = 'map_canvas3'></div>
+    <section style="background-color: #3d445e; padding: 1em">
+      <div id = 'map_canvas3'></div>
+    </section>
     <div align='left' style="margin-left: 3em">
       <h2>Log</h2>
       <ul id="myLog">

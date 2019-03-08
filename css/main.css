@@ -11,24 +11,33 @@ body
 header
 {
     padding-top: 1em;
-    background: yellow;
+    background: #3d445e;
     padding-bottom: 1em;
+    color: whitesmoke;
 }
 
 #numFloorsInput
 {
     margin: 1em;
+    font-size: 20px;
 }
 
 #squadInput
 {
     margin: 1em;
+    font-size: 20px;
+}
+
+#squadButton, #floorButton
+{
+    font-size: 20px;
 }
 
 #floorInput
 {
     
-    background: rgb(252, 90, 90);
+    background-color: #3b8e96;
+    
 }
 
 #floorButton:hover
@@ -44,11 +53,10 @@ header
 
 #map_canvas3
 {
-    height:400px;
+    height:500px;
     width:90%;
     background-color: gray;
     margin: 1em auto; 
-
     position: relative;
     
     
@@ -109,19 +117,18 @@ header
 
 #mapColumn 
 {
-    
     height:300px;
     width: 100%;
     background-color: gray;
     margin: 0 auto;
     flex: 50%; 
-    
 }
 
 .floorTable
 {
     margin-top: 1em;
     width: 90%;
+    background-color: #3d445e;
 }
 
 #statusColor
@@ -131,7 +138,7 @@ header
 
 table, td, th
 {
-    border: 1px solid black;
+    border: 1px solid #3b8e96;
 }
 
 .blink {
