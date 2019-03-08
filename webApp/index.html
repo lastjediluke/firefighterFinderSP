@@ -5,18 +5,33 @@
     <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
     <script src="https://www.gstatic.com/firebasejs/5.7.0/firebase.js"></script>
-    <header>
-      <h1 align="center">Firefighter Finder</h1>
-    </header>
     <link rel="stylesheet" href="css/main.css">
   </head>
+  <header>
+    <h1 align="center">Firefighter Finder</h1>
+  </header>
   <body>
     
     <section id = 'floorInput'>
-      <input type='text' id='numFloorsInput' placeholder="Enter Number of Floors"/>
+      <input type='text' id='numFloorsInput' placeholder="How many floors?"/>
       <button id='floorButton' onclick='numFloors()'>Enter</button>
+      <br>
+      <input type='text' id='squadInput' placeholder="Squad Member Name"/>
+      <button id='squadButton' onclick="squadron()">Enter</button>
     </section>
 
+    <section style='background-color: #3d445e; padding: 1em; color: whitesmoke'>
+      <table class='floorTable' id='floorTableID' align="center">
+        <tr>
+          <th>Name</th>
+          <th>Status</th> 
+          <th>Floor Number</th>
+          <th>Marker Color</th>
+        </tr>
+      </table>
+    </section>
+
+    <!--
     <section id = 'statusSection'>
       <div class="titleRow">
         <h2 align="center" class="titleColumn">Status</h2>
@@ -27,13 +42,22 @@
         <div class="column">Jenkins</div>
         
         <div class="column">column 2</div>
-      </div>
+      </div> 
     </section>
-
-    <div id = 'map_canvas3'></div>
+    -->
+    <section style="background-color: #3d445e; padding: 1em">
+      <div id = 'map_canvas3'></div>
+    </section>
+    <div align='left' style="margin-left: 3em">
+      <h2>Log</h2>
+      <ul id="myLog">
+        
+      </ul>
+    </div>
 
     <pre id = 'object'></pre>
 
+    <!--
     <div class="titleRow">
       <h2 align="center" class="titleColumn">Floor Number</h2>
       
@@ -47,15 +71,8 @@
         <div class="column">column 2</div>
       </div>
     </section>
+    -->
 
-    
-    
-
-    
-    
-      
-    
-    
     <script type="text/javascript" src="js/main.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBSh3k5GTj5kOsmkuUM56wNk8QJ6NbCsTE&callback=initMap"
     async defer></script>
