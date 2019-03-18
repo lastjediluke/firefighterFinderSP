@@ -11,6 +11,7 @@ var newMapsArray = [];
 var newDivsArray = [];
 var beenPressed = 0;
 
+// logging
 function logIt(msg)
 {
     var newLog = document.createElement("li");       // Create a <li> node
@@ -19,9 +20,6 @@ function logIt(msg)
     var list = document.getElementById("myLog");    // Get the <ul> element to insert a new node
     list.insertBefore(newLog, list.childNodes[0]);  // Insert <li> before the first child of <ul>
 }
-
-// logging
-
 
 // squad member class
 class squadMember
@@ -51,10 +49,10 @@ class squadMember
     };
     firebase.initializeApp(config);
 
-    const preObject = document.getElementById('object');
+    // const preObject = document.getElementById('object');
 
     // reference to the database
-    var db = firebase.database().ref().child('object');
+    // var db = firebase.database().ref().child('object');
 
     // reset firebase data on page refresh
     firebase.database().ref("/squad").set(null);
@@ -63,11 +61,12 @@ class squadMember
     // value = 'lala'
 
     // db.on('value', snapshot => console.log(snapshot.val()));   
+    /*
     db.on('value', snap => 
     {
         preObject.innerText = JSON.stringify(snap.val(), null, 1);
     });
-
+    */
 }());
 
 // Get the input field
@@ -331,7 +330,8 @@ squadRef.on("child_changed", function(snapshot) {
     var table = document.getElementById('floorTableID');
     var tableRows = table.rows;
     
-    for (i = 1; i < tableRows.length; i++)
+    // MADE A CHANGE HERE FROM 1 to 0
+    for (i = 0; i < tableRows.length; i++)
     {
         if (tableRows[i].cells[0].innerHTML == squadArray[squadArrayNum].name)
         {
@@ -382,9 +382,42 @@ squadRef.on("child_changed", function(snapshot) {
     }
 });
 
-
 // 37.337032, -121.880224 = Northeast
 // 37.336708, -121.879543 = Southeast
+
+// var table = new Tabulator("#example-table", {});
+
+var timer = new easytimer.Timer();
+var timer2 = new easytimer.Timer();
+
+// I should do a timestamp
+function timer()
+{
+
+}
+
+$('#chronoExample .startButton').click(function () {
+    timer.start();
+});
+$('#chronoExample .pauseButton').click(function () {
+    timer.pause();
+});
+$('#chronoExample .stopButton').click(function () {
+    timer.stop();
+});
+$('#chronoExample .resetButton').click(function () {
+    timer.reset();
+});
+timer.addEventListener('secondsUpdated', function (e) {
+    $('#chronoExample .values').html(timer.getTimeValues().toString());
+});
+timer.addEventListener('started', function (e) {
+    $('#chronoExample .values').html(timer.getTimeValues().toString());
+});
+timer.addEventListener('reset', function (e) {
+    $('#chronoExample .values').html(timer.getTimeValues().toString());
+});
+
 
  
 
