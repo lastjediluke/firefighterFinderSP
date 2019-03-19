@@ -391,6 +391,7 @@ var timer = new easytimer.Timer();
 var timer2 = new easytimer.Timer();
 
 // I should do a timestamp
+
 function timer()
 {
 
