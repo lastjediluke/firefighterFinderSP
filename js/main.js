@@ -11,6 +11,17 @@ var newMapsArray = [];
 var newDivsArray = [];
 var beenPressed = 0;
 
+
+setInterval(updateTime, 60000);
+function updateTime()
+{
+    var today = new Date();
+    var time = today.getHours() + ":" + today.getMinutes();
+    document.getElementById("time").innerHTML = "Current Time " + time.toString();
+}
+updateTime();
+
+
 // logging
 function logIt(msg)
 {
@@ -24,7 +35,7 @@ function logIt(msg)
 // squad member class
 class squadMember
 {
-    constructor(name, status, floor, marker, lat, long)
+    constructor(name, status, floor, marker, lat, long, startTime)
     {
         this.name = name;
         this.status = status;
@@ -32,6 +43,7 @@ class squadMember
         this.marker = marker;
         this.lat = lat;
         this.long = long;
+        this.startTime = startTime;
     }
 }
 
