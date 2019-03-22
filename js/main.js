@@ -35,14 +35,18 @@ function logIt(msg)
 // squad member class
 class squadMember
 {
-    constructor(name, status, floor, marker, lat, long, startTime)
+    constructor(name, status, floor, marker, color, lat, long, startTime, squad, heart, temp)
     {
+        this.squad = squad;
         this.name = name;
         this.status = status;
         this.floor = floor;
         this.marker = marker;
+        this.color = color;
         this.lat = lat;
         this.long = long;
+        this.heart = heart;
+        this.temp = temp;
         this.startTime = startTime;
     }
 }
@@ -67,7 +71,7 @@ class squadMember
     // var db = firebase.database().ref().child('object');
 
     // reset firebase data on page refresh
-    firebase.database().ref("/squad").set(null);
+    firebase.database().ref("/Active").set(null);
     
     // key = 'object'
     // value = 'lala'
@@ -208,21 +212,110 @@ function thot()
 window.onload = thot;
 */
 
-// testing the time
-// setInterval(function(){ alert("Hello"); }, 3000);
+function addAMarker(squadObj)
+{
+    // add a marker to the map
+    var marker = new google.maps.Marker({
+        position: new google.maps.LatLng(37.337032, -121.880224),
+        title: squadObj.Squad + squadObj.Member,
+        draggable: false,
+        icon: {
+            path: google.maps.SymbolPath.CIRCLE,
+            scale: 7,
+            fillColor: color[colorNum],
+            fillOpacity: 0.8,
+            strokeWeight: 1
+        }
+    });
+
+    // add marker to the array
+    markersArray.push(marker);
+
+    // adding the marker to the map
+    marker.setMap(map);
+
+    return marker;
+}
+
+function placeInTable(squadObj)
+{
+    // Find a <table> element
+    var table = document.getElementById("floorTableID");
+
+    // Create an empty <tr> element and add it to the 1st position of the table:
+    var row = table.insertRow(1);
+
+    // Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
+    var cell1 = row.insertCell(0);      // name
+    var cell2 = row.insertCell(1);      // status
+    var cell3 = row.insertCell(2);      // floor
+    var cell4 = row.insertCell(3);      // marker color
+
+    // Add some text to the new cells:
+    cell1.innerHTML = squadObj.name;
+    cell2.innerHTML = squadObj.status;
+    cell2.style.color = "limegreen";
+    cell3.innerHTML = squadObj.floor;
+    cell4.innerHTML = squadObj.marker;
+}
+
+// takes in the squad object and throws it into firebase
+function activateMember(newSquadMember)
+{
+    firebase.database().ref("Active/" + newSquadMember.name).set({
+        name: newSquadMember.name,
+        squad: newSquadMember.squad,
+        status: newSquadMember.status,
+        floor: newSquadMember.floor,
+        marker: newSquadMember.color,
+        lat: newSquadMember.lat,
+        long: newSquadMember.long,
+        markerNum: markerCount
+    });
+}
+
+function importSquad()
+{
+    // get the name that was entered
+    var sqInputVal = document.getElementById('squadInput').value;
+
+    // get time
+    var today = new Date();
+    var time = today.getHours() + ":" + today.getMinutes();
+
+    var inactiveRef = firebase.database().ref("All_Squads/" + sqInputVal);
+    var newSquadMember;
+    inactiveRef.on("value", function(snapshot) {
+        const obj = snapshot.val();
+        for (const key in obj) 
+        {
+            newSquadMember = new squadMember(obj[key].Member, "Good", 1, 
+            addAMarker(obj[key]), color[colorNum], 22, 23, time, obj[key].Squad, 50, 100);
+
+            // put new member into squad array
+            squadArray.push(newSquadMember);
+
+            // put new member into firebase
+            activateMember(newSquadMember);
+            markerCount++;
+
+            
+        }
+    });     
+    colorNum++;
+}
 
 // enter the squad and write to the db
 // then read from db and insert into table
 function squadron()
 {
-    
     // get the name that was entered
     var sqInputVal = document.getElementById('squadInput').value;
 
     // make a section called squad
     var squadRef = firebase.database().ref("squad/" + sqInputVal);
 
-    logIt("New member added: " + sqInputVal);
+    logIt("New squad added: " + sqInputVal);
 
     // var arr = []
     // arr.push() puts stuff into the array
@@ -249,10 +342,6 @@ function squadron()
 
     // insert new member into the squad array
     squadArray.push(newSquadMember);
-    for (var i = 0; i < squadArray.length; i = i + 1)
-    {
-        // console.log(squadArray[i]);
-    }
     squadRef.set({
         name: sqInputVal,
         status: newSquadMember.status,
@@ -314,15 +403,6 @@ squadRef.on("child_changed", function(snapshot) {
     {
         if (squadMemSnap.name == squadArray[i].name)
         {   
-            // if we member went up a floor
-            if (squadArray[i].floor != squadMemSnap.floor)
-            {
-                // console.log(squadArray[i].name + " changed floors");
-                // markersArray[squadMemSnap.markerNum].setMap(null);
-                // markersArray[squadMemSnap.markerNum].setMap(newMapsArray[0]);
-                // markersArray[squadMemSnap.markerNum].setMap(map);
-            }
-
             changeCheck(squadArray[i], squadMemSnap);
 
             // update the squad object
@@ -355,7 +435,6 @@ squadRef.on("child_changed", function(snapshot) {
             break;
         }
     }
-
 
     // change marker to red color
     if (squadArray[squadArrayNum].status == "Danger")
@@ -396,40 +475,6 @@ squadRef.on("child_changed", function(snapshot) {
 
 // 37.337032, -121.880224 = Northeast
 // 37.336708, -121.879543 = Southeast
-
-// var table = new Tabulator("#example-table", {});
-
-var timer = new easytimer.Timer();
-var timer2 = new easytimer.Timer();
-
-// I should do a timestamp
-
-function timer()
-{
-
-}
-
-$('#chronoExample .startButton').click(function () {
-    timer.start();
-});
-$('#chronoExample .pauseButton').click(function () {
-    timer.pause();
-});
-$('#chronoExample .stopButton').click(function () {
-    timer.stop();
-});
-$('#chronoExample .resetButton').click(function () {
-    timer.reset();
-});
-timer.addEventListener('secondsUpdated', function (e) {
-    $('#chronoExample .values').html(timer.getTimeValues().toString());
-});
-timer.addEventListener('started', function (e) {
-    $('#chronoExample .values').html(timer.getTimeValues().toString());
-});
-timer.addEventListener('reset', function (e) {
-    $('#chronoExample .values').html(timer.getTimeValues().toString());
-});
 
 
  

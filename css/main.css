@@ -31,6 +31,7 @@ header
 #squadButton, #floorButton
 {
     font-size: 20px;
+    margin: 0em 1em 1em 1em;
 }
 
 #floorInput
@@ -225,8 +226,9 @@ table, td, th
 
   #time
   {
-      float: right;
-      margin-right: 1em;
+      
+      background-color: #3b8e96;
+      text-align: right;
   }
 
 
