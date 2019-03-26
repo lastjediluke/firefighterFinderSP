@@ -5,31 +5,66 @@
     <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
     <script src="https://www.gstatic.com/firebasejs/5.7.0/firebase.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="easytimer/dist/easytimer.js"></script>
     <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/stopwatch.css">
+    <link href="tabulator-master/dist/css/tabulator.min.css" rel="stylesheet">
+    
+
   </head>
   <header>
     <h1 align="center">Firefighter Finder</h1>
   </header>
   <body>
     
-    <section id = 'floorInput'>
-      <input type='text' id='numFloorsInput' placeholder="How many floors?"/>
-      <button id='floorButton' onclick='numFloors()'>Enter</button>
-      <br>
+    
+    <!-- <section id = 'floorInput'>
       <input type='text' id='squadInput' placeholder="Squad Member Name"/>
-      <button id='squadButton' onclick="squadron()">Enter</button>
+      <button align="right" id='squadButton' onclick="importSquad()">Enter</button>
+    </section> -->
+    
+    <section id='floorInput'>
+      <form>
+        <select id='squadInput' name="squads">
+          <option value="default">Pick a Squadron</option>
+          <option value="Alpha">Alpha</option>
+          <option value="Bravo">Bravo</option>
+          <option value="Charlie">Charlie</option>
+          <option value="Delta">Delta</option>
+          <option value="Echo">Echo</option>
+        </select>
+      </form>
+      <button id='squadButton' onclick="importSquad()">Enter</button>
     </section>
 
-    <section style='background-color: #3d445e; padding: 1em; color: whitesmoke'>
-      <table class='floorTable' id='floorTableID' align="center">
-        <tr>
-          <th>Name</th>
-          <th>Status</th> 
-          <th>Floor Number</th>
-          <th>Marker Color</th>
-        </tr>
-      </table>
+    <section style="padding: 1em 3em 1em 1em; background-color: #3b8e96">
+      <h2 id='time'></h2>
     </section>
+    
+      <div id='tableContainer' class='tableContainer'>
+          
+          <table class='floorTable' id='floorTableID' align="center">
+            <thead>
+              <tr>
+                <th>Squad</th>
+                <th>Member</th>
+                <th>Status</th> 
+                <th>Floor</th>
+                <th>Marker</th>
+                
+                <th>Heart</th>
+                <th>Temp</th>
+                <th>Start</th>
+              </tr>
+            </thead>
+            
+          </table>
+      </div>
+    
+    <div style='background-color: #3b8e96; padding: 1em'></div>
+  
+    
 
     <!--
     <section id = 'statusSection'>
@@ -50,12 +85,67 @@
     </section>
     <div align='left' style="margin-left: 3em">
       <h2>Log</h2>
-      <ul id="myLog">
-        
+      <ul id="myLog" class="logContainer">
       </ul>
     </div>
 
-    <pre id = 'object'></pre>
+    <table id="example-table">
+        <thead>
+            <tr>
+                <th width="200">Name</th>
+                <th tabulator-align="center">Age</th>
+                <th>Gender</th>
+                <th>Height</th>
+                <th width="150">Favourite Color</th>
+                <th>Date of Birth</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Billy Bob</td>
+                <td>12</td>
+                <td>male</td>
+                <td>1</td>
+                <td>red</td>
+                <td>22/04/1994</td>
+            </tr>
+            <tr>
+                <td>Mary May</td>
+                <td>1</td>
+                <td>female</td>
+                <td>2</td>
+                <td>blue</td>
+                <td>14/05/1982</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <div id="example-table"></div>
+
+    <!--
+    <div id="timerContainer">
+      <div class="timer" onclick="startTimer()">Start Studying!</div>
+      <div class="startTimer reset" onclick="startTimer()" >
+        <i class="fas fa-play"></i>
+      </div>
+      <div class="pauseTimer reset" onclick="pauseTimer()" >
+        <i class="fas fa-pause"></i>
+      </div>
+      <div class="resetTimer reset" onclick="resetTimer()">Reset</div>
+    </div>
+    -->
+
+    
+    <div id="chronoExample">
+        <div class="values">00:00:00</div>
+        <div>
+            <button class="startButton">Start</button>
+            <button class="pauseButton" >Pause</button>
+            <button class="stopButton">Stop</button>
+            <button class="resetButton">Reset</button>
+        </div>
+    </div>
+
 
     <!--
     <div class="titleRow">
@@ -72,7 +162,8 @@
       </div>
     </section>
     -->
-
+    <script type="text/javascript" src="js/stopwatch.js"></script>
+    <script type="text/javascript" src="tabulator-master/dist/js/tabulator.min.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBSh3k5GTj5kOsmkuUM56wNk8QJ6NbCsTE&callback=initMap"
     async defer></script>
