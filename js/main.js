@@ -246,17 +246,26 @@ function placeInTable(squadObj)
     var row = table.insertRow(1);
 
     // Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
-    var cell1 = row.insertCell(0);      // name
-    var cell2 = row.insertCell(1);      // status
-    var cell3 = row.insertCell(2);      // floor
-    var cell4 = row.insertCell(3);      // marker color
+    var cell1 = row.insertCell(0);      // squad
+    var cell2 = row.insertCell(1);      // name
+    var cell3 = row.insertCell(2);      // status
+    var cell4 = row.insertCell(3);      // floor
+    var cell5 = row.insertCell(4);      // color
+    var cell6 = row.insertCell(5);      // heart
+    var cell7 = row.insertCell(6);      // temp
+    var cell8 = row.insertCell(7);      // time
+
 
     // Add some text to the new cells:
-    cell1.innerHTML = squadObj.name;
-    cell2.innerHTML = squadObj.status;
-    cell2.style.color = "limegreen";
-    cell3.innerHTML = squadObj.floor;
-    cell4.innerHTML = squadObj.marker;
+    cell1.innerHTML = squadObj.squad;
+    cell2.innerHTML = squadObj.name;
+    // cell2.style.color = "limegreen";
+    cell3.innerHTML = squadObj.status;
+    cell4.innerHTML = squadObj.floor;
+    cell5.innerHTML = squadObj.color;
+    cell6.innerHTML = squadObj.heart;
+    cell7.innerHTML = squadObj.temp;
+    cell8.innerHTML = squadObj.startTime;
 }
 
 // takes in the squad object and throws it into firebase
@@ -294,6 +303,9 @@ function importSquad()
 
             // put new member into squad array
             squadArray.push(newSquadMember);
+
+            // put the new member into the table
+            placeInTable(newSquadMember);
 
             // put new member into firebase
             activateMember(newSquadMember);
