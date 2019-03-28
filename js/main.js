@@ -1,7 +1,7 @@
 // Globals
 var markerCount = 0;
 var markersArray = [];
-var squadArray = [];    // array of squad members
+var squadArray = [];    
 var map;
 var colorNum = 0;
 let color = ["blue", "pink", "green", "purple", "yellow", 
@@ -12,6 +12,7 @@ var newDivsArray = [];
 var beenPressed = 0;
 
 
+// show the time and update it every minute
 setInterval(updateTime, 60000);
 function updateTime()
 {
@@ -20,7 +21,6 @@ function updateTime()
     document.getElementById("time").innerHTML = "Current Time " + time.toString();
 }
 updateTime();
-
 
 // logging
 function logIt(msg)
@@ -144,63 +144,6 @@ function initMap()
       // marker2.setMap(null);   
 } 
 
-function numFloors()
-{
-    // if I already entered the floors, don't make more maps
-    if (beenPressed > 0) 
-    {
-        return;
-    }
-
-    beenPressed = 1;
-    console.log(floorInputVal);
-    floorInputVal = document.getElementById('numFloorsInput').value;
-
-    logIt(floorInputVal.toString() + " floors created");
-    
-    // options for my map
-    var myOptions = 
-    {
-        zoom: 17.5,
-        center: {lat: 37.336294, lng: -121.881068},
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-    }
-    
-    console.log(floorInputVal);
-    for (var i = 0; i < floorInputVal; i = i + 1)
-    {
-        console.log(i);
-        var newDiv = document.createElement('div');
-
-        var newHeaders = document.createElement('h2');
-        newHeaders.style.textAlign = 'center';
-        var floorPlusPlus = i + 1; 
-        newHeaders.innerHTML = "Floor " + floorPlusPlus.toString();
-
-        // ids that don't really exist
-        newDiv.id = 'blank' + i;
-
-        // setAttribute not working
-        // newDivs[i].setAttribute("style", "height: 300px, width: 90%, margin: 1em auto"); 
-
-        // setting the attributes of my new 'blank' ids
-        newDiv.style.backgroundColor = 'gray';
-        newDiv.style.height = '300px';
-        newDiv.style.width = '90%';
-        newDiv.style.margin = '1em auto';
-
-        // add new div
-        document.body.appendChild(newHeaders);
-        document.body.appendChild(newDiv);
-
-        newDivsArray.push(newDiv);
-        
-        // create a map for each floor
-        var newMap= new google.maps.Map(document.getElementById(newDiv.id), myOptions);
-        newMapsArray.push(newMap);
-    }
-}
-
 /*
 function thot()
 {
@@ -233,7 +176,6 @@ function addAMarker(squadObj)
 
     // adding the marker to the map
     marker.setMap(map);
-
     return marker;
 }
 
@@ -255,11 +197,10 @@ function placeInTable(squadObj)
     var cell7 = row.insertCell(6);      // temp
     var cell8 = row.insertCell(7);      // time
 
-
     // Add some text to the new cells:
     cell1.innerHTML = squadObj.squad;
     cell2.innerHTML = squadObj.name;
-    // cell2.style.color = "limegreen";
+    cell3.style.color = "limegreen";
     cell3.innerHTML = squadObj.status;
     cell4.innerHTML = squadObj.floor;
     cell5.innerHTML = squadObj.color;
@@ -299,7 +240,9 @@ function importSquad()
         for (const key in obj) 
         {
             newSquadMember = new squadMember(obj[key].Member, "Good", 1, 
-            addAMarker(obj[key]), color[colorNum], 22, 23, time, obj[key].Squad, 50, 100);
+                addAMarker(obj[key]), color[colorNum], 37.337032, -121.880224, 
+                time, obj[key].Squad, 50, 100);
+            console.log(newSquadMember);
 
             // put new member into squad array
             squadArray.push(newSquadMember);
@@ -309,80 +252,10 @@ function importSquad()
 
             // put new member into firebase
             activateMember(newSquadMember);
-            markerCount++;
-
-            
+            markerCount++; 
         }
     });     
     colorNum++;
-}
-
-// enter the squad and write to the db
-// then read from db and insert into table
-function squadron()
-{
-    // get the name that was entered
-    var sqInputVal = document.getElementById('squadInput').value;
-
-    // make a section called squad
-    var squadRef = firebase.database().ref("squad/" + sqInputVal);
-
-    logIt("New squad added: " + sqInputVal);
-
-    // var arr = []
-    // arr.push() puts stuff into the array
-
-    var marker = new google.maps.Marker({
-        position: new google.maps.LatLng(37.337032, -121.880224),
-        title: sqInputVal,
-        draggable: false,
-        icon: {
-            path: google.maps.SymbolPath.CIRCLE,
-            scale: 7,
-            fillColor: color[colorNum],
-            fillOpacity: 0.8,
-            strokeWeight: 1
-        }
-    });
-    markersArray.push(marker);
-
-    // adding the marker to the map
-    marker.setMap(map);
-
-    var newSquadMember = new squadMember(sqInputVal, "Good", 1, color[colorNum], 37.337032, -121.880224);
-    colorNum++;
-
-    // insert new member into the squad array
-    squadArray.push(newSquadMember);
-    squadRef.set({
-        name: sqInputVal,
-        status: newSquadMember.status,
-        floor: newSquadMember.floor,
-        marker: newSquadMember.marker,
-        lat: newSquadMember.lat,
-        long: newSquadMember.long,
-        markerNum: markerCount
-    });
-    markerCount++;
-
-    // Find a <table> element
-    var table = document.getElementById("floorTableID");
-
-    // Create an empty <tr> element and add it to the 1st position of the table:
-    var row = table.insertRow(1);
-
-    // Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
-    var cell1 = row.insertCell(0);      // name
-    var cell2 = row.insertCell(1);      // status
-    var cell3 = row.insertCell(2);      // floor
-    var cell4 = row.insertCell(3);      // marker color
-
-    // Add some text to the new cells:
-    cell1.innerHTML = sqInputVal;
-    cell2.innerHTML = newSquadMember.status;
-    cell2.style.color = "limegreen";
-    cell3.innerHTML = newSquadMember.floor;
-    cell4.innerHTML = newSquadMember.marker;
 }
 
 // test reading from firebase to the console
@@ -394,7 +267,7 @@ function squadron()
 function changeCheck(a, b)
 {
     if (a.name != b.name) logIt(a.name + " has changed their name");
-    else if (a.status != b.status) logIt(a.name + "'s status has changed");
+    else if (a.status != b.status) logIt(a.name + "'s status has changed to " + b.status);
     else if (a.floor != b.floor) logIt(a.name + " has moved to floor " + b.floor.toString());
     else if (a.marker != b.marker) logIt(a.name + " has changed their marker color to " + b.marker);
     else if (a.lat != b.lat) logIt (a.name + " has changed location");
@@ -402,7 +275,7 @@ function changeCheck(a, b)
 }
 
 // checking for updates to the firebase
-var squadRef = firebase.database().ref("squad/");
+var squadRef = firebase.database().ref("Active/");
 squadRef.on("child_changed", function(snapshot) {
     var squadMemSnap = snapshot.val();
     console.log("Updated Member: " + squadMemSnap.name);
@@ -421,10 +294,12 @@ squadRef.on("child_changed", function(snapshot) {
             squadArray[i].name = squadMemSnap.name;
             squadArray[i].status = squadMemSnap.status;
             squadArray[i].floor = squadMemSnap.floor;
-            squadArray[i].marker = squadMemSnap.marker;
+            squadArray[i].color = squadMemSnap.marker;
             squadArray[i].lat = squadMemSnap.lat;
             squadArray[i].long = squadMemSnap.long;
-            markersArray[squadMemSnap.markerNum].setPosition(latlng);
+            squadArray[i].marker.setPosition(latlng);
+            // markersArray[squadMemSnap.markerNum].setPosition(latlng);
+            // markersArray[i].setPosition(latlng);
             break;
         }
     }
@@ -435,15 +310,17 @@ squadRef.on("child_changed", function(snapshot) {
     var tableRows = table.rows;
     
     // MADE A CHANGE HERE FROM 1 to 0
-    for (i = 0; i < tableRows.length; i++)
+    for (i = 1; i < tableRows.length; i++)
     {
-        if (tableRows[i].cells[0].innerHTML == squadArray[squadArrayNum].name)
+        if (tableRows[i].cells[1].innerHTML == squadArray[squadArrayNum].name)
         {
             console.log("Match!");
-            tableRows[i].cells[0].innerHTML = squadArray[squadArrayNum].name;
-            tableRows[i].cells[1].innerHTML = squadArray[squadArrayNum].status;
-            tableRows[i].cells[2].innerHTML = squadArray[squadArrayNum].floor;
-            tableRows[i].cells[3].innerText = squadArray[squadArrayNum].marker;
+            tableRows[i].cells[0].innerHTML = squadArray[squadArrayNum].squad;
+            tableRows[i].cells[1].innerHTML = squadArray[squadArrayNum].name;
+            tableRows[i].cells[2].innerHTML = squadArray[squadArrayNum].status;
+            tableRows[i].cells[3].innerText = squadArray[squadArrayNum].floor;
+            tableRows[i].cells[5].innerHTML = squadArray[squadArrayNum].heart;
+            tableRows[i].cells[6].innerText = squadArray[squadArrayNum].temp;
             break;
         }
     }
@@ -454,10 +331,10 @@ squadRef.on("child_changed", function(snapshot) {
         console.log("Status changed to Danger");
 
         // blink the text
-        tableRows[i].cells[1].className = "blink";
+        tableRows[i].cells[2].className = "blink";
 
         // change font to red
-        tableRows[i].cells[1].style.color = "red";
+        tableRows[i].cells[2].style.color = "red";
 
         // make the marker bounce 
         markersArray[squadMemSnap.markerNum].setAnimation(google.maps.Animation.BOUNCE);
@@ -468,10 +345,10 @@ squadRef.on("child_changed", function(snapshot) {
         console.log("Status changed to Good");
 
         // stop the blink
-        tableRows[i].cells[1].className = "";
+        tableRows[i].cells[2].className = "";
 
         // back to black
-        tableRows[i].cells[1].style.color = "limegreen";
+        tableRows[i].cells[2].style.color = "limegreen";
         markersArray[squadMemSnap.markerNum].setIcon({
             path: google.maps.SymbolPath.CIRCLE,
             scale: 7,
