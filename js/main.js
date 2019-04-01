@@ -61,6 +61,12 @@ function updateTime()
 }
 updateTime();
 
+// Enables the sidebar button functionality
+function toggleSidebar()
+{
+    document.getElementById("sidebar").classList.toggle('active');
+}
+
 // ==== GPS COORDINATES ======================================
 // 37.337032, -121.880224 = Northeast
 // 37.336708, -121.879543 = Southeast
