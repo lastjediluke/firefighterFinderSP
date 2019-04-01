@@ -61,28 +61,6 @@ function updateTime()
 }
 updateTime();
 
-// Rotation animation
-function rotateAnimation(obj, speed)
-{
-    let elem = document.getElementById(obj);
-    elem.style.transform = "rotate("+degrees+"deg)";
-    looper = setTimeout('rotateAnimation(\''+obj+'\','+speed+')', speed);
-    degrees++;
-
-    // Reset degree
-    if(degrees > 359)
-    {
-        degrees = 1;
-    }
-}
-
-// Allows loading screen to disappear after the page has fully loaded
-window.addEventListener("load", function()
-{
-    let load_screen = document.getElementById("load_screen");
-    document.body.removeChild(load_screen);
-});
-
 // ==== GPS COORDINATES ======================================
 // 37.337032, -121.880224 = Northeast
 // 37.336708, -121.879543 = Southeast

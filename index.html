@@ -2,6 +2,8 @@
 
 <!-- JavaScript crap cuz i'm too dumb to understand how to put it in the .js file lol -->
 <script>
+    let degrees = 0;
+
     // Rotation animation
     function rotateAnimation(obj, speed)
     {
@@ -51,14 +53,14 @@
         <!-- Loading Screen -->
         <div id="load_screen">
             <div id="loading">
-                <img id="loading_wheel" src="FF_logo.png" alt="Loading..." />
+                <img id="loading_logo" src="FF_logo.png" alt="Loading..." />
                 LOADING...
             </div>
         </div>
 
         <!-- Calls rotation animation -->
-        <script type="text/javascript" src="js/main.js">
-            rotateAnimation("loading_wheel", 0.5);
+        <script>
+            rotateAnimation("loading_logo", 1);
         </script>
 
         <!-- ------------------------------------------ -->
