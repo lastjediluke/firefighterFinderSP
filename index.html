@@ -1,177 +1,74 @@
 <!DOCTYPE html>
+
+<!-- JavaScript crap cuz i'm too dumb to understand how to put it in the .js file lol -->
+<script>
+    // Rotation animation
+    function rotateAnimation(obj, speed)
+    {
+        let elem = document.getElementById(obj);
+        elem.style.transform = "rotate("+degrees+"deg)";
+        looper = setTimeout('rotateAnimation(\''+obj+'\','+speed+')', speed);
+        degrees++;
+    
+        // Reset degree
+        if(degrees > 359)
+        {
+            degrees = 1;
+        }
+    }
+    
+    // Allows loading screen to disappear after the page has fully loaded
+    window.addEventListener("load", function()
+    {
+        let load_screen = document.getElementById("load_screen");
+        document.body.removeChild(load_screen);
+    });
+</script>
+
+<!-- ========================================================== -->
+
 <html>
-  <head>
-    <title>Map Playaround</title>
-    <meta name="viewport" content="initial-scale=1.0">
-    <meta charset="utf-8">
-
-    <!-- INCLUDE FOR FIREBASE API -->
-    <script src="https://www.gstatic.com/firebasejs/5.7.0/firebase.js"></script>
-
-
-    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
-    <script type="text/javascript" src="easytimer/dist/easytimer.js"></script>
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/stopwatch.css">
-    <link href="tabulator-master/dist/css/tabulator.min.css" rel="stylesheet">
-    
-
-  </head>
-  <header>
-    <h1 align="center">Firefighter Finder</h1>
-  </header>
-  <body>
-    
-    
-    <!-- <section id = 'floorInput'>
-      <input type='text' id='squadInput' placeholder="Squad Member Name"/>
-      <button align="right" id='squadButton' onclick="importSquad()">Enter</button>
-    </section> -->
-    
-    <section id='floorInput'>
-      <form>
-        <select id='squadInput' name="squads">
-          <option value="default">Pick a Squadron</option>
-          <option value="Alpha">Alpha</option>
-          <option value="Bravo">Bravo</option>
-          <option value="Charlie">Charlie</option>
-          <option value="Delta">Delta</option>
-          <option value="Echo">Echo</option>
-        </select>
-      </form>
-      <button id='squadButton' onclick="importSquad()">Enter</button>
-    </section>
-
-    <section style="padding: 1em 3em 1em 1em; background-color: #3b8e96">
-      <h2 id='time'></h2>
-    </section>
-    
-      <div id='tableContainer' class='tableContainer'>
-          
-          <table class='floorTable' id='floorTableID' align="center">
-            <thead>
-              <tr>
-                <th>Squad</th>
-                <th>Member</th>
-                <th>Status</th> 
-                <th>Floor</th>
-                <th>Marker</th>
-                
-                <th>Heart</th>
-                <th>Temp</th>
-                <th>Start</th>
-              </tr>
-            </thead>
-            
-          </table>
-      </div>
-    
-    <div style='background-color: #3b8e96; padding: 1em'></div>
-  
-    
-
-    <!--
-    <section id = 'statusSection'>
-      <div class="titleRow">
-        <h2 align="center" class="titleColumn">Status</h2>
+    <head>
+        <title>Firefighter Finder</title>
+        <meta name="viewport" content="initial-scale=1.0">
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="css/main.css">
         
-        <h2 align="center" class="titleColumn">Tools</h2>
-      </div>
-      <div class="row">
-        <div class="column">Jenkins</div>
-        
-        <div class="column">column 2</div>
-      </div> 
-    </section>
-    -->
-    <section style="background-color: #3d445e; padding: 1em">
-      <div id = 'map_canvas3'></div>
-    </section>
-    <div align='left' style="margin-left: 3em">
-      <h2>Log</h2>
-      <ul id="myLog" class="logContainer">
-      </ul>
-    </div>
+        <!-- FIREBASE API -->
+        <script src="https://www.gstatic.com/firebasejs/5.7.0/firebase.js"></script>
 
-    <table id="example-table">
-        <thead>
-            <tr>
-                <th width="200">Name</th>
-                <th tabulator-align="center">Age</th>
-                <th>Gender</th>
-                <th>Height</th>
-                <th width="150">Favourite Color</th>
-                <th>Date of Birth</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Billy Bob</td>
-                <td>12</td>
-                <td>male</td>
-                <td>1</td>
-                <td>red</td>
-                <td>22/04/1994</td>
-            </tr>
-            <tr>
-                <td>Mary May</td>
-                <td>1</td>
-                <td>female</td>
-                <td>2</td>
-                <td>blue</td>
-                <td>14/05/1982</td>
-            </tr>
-        </tbody>
-    </table>
-    
-    <div id="example-table"></div>
+        <!-- GOOGLE MAPS API -->
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBSh3k5GTj5kOsmkuUM56wNk8QJ6NbCsTE&callback=initMap"async defer></script>
+    </head>
+     
+    <header>
+        <h1 align="center">FIREFIGHTER FINDER</h1>
+    </header>
 
-    <!--
-    <div id="timerContainer">
-      <div class="timer" onclick="startTimer()">Start Studying!</div>
-      <div class="startTimer reset" onclick="startTimer()" >
-        <i class="fas fa-play"></i>
-      </div>
-      <div class="pauseTimer reset" onclick="pauseTimer()" >
-        <i class="fas fa-pause"></i>
-      </div>
-      <div class="resetTimer reset" onclick="resetTimer()">Reset</div>
-    </div>
-    -->
+    <body onload="initMap();">
+        <script type="text/javascript" src="js/main.js"></script>
 
-    
-    <div id="chronoExample">
-        <div class="values">00:00:00</div>
-        <div>
-            <button class="startButton">Start</button>
-            <button class="pauseButton" >Pause</button>
-            <button class="stopButton">Stop</button>
-            <button class="resetButton">Reset</button>
+        <!-- Loading Screen -->
+        <div id="load_screen">
+            <div id="loading">
+                <img id="loading_wheel" src="FF_logo.png" alt="Loading..." />
+                LOADING...
+            </div>
         </div>
-    </div>
 
+        <!-- Calls rotation animation -->
+        <script type="text/javascript" src="js/main.js">
+            rotateAnimation("loading_wheel", 0.5);
+        </script>
 
-    <!--
-    <div class="titleRow">
-      <h2 align="center" class="titleColumn">Floor Number</h2>
-      
-      <h2 align="center" class="titleColumn">Personel</h2>
-    </div>
-
-    <section id="floorDisplay">
-      <div class="row">
-        <div id="mapColumn"></div>
-        
-        <div class="column">column 2</div>
-      </div>
-    </section>
-    -->
-    <script type="text/javascript" src="js/stopwatch.js"></script>
-    <script type="text/javascript" src="tabulator-master/dist/js/tabulator.min.js"></script>
-    <script type="text/javascript" src="js/main.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBSh3k5GTj5kOsmkuUM56wNk8QJ6NbCsTE&callback=initMap"
-    async defer></script>
-  </body>
+        <!-- ------------------------------------------ -->
+    
+        <!-- Display Map -->
+        <div id="canvas">
+            <div id="map"></div>
+        </div>
+          
+    </body>
 </html>
 
 
