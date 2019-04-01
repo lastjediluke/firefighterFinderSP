@@ -27,7 +27,7 @@ html
     height: 100%
 }
 
-/* ==== LOADING SCREEN CSS SETTINGS ========================================== */
+/* ==== LOADING SCREEN ========================================== */
 
 #load_screen
 {
@@ -62,7 +62,7 @@ html
     margin: 1em;
 }
 
-/* ==== STYLES USED ========================== */
+/* ==== MAP ===================================================== */
 
 /* Canvas size for the map */
 #canvas
@@ -79,6 +79,21 @@ html
     height: 100%
 }
 
+/* ==== CLOCK =================================================== */
+
+/* Clock properties */
+#time
+{
+    z-index: 1;
+    position: absolute;
+    background: #333;
+    /* border: 1px white Solid; */
+    padding: 15px;
+    right: 60px
+}
+
+/* ==== SIDEBAR ================================================= */
+
 /* Sidebar properties */
 #sidebar
 {
@@ -89,13 +104,14 @@ html
     margin: 0px;
     padding: 0px;
     z-index: 2;
-    left: -250px;
-    transition: all 150ms linear;
+    left: -250px;                       /* Hides the sidebar */
+    transition: all 150ms linear;       /* Transition settings */
 }
 
 /* Sidebar (when clicked) properties */
 #sidebar.active
 {
+    /* Moves the sidebar back into place when button is first clicked */
     left: 0px
 }
 
@@ -105,16 +121,17 @@ html
     color: white;
     list-style: none;
     padding: 20px;
-    border-bottom: 1px solid white
+    /* border-bottom: 1px solid white */
 }
 
+/* Sidebar toggle button properties */
 #sidebar .toggle-btn
 {
     padding: 10px;
     background: #333;
     position: absolute;
     left: 270px;
-    top: 570px
+    top: 60px
 }
 
 /* Sidebar toggle button <span> properties */

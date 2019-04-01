@@ -1,5 +1,6 @@
 // ==== GLOBALS ==============================================
 var map;
+var colon_tick = false;
 
 // ==== IMPORTANT APIS/INITS =================================
 
@@ -37,7 +38,7 @@ var map;
     */
 }());
 
-// Google Maps
+// Google Maps Initialization
 function initMap() 
 {
     var myOptions = 
@@ -51,13 +52,42 @@ function initMap()
 
 // ==== HELPER FUNCTIONS =====================================
 
-// Time Function (Updates every 60s)
-setInterval(updateTime, 60000);
+// Time Function (Updates every 0.5s)
+setInterval(updateTime, 1000);
 function updateTime()
 {
     var today = new Date();
-    var time = today.getHours() + ":" + today.getMinutes();
-    document.getElementById("time").innerHTML = "Current Time " + time.toString();
+
+    // Colon_Tick = Colon (:) in the time ticks every second
+    if(colon_tick)
+    {
+        // If the minute is less than 10, add a 0 to the time (eg. 5 minutes = 05)
+        if(today.getMinutes() < 10)
+        {
+            var time = today.getHours() + ":0" + today.getMinutes();
+        }
+        // Otherwise, concatenate the time
+        else
+        {
+            var time = today.getHours() + ":" + today.getMinutes();
+        }
+    }
+    else
+    {
+        // If the minute is less than 10, add a 0 to the time (eg. 5 minutes = 05)
+        if(today.getMinutes() < 10)
+        {
+            var time = today.getHours() + " 0" + today.getMinutes();
+        }
+        // Otherwise, concatenate the time
+        else
+        {
+            var time = today.getHours() + " " + today.getMinutes();
+        }
+    }
+
+    document.getElementById("time").innerHTML = time.toString();
+    colon_tick = ~colon_tick;
 }
 updateTime();
 
