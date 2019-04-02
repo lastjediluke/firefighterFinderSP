@@ -12,6 +12,13 @@ h1
     padding: 0px
 }
 
+h2
+{
+    margin: 0px;
+    padding: 0px;
+    background: rgb(48, 68, 131);
+}
+
 body 
 {
     background-color: #333;
@@ -25,6 +32,12 @@ body
 html
 {
     height: 100%
+}
+
+th
+{
+    padding: 10px;
+    border-bottom: 1px solid #ffffff;
 }
 
 /* ==== LOADING SCREEN ========================================== */
@@ -98,13 +111,13 @@ html
 #sidebar
 {
     position: fixed;
-    width: 250px;
+    width: 300px;
     height: 100%;
-    background: rgb(48, 68, 131);
+    background: rgb(34, 48, 94);
     margin: 0px;
     padding: 0px;
     z-index: 2;
-    left: -250px;                       /* Hides the sidebar */
+    left: -300px;                       /* Hides the sidebar */
     transition: all 150ms linear;       /* Transition settings */
 }
 
@@ -130,7 +143,7 @@ html
     padding: 10px;
     background: #333;
     position: absolute;
-    left: 270px;
+    left: 320px;
     top: 60px
 }
 
@@ -149,4 +162,27 @@ html
 {
     padding: 20px;
     border-bottom: 1px solid white
+}
+
+/* ==== MEMBER LIST ================================================= */
+
+#squadButton
+{
+    font-size: 20px;
+    margin: 0em 1em 1em 1em;
+}
+
+#tableContainer
+{
+    margin: auto;
+    height: 80%;
+    overflow: auto;
+    border: 1px solid #ffffff;
+}
+
+#squadTable
+{
+    margin: auto;
+    height: 100%;
+    overflow: auto;
 }
