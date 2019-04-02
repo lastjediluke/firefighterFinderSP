@@ -109,7 +109,6 @@ function toggleSidebar()
 
 // ==== ADDING MEMBERS TO TABLE =====================================
 
-
 // Member class to hold properties of each worker
 class squadMember
 {
@@ -183,6 +182,9 @@ function placeInTable(squadObj)
     cell2.innerHTML = squadObj.name;
     cell3.style.color = "limegreen";
     cell3.innerHTML = squadObj.status;
+
+    // This adds the ability to hover over the newly create cell to cause an action
+    cell2.onmouseover = displayInfoTable();
 }
 
 // Takes in the squad object and throws it into firebase
@@ -223,6 +225,124 @@ function addAMarker(squadObj)
     // adding the marker to the map
     marker.setMap(map);
     return marker;
+}
+
+// ==== FIREBASE UPDATES ============================================
+
+// Checking for updates to the firebase
+var squadRef = firebase.database().ref("Active/");
+squadRef.on("child_changed", function(snapshot) {
+    var squadMemSnap = snapshot.val();
+    console.log("Updated Member: " + squadMemSnap.name);
+
+    // it has to have new!!
+    var latlng = new google.maps.LatLng(squadMemSnap.lat, squadMemSnap.long);
+
+    // now I need to find the squad member object and update it
+    for (var i = 0; i < squadArray.length; i = i + 1)
+    {
+        if (squadMemSnap.name == squadArray[i].name)
+        {   
+            changeCheck(squadArray[i], squadMemSnap);
+
+            // update the squad object
+            squadArray[i].name = squadMemSnap.name;
+            squadArray[i].status = squadMemSnap.status;
+            squadArray[i].floor = squadMemSnap.floor;
+            squadArray[i].color = squadMemSnap.marker;
+            squadArray[i].lat = squadMemSnap.lat;
+            squadArray[i].long = squadMemSnap.long;
+            squadArray[i].marker.setPosition(latlng);
+            // markersArray[squadMemSnap.markerNum].setPosition(latlng);
+            // markersArray[i].setPosition(latlng);
+            break;
+        }
+    }
+
+    // update the table
+    var squadArrayNum = i;
+    var table = document.getElementById('floorTableID');
+    var tableRows = table.rows;
+    
+    // MADE A CHANGE HERE FROM 1 to 0
+    for (i = 1; i < tableRows.length; i++)
+    {
+        if (tableRows[i].cells[1].innerHTML == squadArray[squadArrayNum].name)
+        {
+            console.log("Match!");
+            tableRows[i].cells[0].innerHTML = squadArray[squadArrayNum].squad;
+            tableRows[i].cells[1].innerHTML = squadArray[squadArrayNum].name;
+            tableRows[i].cells[2].innerHTML = squadArray[squadArrayNum].status;
+            tableRows[i].cells[3].innerText = squadArray[squadArrayNum].floor;
+            tableRows[i].cells[5].innerHTML = squadArray[squadArrayNum].heart;
+            tableRows[i].cells[6].innerText = squadArray[squadArrayNum].temp;
+            break;
+        }
+    }
+
+    // change marker to red color
+    if (squadArray[squadArrayNum].status == "Danger")
+    {
+        console.log("Status changed to Danger");
+
+        // blink the text
+        tableRows[i].cells[2].className = "blink";
+
+        // change font to red
+        tableRows[i].cells[2].style.color = "red";
+
+        // make the marker bounce 
+        markersArray[squadMemSnap.markerNum].setAnimation(google.maps.Animation.BOUNCE);
+    }
+
+    if (squadArray[squadArrayNum].status == "Good")
+    {
+        console.log("Status changed to Good");
+
+        // stop the blink
+        tableRows[i].cells[2].className = "";
+
+        // back to black
+        tableRows[i].cells[2].style.color = "limegreen";
+        markersArray[squadMemSnap.markerNum].setIcon({
+            path: google.maps.SymbolPath.CIRCLE,
+            scale: 7,
+            fillColor: squadMemSnap.marker,
+            fillOpacity: 0.8,
+            strokeWeight: 1
+        });
+
+        // stop the bounce
+        markersArray[squadMemSnap.markerNum].setAnimation(null);
+    }
+});
+
+// Checking for updates to the firebase
+function changeCheck(a, b)
+{
+    if (a.name != b.name) logIt(a.name + " has changed their name");
+    else if (a.status != b.status) logIt(a.name + "'s status has changed to " + b.status);
+    else if (a.floor != b.floor) logIt(a.name + " has moved to floor " + b.floor.toString());
+    else if (a.marker != b.marker) logIt(a.name + " has changed their marker color to " + b.marker);
+    else if (a.lat != b.lat) logIt (a.name + " has changed location");
+    else if (a.long != b.long) logIt(a.name + " has changed location");
+}
+
+// Logging
+function logIt(msg)
+{
+    var newLog = document.createElement("li");       // Create a <li> node
+    var txt = document.createTextNode(msg);
+    newLog.appendChild(txt);                    // Append the text to <li>
+    // var list = document.getElementById("myLog");    // Get the <ul> element to insert a new node
+    // list.insertBefore(newLog, list.childNodes[0]);  // Insert <li> before the first child of <ul>
+}
+
+// ==== DISPLAY INFO ================================================
+
+function displayInfoTable()
+{
+    console.log("Mouse over works!");
 }
 
 // ==== GPS COORDINATES ======================================

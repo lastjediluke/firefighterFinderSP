@@ -56,7 +56,12 @@ th
 /* Table Row Entries */
 td
 {
-    padding: 5px;
+    padding: 1px;
+}
+
+tr
+{
+
 }
 
 /* ==== LOADING SCREEN ========================================== */
@@ -163,7 +168,7 @@ td
     background: #333;
     position: absolute;
     left: 320px;
-    top: 60px
+    top: 100px
 }
 
 /* Sidebar toggle button <span> properties */
@@ -185,16 +190,23 @@ td
 
 /* ==== MEMBER LIST ================================================= */
 
-#floorInput
+#squadContainer
 {
     padding: 20px
 }
 
+#squadInput
+{
+    width: 200px
+}
+
+
 /* Member Enter button */
 #squadButton
 {
+    width: 200px;
     font-size: 20px;
-    margin: 0em 1em 1em 1em;
+    margin: 1em 0em 0em 0em;
 }
 
 /* Container that holds the table */
@@ -214,4 +226,44 @@ td
     margin: auto;
     height: 100%;
     overflow: auto;
+}
+
+/* ==== MARKER BLINK ================================================ */
+
+.blink {
+	-webkit-animation: blink .75s linear infinite;
+	-moz-animation: blink .75s linear infinite;
+	-ms-animation: blink .75s linear infinite;
+	-o-animation: blink .75s linear infinite;
+    animation: blink .75s linear infinite;
+}
+@-webkit-keyframes blink {
+	0% { opacity: 1; }
+	50% { opacity: 1; }
+	50.01% { opacity: 0; }
+	100% { opacity: 0; }
+}
+@-moz-keyframes blink {
+	0% { opacity: 1; }
+	50% { opacity: 1; }
+	50.01% { opacity: 0; }
+	100% { opacity: 0; }
+}
+@-ms-keyframes blink {
+	0% { opacity: 1; }
+	50% { opacity: 1; }
+	50.01% { opacity: 0; }
+	100% { opacity: 0; }
+}
+@-o-keyframes blink {
+	0% { opacity: 1; }
+	50% { opacity: 1; }
+	50.01% { opacity: 0; }
+	100% { opacity: 0; }
+}
+@keyframes blink {
+	0% { opacity: 1; }
+	50% { opacity: 1; }
+	50.01% { opacity: 0; }
+	100% { opacity: 0; }
 }
