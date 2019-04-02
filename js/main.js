@@ -58,7 +58,7 @@ function initMap()
         zoom: 18
     };
     map = new google.maps.Map(document.getElementById("map"), myOptions);
-};
+}
 
 // ==== SMALLER FUNCTIONS =====================================
 
@@ -109,6 +109,7 @@ function toggleSidebar()
 
 // ==== ADDING MEMBERS TO TABLE =====================================
 
+
 // Member class to hold properties of each worker
 class squadMember
 {
@@ -128,6 +129,7 @@ class squadMember
     }
 }
 
+// Imports a pre-made squad from Firebase
 function importSquad()
 {
     // get the name that was entered
@@ -162,6 +164,7 @@ function importSquad()
     colorNum++;
 }
 
+// Places new items into the table
 function placeInTable(squadObj)
 {
     // Find a <table> element
@@ -173,26 +176,16 @@ function placeInTable(squadObj)
     // Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
     var cell1 = row.insertCell(0);      // squad
     var cell2 = row.insertCell(1);      // name
-    // var cell3 = row.insertCell(2);      // status
-    // var cell4 = row.insertCell(3);      // floor
-    // var cell5 = row.insertCell(4);      // color
-    // var cell6 = row.insertCell(5);      // heart
-    // var cell7 = row.insertCell(6);      // temp
-    // var cell8 = row.insertCell(7);      // time
+    var cell3 = row.insertCell(2);      // status
 
     // Add some text to the new cells:
     cell1.innerHTML = squadObj.squad;
     cell2.innerHTML = squadObj.name;
-    // cell3.style.color = "limegreen";
-    // cell3.innerHTML = squadObj.status;
-    // cell4.innerHTML = squadObj.floor;
-    // cell5.innerHTML = squadObj.color;
-    // cell6.innerHTML = squadObj.heart;
-    // cell7.innerHTML = squadObj.temp;
-    // cell8.innerHTML = squadObj.startTime;
+    cell3.style.color = "limegreen";
+    cell3.innerHTML = squadObj.status;
 }
 
-// takes in the squad object and throws it into firebase
+// Takes in the squad object and throws it into firebase
 function activateMember(newSquadMember)
 {
     firebase.database().ref("Active/" + newSquadMember.name).set({
@@ -207,6 +200,7 @@ function activateMember(newSquadMember)
     });
 }
 
+// Creates a marker for each member and places it on the Google Map
 function addAMarker(squadObj)
 {
     // add a marker to the map

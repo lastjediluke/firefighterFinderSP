@@ -1,10 +1,19 @@
-/* HTML Styles */
+/*
 
+== COLORS ==
+Dark Gray (Header):     #333
+Blue (Sidebar):         rgb(48, 68, 131);
+Dark Blue (Sidebar):    rgb(34, 48, 94);
+
+*/
+
+/* Generic Header */
 header
 {
     color: white;
 }
 
+/* Header 1 */
 h1
 {
     height: 100%;
@@ -12,6 +21,7 @@ h1
     padding: 0px
 }
 
+/* Header 2 */
 h2
 {
     margin: 0px;
@@ -19,6 +29,7 @@ h2
     background: rgb(48, 68, 131);
 }
 
+/* Body Section */
 body 
 {
     background-color: #333;
@@ -29,15 +40,23 @@ body
     padding: 0px
 }
 
+/* Generic HTML */
 html
 {
     height: 100%
 }
 
+/* Table Header */
 th
 {
     padding: 10px;
     border-bottom: 1px solid #ffffff;
+}
+
+/* Table Row Entries */
+td
+{
+    padding: 5px;
 }
 
 /* ==== LOADING SCREEN ========================================== */
@@ -166,20 +185,30 @@ th
 
 /* ==== MEMBER LIST ================================================= */
 
+#floorInput
+{
+    padding: 20px
+}
+
+/* Member Enter button */
 #squadButton
 {
     font-size: 20px;
     margin: 0em 1em 1em 1em;
 }
 
+/* Container that holds the table */
 #tableContainer
 {
+    background: rgb(48, 68, 131);
     margin: auto;
-    height: 80%;
+    height: 50%;
     overflow: auto;
-    border: 1px solid #ffffff;
+    border-bottom: 1px solid #ffffff;
+    border-top: 1px solid #ffffff;
 }
 
+/* Table Itself */
 #squadTable
 {
     margin: auto;
