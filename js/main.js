@@ -182,9 +182,6 @@ function placeInTable(squadObj)
     cell2.innerHTML = squadObj.name;
     cell3.style.color = "limegreen";
     cell3.innerHTML = squadObj.status;
-
-    // This adds the ability to hover over the newly create cell to cause an action
-    cell2.onmouseover = displayInfoTable();
 }
 
 // Takes in the squad object and throws it into firebase
@@ -340,9 +337,66 @@ function logIt(msg)
 
 // ==== DISPLAY INFO ================================================
 
+
+function checkMemberHover()
+{
+    var table, tr, td, i, memberNameBuffer;
+
+    table = document.getElementById("squadTable");          // Get table element
+    tr = table.getElementsByTagName("tr");                  // Get table row element
+
+    for (i = 0; i < tr.length; i++)
+    {
+        td = tr[i].getElementsByTagName("td")[1];                   // Grab member cell of the current row
+        if (td)                                                     // (Note that [1] checks the 'member' cell)
+        {
+            memberNameBuffer = td.textContent || td.innerText;
+            if (memberNameBuffer.toUpperCase().indexOf(bufferCheck) > -1)
+            {
+                console.log("YAY");
+            }
+            else
+            {
+
+            }
+        } 
+    }
+
+}
+
 function displayInfoTable()
 {
     console.log("Mouse over works!");
+}
+
+// ==== SEARCH BAR ==================================================
+
+function searchFunction()
+{
+    var inputBox, bufferCheck, table, tr, td, i, memberNameBuffer;
+
+    inputBox = document.getElementById("squadSearch");      // Get inputBox element
+    bufferCheck = inputBox.value.toUpperCase();             // Set up a buffer (set to all uppercase)
+    table = document.getElementById("squadTable");          // Get table element
+    tr = table.getElementsByTagName("tr");                  // Get table row element
+
+    // Search through all table rows | Display only the matching members
+    for (i = 0; i < tr.length; i++)
+    {
+        td = tr[i].getElementsByTagName("td")[1];                   // Grab member cell of the current row
+        if (td)                                                     // (Note that [1] checks the 'member' cell)
+        {
+            memberNameBuffer = td.textContent || td.innerText;
+            if (memberNameBuffer.toUpperCase().indexOf(bufferCheck) > -1)
+            {
+                tr[i].style.display = "";                           // Display
+            }
+            else
+            {
+                tr[i].style.display = "none";                       // Hide
+            }
+        } 
+    }
 }
 
 // ==== GPS COORDINATES ======================================

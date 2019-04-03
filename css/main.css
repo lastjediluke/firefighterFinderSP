@@ -29,6 +29,14 @@ h2
     background: rgb(48, 68, 131);
 }
 
+/* Header 3 */
+h3
+{
+    margin: 5px;
+    padding: 0px;
+    border-bottom: 1px solid white;
+}
+
 /* Body Section */
 body 
 {
@@ -49,19 +57,15 @@ html
 /* Table Header */
 th
 {
-    padding: 10px;
-    border-bottom: 1px solid #ffffff;
+    padding: 5px;
+    border-bottom: 2px solid #ffffff;
 }
 
 /* Table Row Entries */
 td
 {
-    padding: 1px;
-}
-
-tr
-{
-
+    padding: 5px;
+    border-bottom: 1px dashed white
 }
 
 /* ==== LOADING SCREEN ========================================== */
@@ -135,14 +139,14 @@ tr
 #sidebar
 {
     position: fixed;
-    width: 300px;
-    height: 100%;
+    width: 350px;
+    height: 70%;
     background: rgb(34, 48, 94);
     margin: 0px;
     padding: 0px;
     z-index: 2;
-    left: -300px;                       /* Hides the sidebar */
-    transition: all 150ms linear;       /* Transition settings */
+    left: -350px;                                                   /* Hides the sidebar */
+    transition: all 150ms cubic-bezier(0.165, 0.84, 0.44, 1);       /* Transition settings */
 }
 
 /* Sidebar (when clicked) properties */
@@ -167,7 +171,7 @@ tr
     padding: 10px;
     background: #333;
     position: absolute;
-    left: 320px;
+    left: 370px;
     top: 100px
 }
 
@@ -195,18 +199,18 @@ tr
     padding: 20px
 }
 
+/* Drop down menu to select a squad */
 #squadInput
 {
-    width: 200px
+    width: 270px
 }
-
 
 /* Member Enter button */
 #squadButton
 {
-    width: 200px;
+    width: 270px;
     font-size: 20px;
-    margin: 1em 0em 0em 0em;
+    margin: 0.5em 0em 0em 0em;
 }
 
 /* Container that holds the table */
@@ -226,6 +230,33 @@ tr
     margin: auto;
     height: 100%;
     overflow: auto;
+}
+
+#squadTable tr:hover
+{
+    /* Add a grey background color to the table header and on hover */
+    background-color: rgb(34, 48, 94);
+}
+
+/* ==== MEMBER SEARCH =============================================== */
+
+/* Search bar for squad members */
+#squadSearch
+{
+    height: 20px;
+    width: 270px;
+    margin: 10px;
+    border: 1px solid white; /* Add a grey border */
+}
+
+/* ==== INFORMATION DISPLAY ========================================= */
+
+#infoContainer
+{
+    height: 100%;
+    width: 350px;
+
+    background-color: rgb(34, 48, 94);;
 }
 
 /* ==== MARKER BLINK ================================================ */

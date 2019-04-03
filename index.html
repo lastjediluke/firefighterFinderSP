@@ -2,8 +2,8 @@
 
 <!-- JavaScript crap cuz i'm too dumb to understand how to put it in the .js file lol -->
 <script>
+    // ==== LOADING SCREEN ==========================================================
     let degrees = 0;
-
     // Rotation animation
     function rotateAnimation(obj, speed)
     {
@@ -18,13 +18,13 @@
             degrees = 1;
         }
     }
-    
     // Allows loading screen to disappear after the page has fully loaded
     window.addEventListener("load", function()
     {
         let load_screen = document.getElementById("load_screen");
         document.body.removeChild(load_screen);
     });
+
 </script>
 
 <!-- ========================================================== -->
@@ -108,8 +108,14 @@
                 </section>
             </div>
 
-            <!-- Table -->
+            <div align="center" style="padding: 10px">
+                <!-- Search Bar -->
+                <input type="text" id="squadSearch" onkeyup="searchFunction()" placeholder="Search for a member...">
+            </div>
+            
+            <!-- Table Container -->
             <div id='tableContainer' align="center">
+                <!-- Table itself -->
                 <table id='squadTable' align="center">
                     <thead align="center">
                         <tr align="center">
@@ -120,6 +126,12 @@
                     </thead>
                 </table>
             </div>
+
+            <!-- Info Container -->
+            <div id="infoContainer" align="center">
+                <h3>MEMBER INFO!</h3>
+            </div>
+
         </div>
 
         <!-- ------------------------------------------------- -->
