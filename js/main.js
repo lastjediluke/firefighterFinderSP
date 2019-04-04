@@ -159,8 +159,8 @@ function importSquad()
             activateMember(newSquadMember);
             markerCount++; 
         }
-    });     
-    colorNum++;
+    }); 
+    colorNum = (colorNum+1) % 10;
 }
 
 // Places new items into the table
@@ -202,24 +202,30 @@ function activateMember(newSquadMember)
 // Creates a marker for each member and places it on the Google Map
 function addAMarker(squadObj)
 {
-    // add a marker to the map
+    // Add a marker to the map
     var marker = new google.maps.Marker({
         position: new google.maps.LatLng(37.337032, -121.880224),
-        title: squadObj.Squad + squadObj.Member,
+        title: squadObj.Squad + ' ' + squadObj.Member,
         draggable: false,
+        map: map,
+        member: squadObj,
         icon: {
             path: google.maps.SymbolPath.CIRCLE,
             scale: 7,
             fillColor: color[colorNum],
             fillOpacity: 0.8,
             strokeWeight: 1
-        }
+        },
     });
 
-    // add marker to the array
+    // Add marker to the array
     markersArray.push(marker);
 
-    // adding the marker to the map
+    // Adds ability to hover over the marker for a function
+    marker.addListener('mouseover', () => displayInfo(squadObj));
+    // marker.addListener('mouseout', () => )
+
+    // Adding the marker to the map
     marker.setMap(map);
     return marker;
 }
@@ -337,36 +343,26 @@ function logIt(msg)
 
 // ==== DISPLAY INFO ================================================
 
+// Checks for when the mouse hovers over the table row
+// function checkMemberHover()
+// {
+//     var table, tr, td, i, memberNameBuffer;
 
-function checkMemberHover()
+//     table = document.getElementById("squadTable");          // Get table element
+//     tr = table.getElementsByTagName("tr");                  // Get table row element
+
+//     console.log(tr);
+// }
+
+// function displayInfoTable()
+// {
+//     console.log("Mouse over works!");
+// }
+
+// Checks for when the mouse hovers over the marker
+function displayInfo(squadObj)
 {
-    var table, tr, td, i, memberNameBuffer;
-
-    table = document.getElementById("squadTable");          // Get table element
-    tr = table.getElementsByTagName("tr");                  // Get table row element
-
-    for (i = 0; i < tr.length; i++)
-    {
-        td = tr[i].getElementsByTagName("td")[1];                   // Grab member cell of the current row
-        if (td)                                                     // (Note that [1] checks the 'member' cell)
-        {
-            memberNameBuffer = td.textContent || td.innerText;
-            if (memberNameBuffer.toUpperCase().indexOf(bufferCheck) > -1)
-            {
-                console.log("YAY");
-            }
-            else
-            {
-
-            }
-        } 
-    }
-
-}
-
-function displayInfoTable()
-{
-    console.log("Mouse over works!");
+    console.log(squadObj);
 }
 
 // ==== SEARCH BAR ==================================================
