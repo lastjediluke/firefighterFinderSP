@@ -107,6 +107,7 @@ function toggleSidebar()
     document.getElementById("sidebar").classList.toggle('active');
 }
 
+// Random number generator
 function getRndInteger(min, max) {
     return Math.floor(Math.random() * (max - min) ) + min;
 }
@@ -256,7 +257,7 @@ squadRef.on("child_changed", function(snapshot) {
     {
         if (squadMemSnap.name == squadArray[i].name)
         {   
-            changeCheck(squadArray[i], squadMemSnap);
+            // changeCheck(squadArray[i], squadMemSnap);
 
             // update the squad object
             squadArray[i].name = squadMemSnap.name;
@@ -274,7 +275,7 @@ squadRef.on("child_changed", function(snapshot) {
 
     // update the table
     var squadArrayNum = i;
-    var table = document.getElementById('floorTableID');
+    var table = document.getElementById('squadTable');
     var tableRows = table.rows;
     
     // MADE A CHANGE HERE FROM 1 to 0
@@ -286,9 +287,9 @@ squadRef.on("child_changed", function(snapshot) {
             tableRows[i].cells[0].innerHTML = squadArray[squadArrayNum].squad;
             tableRows[i].cells[1].innerHTML = squadArray[squadArrayNum].name;
             tableRows[i].cells[2].innerHTML = squadArray[squadArrayNum].status;
-            tableRows[i].cells[3].innerText = squadArray[squadArrayNum].floor;
-            tableRows[i].cells[5].innerHTML = squadArray[squadArrayNum].heart;
-            tableRows[i].cells[6].innerText = squadArray[squadArrayNum].temp;
+            // tableRows[i].cells[3].innerText = squadArray[squadArrayNum].floor;
+            // tableRows[i].cells[5].innerHTML = squadArray[squadArrayNum].heart;
+            // tableRows[i].cells[6].innerText = squadArray[squadArrayNum].temp;
             break;
         }
     }
