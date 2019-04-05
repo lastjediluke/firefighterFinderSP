@@ -145,32 +145,37 @@ function importSquad()
 
     var inactiveRef = firebase.database().ref("All_Squads/" + sqInputVal);
     var newSquadMember;
+    
     inactiveRef.on("value", function(snapshot) {
         const obj = snapshot.val();
         for (const key in obj) 
         {
+            // Generates random numbers to vary the default GPS setting
             var i = (getRndInteger(0, 100) * (0.00001));
             var j = (getRndInteger(0, 100) * (0.00001));
-
+            
+            // Calculate new GPS values
             var lat = 37.337 + i;
             var lon = -121.880 + j;
 
+            // newSquadMember object
             newSquadMember = new squadMember(obj[key].Member, "Good", 1, 
                 addAMarker(obj[key], lat, lon), color[colorNum], lat, lon, 
                 time, obj[key].Squad, 50, 100);
             console.log(newSquadMember);
 
-            // put new member into squad array
+            // Put new member into squad array
             squadArray.push(newSquadMember);
 
-            // put the new member into the table
+            // Put the new member into the table
             placeInTable(newSquadMember);
 
-            // put new member into firebase
+            // Put new member into firebase
             activateMember(newSquadMember);
             markerCount++; 
         }
     }); 
+    // Assign new colors to the next squad imported
     colorNum = (colorNum+1) % 10;
 }
 
@@ -216,7 +221,7 @@ function addAMarker(squadObj, lat, lon)
     // Add a marker to the map
     var marker = new google.maps.Marker({
         position: new google.maps.LatLng(lat, lon),
-        title: squadObj.Squad + ' ' + squadObj.Member,
+        title: squadObj.Squad + ': ' + squadObj.Member,
         draggable: false,
         map: map,
         member: squadObj,
@@ -234,7 +239,7 @@ function addAMarker(squadObj, lat, lon)
 
     // Adds ability to hover over the marker for a function
     marker.addListener('mouseover', () => displayInfo(squadObj));
-    // marker.addListener('mouseout', () => )
+    marker.addListener('mouseout', () => displayClear());
 
     // Adding the marker to the map
     marker.setMap(map);
@@ -256,9 +261,7 @@ squadRef.on("child_changed", function(snapshot) {
     for (var i = 0; i < squadArray.length; i = i + 1)
     {
         if (squadMemSnap.name == squadArray[i].name)
-        {   
-            // changeCheck(squadArray[i], squadMemSnap);
-
+        {
             // update the squad object
             squadArray[i].name = squadMemSnap.name;
             squadArray[i].status = squadMemSnap.status;
@@ -331,27 +334,6 @@ squadRef.on("child_changed", function(snapshot) {
     }
 });
 
-// Checking for updates to the firebase
-function changeCheck(a, b)
-{
-    if (a.name != b.name) logIt(a.name + " has changed their name");
-    else if (a.status != b.status) logIt(a.name + "'s status has changed to " + b.status);
-    else if (a.floor != b.floor) logIt(a.name + " has moved to floor " + b.floor.toString());
-    else if (a.marker != b.marker) logIt(a.name + " has changed their marker color to " + b.marker);
-    else if (a.lat != b.lat) logIt (a.name + " has changed location");
-    else if (a.long != b.long) logIt(a.name + " has changed location");
-}
-
-// Logging
-function logIt(msg)
-{
-    var newLog = document.createElement("li");       // Create a <li> node
-    var txt = document.createTextNode(msg);
-    newLog.appendChild(txt);                    // Append the text to <li>
-    // var list = document.getElementById("myLog");    // Get the <ul> element to insert a new node
-    // list.insertBefore(newLog, list.childNodes[0]);  // Insert <li> before the first child of <ul>
-}
-
 // ==== DISPLAY INFO ================================================
 
 // Checks for when the mouse hovers over the table row
@@ -373,7 +355,60 @@ function logIt(msg)
 // Checks for when the mouse hovers over the marker
 function displayInfo(squadObj)
 {
-    console.log(squadObj);
+    // Access member data at "Active/<name of member>" in Firebase
+    var memberRef = firebase.database().ref("Active/" + squadObj.Member);
+
+    // Obtain a "snapshot" of the data
+    memberRef.on("value", function(snapshot) {
+        const obj = snapshot.val();
+        var text;
+        var display;
+
+        display = document.getElementById("infoName");
+        text = obj.name;
+        display.textContent = (text);
+
+        display = document.getElementById("infoSquad");
+        text = obj.squad;
+        display.textContent = (text);
+
+        display = document.getElementById("infoStatus");
+        text = obj.status;
+        display.textContent = (text);
+
+        display = document.getElementById("infoLocation");
+        text = "(" + obj.lat + ", " + obj.long + ")";
+        display.textContent = (text);
+
+        display = document.getElementById("infoFloor");
+        text = obj.floor;
+        display.textContent = (text);
+
+        display = document.getElementById("infoColor");
+        text = obj.marker;
+        display.textContent = (text);
+    }); 
+}
+
+function displayClear()
+{
+    display = document.getElementById("infoName");
+    display.textContent = (" ");
+
+    display = document.getElementById("infoSquad");
+    display.textContent = (" ");
+
+    display = document.getElementById("infoStatus");
+    display.textContent = (" ");
+
+    display = document.getElementById("infoLocation");
+    display.textContent = (" ");
+
+    display = document.getElementById("infoFloor");
+    display.textContent = (" ");
+
+    display = document.getElementById("infoColor");
+    display.textContent = (" ");
 }
 
 // ==== SEARCH BAR ==================================================
