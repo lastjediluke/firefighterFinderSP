@@ -107,6 +107,10 @@ function toggleSidebar()
     document.getElementById("sidebar").classList.toggle('active');
 }
 
+function getRndInteger(min, max) {
+    return Math.floor(Math.random() * (max - min) ) + min;
+}
+
 // ==== ADDING MEMBERS TO TABLE =====================================
 
 // Member class to hold properties of each worker
@@ -144,8 +148,14 @@ function importSquad()
         const obj = snapshot.val();
         for (const key in obj) 
         {
+            var i = (getRndInteger(0, 100) * (0.00001));
+            var j = (getRndInteger(0, 100) * (0.00001));
+
+            var lat = 37.337 + i;
+            var lon = -121.880 + j;
+
             newSquadMember = new squadMember(obj[key].Member, "Good", 1, 
-                addAMarker(obj[key]), color[colorNum], 37.337032, -121.880224, 
+                addAMarker(obj[key], lat, lon), color[colorNum], lat, lon, 
                 time, obj[key].Squad, 50, 100);
             console.log(newSquadMember);
 
@@ -200,11 +210,11 @@ function activateMember(newSquadMember)
 }
 
 // Creates a marker for each member and places it on the Google Map
-function addAMarker(squadObj)
+function addAMarker(squadObj, lat, lon)
 {
     // Add a marker to the map
     var marker = new google.maps.Marker({
-        position: new google.maps.LatLng(37.337032, -121.880224),
+        position: new google.maps.LatLng(lat, lon),
         title: squadObj.Squad + ' ' + squadObj.Member,
         draggable: false,
         map: map,
