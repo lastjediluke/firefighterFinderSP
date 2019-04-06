@@ -108,7 +108,8 @@ function toggleSidebar()
 }
 
 // Random number generator
-function getRndInteger(min, max) {
+function getRndInteger(min, max)
+{
     return Math.floor(Math.random() * (max - min) ) + min;
 }
 
@@ -117,9 +118,8 @@ function getRndInteger(min, max) {
 // Member class to hold properties of each worker
 class squadMember
 {
-    constructor(name, status, floor, marker, color, lat, long, startTime, squad, heart, temp)
+    constructor(name, status, floor, marker, color, lat, long, startTime, squad, heart, temp, ID)
     {
-        this.squad = squad;
         this.name = name;
         this.status = status;
         this.floor = floor;
@@ -127,9 +127,11 @@ class squadMember
         this.color = color;
         this.lat = lat;
         this.long = long;
+        this.startTime = startTime;
+        this.squad = squad;
         this.heart = heart;
         this.temp = temp;
-        this.startTime = startTime;
+        this.ID = ID
     }
 }
 
@@ -161,7 +163,7 @@ function importSquad()
             // newSquadMember object
             newSquadMember = new squadMember(obj[key].Member, "Good", 1, 
                 addAMarker(obj[key], lat, lon), color[colorNum], lat, lon, 
-                time, obj[key].Squad, 50, 100);
+                time, obj[key].Squad, 50, 100, markerCount);
             console.log(newSquadMember);
 
             // Put new member into squad array
@@ -201,6 +203,7 @@ function placeInTable(squadObj)
 
     row.addEventListener('mouseover', () => displayInfoTable(squadObj));
     row.addEventListener('mouseout', () => displayClear());
+    row.addEventListener('click', () => clickTableMapPosition(squadObj));
 }
 
 // Takes in the squad object and throws it into firebase
@@ -443,6 +446,7 @@ function displayClear()
 
 // ==== SEARCH BAR ==================================================
 
+// Search bar function
 function searchFunction()
 {
     var inputBox, bufferCheck, table, tr, td, i, memberNameBuffer;
@@ -469,6 +473,30 @@ function searchFunction()
             }
         } 
     }
+}
+
+// ==== CHANGE MAP POSITION =========================================
+
+// Clicking a row in the table will move the map to the marker
+function clickTableMapPosition(squadObj)
+{
+    
+    // Access member data at "Active/<name of member>" in Firebase
+    var memberRef = firebase.database().ref("Active/" + squadObj.name);
+    
+    // Obtain a "snapshot" of the data
+    memberRef.on("value", function(snapshot) {
+        const obj = snapshot.val();
+
+        // Pan the map to the appropriate marker / Set zoom to 20 (closer to the marker)
+        var center = new google.maps.LatLng(obj.lat, obj.long);
+        map.panTo(center);
+        map.setZoom(20);
+
+        // Marker bounces for 5s
+        setTimeout(function(){markersArray[obj.markerNum].setAnimation(google.maps.Animation.BOUNCE)}, 500);
+        setTimeout(function(){markersArray[obj.markerNum].setAnimation(google.maps.Animation.NULL)}, 5000);
+    }); 
 }
 
 // ==== GPS COORDINATES ======================================
