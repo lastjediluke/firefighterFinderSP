@@ -198,6 +198,9 @@ function placeInTable(squadObj)
     cell2.innerHTML = squadObj.name;
     cell3.style.color = "limegreen";
     cell3.innerHTML = squadObj.status;
+
+    row.addEventListener('mouseover', () => displayInfoTable(squadObj));
+    row.addEventListener('mouseout', () => displayClear());
 }
 
 // Takes in the squad object and throws it into firebase
@@ -227,7 +230,7 @@ function addAMarker(squadObj, lat, lon)
         member: squadObj,
         icon: {
             path: google.maps.SymbolPath.CIRCLE,
-            scale: 7,
+            scale: 10,
             fillColor: color[colorNum],
             fillOpacity: 0.8,
             strokeWeight: 1
@@ -238,7 +241,7 @@ function addAMarker(squadObj, lat, lon)
     markersArray.push(marker);
 
     // Adds ability to hover over the marker for a function
-    marker.addListener('mouseover', () => displayInfo(squadObj));
+    marker.addListener('mouseover', () => displayInfoMarker(squadObj));
     marker.addListener('mouseout', () => displayClear());
 
     // Adding the marker to the map
@@ -336,25 +339,51 @@ squadRef.on("child_changed", function(snapshot) {
 
 // ==== DISPLAY INFO ================================================
 
-// Checks for when the mouse hovers over the table row
-// function checkMemberHover()
-// {
-//     var table, tr, td, i, memberNameBuffer;
-
-//     table = document.getElementById("squadTable");          // Get table element
-//     tr = table.getElementsByTagName("tr");                  // Get table row element
-
-//     console.log(tr);
-// }
-
-// function displayInfoTable()
-// {
-//     console.log("Mouse over works!");
-// }
-
-// Checks for when the mouse hovers over the marker
-function displayInfo(squadObj)
+// Hovering over a row displays info
+function displayInfoTable(squadObj)
 {
+    console.log(squadObj);
+
+    // Access member data at "Active/<name of member>" in Firebase
+    var memberRef = firebase.database().ref("Active/" + squadObj.name);
+
+    // Obtain a "snapshot" of the data
+    memberRef.on("value", function(snapshot) {
+        const obj = snapshot.val();
+        var text;
+        var display;
+
+        display = document.getElementById("infoName");
+        text = obj.name;
+        display.textContent = (text);
+
+        display = document.getElementById("infoSquad");
+        text = obj.squad;
+        display.textContent = (text);
+
+        display = document.getElementById("infoStatus");
+        text = obj.status;
+        display.textContent = (text);
+
+        display = document.getElementById("infoLocation");
+        text = "(" + obj.lat + ", " + obj.long + ")";
+        display.textContent = (text);
+
+        display = document.getElementById("infoFloor");
+        text = obj.floor;
+        display.textContent = (text);
+
+        display = document.getElementById("infoColor");
+        text = obj.marker;
+        display.textContent = (text);
+    }); 
+}
+
+// Hovering over a marker displays info
+function displayInfoMarker(squadObj)
+{
+    console.log(squadObj);
+
     // Access member data at "Active/<name of member>" in Firebase
     var memberRef = firebase.database().ref("Active/" + squadObj.Member);
 
@@ -390,6 +419,7 @@ function displayInfo(squadObj)
     }); 
 }
 
+// Clears the info box when not hovering
 function displayClear()
 {
     display = document.getElementById("infoName");

@@ -78,8 +78,10 @@ td
 
 p
 {
-    font-family: Courier;
+    /* font-family: Courier; */
     padding: 0px;
+    margin: 3px;
+    justify-items: left
 }
 
 /* ==== LOADING SCREEN ========================================== */
@@ -190,6 +192,11 @@ p
     top: 100px
 }
 
+#sidebar .toggle-btn:hover
+{
+    background: rgb(151, 151, 151);
+}
+
 /* Sidebar toggle button <span> properties */
 #sidebar .toggle-btn span
 {
@@ -217,16 +224,30 @@ p
 /* Drop down menu to select a squad */
 #squadInput
 {
-    width: 210px
+    border: 1px solid rgb(128, 128, 128); /* Add a grey border */
+    width: 210px;
+    background-color: #333;
+    color: white;
+    font-size: 15px;
 }
 
 /* Member Enter button */
 #squadButton
 {
+    color: white;
+    border: none;
+    background-color: #008CBA;
     width: 210px;
-    font-size: 20px;
+    font-size: 17px;
+    height: 27px;
     margin: 0.5em 0em 0em 0em;
     border-radius: 6px;
+    
+}
+
+#squadButton:hover
+{
+    background-color: rgb(0, 166, 221);
 }
 
 /* Container that holds the table */
@@ -263,8 +284,11 @@ p
     height: 20px;
     width: 210px;
     margin: 10px;
-    border: 1px solid white; /* Add a grey border */
+    border: 1px solid rgb(128, 128, 128); /* Add a grey border */
     border-radius: 6px;
+    background-color: #333;
+    color: white;
+    font-size: 15px;
 }
 
 /* ==== INFORMATION DISPLAY ========================================= */
