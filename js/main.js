@@ -5,7 +5,7 @@ var markerCount = 0;
 var markersArray = [];
 var squadArray = [];
 var colorNum = 0;
-let color = ["blue", "pink", "green", "purple", "yellow",
+let color = ["lightred", "blue", "green", "purple", "yellow",
 "white", "brown", "gray", "orange", "black"];
 var floorInputVal = 0;
 var newMapsArray = [];
@@ -55,7 +55,9 @@ function initMap()
     {
         center: new google.maps.LatLng(37.336294, -121.881068),
         mapTypeId: google.maps.MapTypeId.ROADMAP,
-        zoom: 18
+        zoom: 18,
+        mapTypeId: 'satellite',
+        tilt: 0
     };
     map = new google.maps.Map(document.getElementById("map"), myOptions);
 }
@@ -140,6 +142,16 @@ function importSquad()
 {
     // get the name that was entered
     var sqInputVal = document.getElementById('squadInput').value;
+
+    //  Check if the squad has already been imported
+    for(var i=0; i<squadArray.length; i++)
+    {
+        if(sqInputVal == squadArray[i].squad)
+        {
+            alert("Error! This squad has already been imported!");
+            return;
+        }
+    }
 
     // get time
     var today = new Date();
@@ -318,7 +330,7 @@ squadRef.on("child_changed", function(snapshot) {
         markersArray[squadMemSnap.markerNum].setAnimation(google.maps.Animation.BOUNCE);
     }
 
-    if (squadArray[squadArrayNum].status == "Good")
+    else if (squadArray[squadArrayNum].status == "Good")
     {
         console.log("Status changed to Good");
 
@@ -345,7 +357,7 @@ squadRef.on("child_changed", function(snapshot) {
 // Hovering over a row displays info
 function displayInfoTable(squadObj)
 {
-    console.log(squadObj);
+    // console.log(squadObj);
 
     // Access member data at "Active/<name of member>" in Firebase
     var memberRef = firebase.database().ref("Active/" + squadObj.name);
@@ -385,7 +397,7 @@ function displayInfoTable(squadObj)
 // Hovering over a marker displays info
 function displayInfoMarker(squadObj)
 {
-    console.log(squadObj);
+    // console.log(squadObj);
 
     // Access member data at "Active/<name of member>" in Firebase
     var memberRef = firebase.database().ref("Active/" + squadObj.Member);
@@ -492,6 +504,22 @@ function clickTableMapPosition(squadObj)
         var center = new google.maps.LatLng(obj.lat, obj.long);
         map.panTo(center);
         map.setZoom(20);
+
+        // Avoid calling the BOUNCE function if the marker is already bouncing due to its "Danger" status
+        for (var i = 0; i < squadArray.length; i = i + 1)
+        {
+            if (obj.name == squadArray[i].name)
+            {
+                break;
+            }
+        }
+        var squadArrayNum = i;
+            
+        if (squadArray[squadArrayNum].status == "Danger")
+        {
+            console.log("ALREADY BOUNCING!");
+            return;
+        }
 
         // Marker bounces for 5s
         setTimeout(function(){markersArray[obj.markerNum].setAnimation(google.maps.Animation.BOUNCE)}, 500);
