@@ -5,7 +5,7 @@ var markerCount = 0;
 var markersArray = [];
 var squadArray = [];
 var colorNum = 0;
-let color = ["lightred", "blue", "green", "purple", "yellow",
+let color = ["lightred", "green", "blue", "purple", "yellow",
 "white", "brown", "gray", "orange", "black"];
 var floorInputVal = 0;
 var newMapsArray = [];

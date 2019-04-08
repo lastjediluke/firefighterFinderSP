@@ -73,7 +73,7 @@ th
 td
 {
     padding: 5px;
-    border-bottom: 1px dashed white
+    /* border-bottom: 1px dashed white */
 }
 
 p
@@ -133,7 +133,7 @@ p
 #map
 {
     width: 100%;
-    height: 100%
+    height: 103%;
 }
 
 /* ==== CLOCK =================================================== */
@@ -154,15 +154,15 @@ p
 /* Sidebar properties */
 #sidebar
 {
-    border-right: 2px solid #333;
+    /* border-right: 2px solid #333; */
     position: fixed;
-    width: 300px;
+    width: 350px;
     height: 100%;
     background: rgb(34, 48, 94);
     margin: 0px;
     padding: 0px;
     z-index: 2;
-    left: -300px;                                                   /* Hides the sidebar */
+    left: -350px;                                                   /* Hides the sidebar */
     transition: all 150ms cubic-bezier(0.165, 0.84, 0.44, 1);       /* Transition settings */
 }
 
@@ -170,7 +170,8 @@ p
 #sidebar.active
 {
     /* Moves the sidebar back into place when button is first clicked */
-    left: 0px
+    left: 0px;
+    box-shadow: 10px -15px 50px #333;
 }
 
 /* Sidebar List Properties */
@@ -188,8 +189,13 @@ p
     padding: 10px;
     background: #333;
     position: absolute;
-    left: 320px;
-    top: 100px
+    left: 370px;
+    top: 100px;
+
+    /* Smooth Color Transition */
+    transition: background 0.1s linear;
+    -moz-transition: background 0.1s linear;
+    -webkit-transition: background 0.1s linear;
 }
 
 #sidebar .toggle-btn:hover
@@ -225,7 +231,7 @@ p
 #squadInput
 {
     border: 1px solid rgb(128, 128, 128); /* Add a grey border */
-    width: 210px;
+    width: 260px;
     background-color: #333;
     color: white;
     font-size: 15px;
@@ -236,29 +242,44 @@ p
 {
     color: white;
     border: none;
-    background-color: #008CBA;
-    width: 210px;
+    background-color: rgb(0, 120, 160);
+    width: 260px;
     font-size: 17px;
     height: 27px;
     margin: 0.5em 0em 0em 0em;
     border-radius: 6px;
-    
+
+    /* Smooth Color Transition */
+    transition: background 0.1s linear;
+    -moz-transition: background 0.1s linear;
+    -webkit-transition: background 0.1s linear;
 }
 
 #squadButton:hover
 {
-    background-color: rgb(0, 166, 221);
+    background-color: rgb(0, 180, 240);
+}
+
+#tableCell
+{
+    background: rgb(48, 68, 131);
+    margin: 10px;
+    height: 400px;
+    box-shadow: 0px 0px 10px #333;
+    padding: 8px;
+    /* border: 1px solid white; */
 }
 
 /* Container that holds the table */
 #tableContainer
 {
     background: rgb(48, 68, 131);
-    margin: auto;
-    height: 350px;
+    height: 380px;
+    margin: 10px;
     overflow: auto;
-    border-bottom: 1px solid #ffffff;
-    border-top: 1px solid #ffffff;
+    /* border: 1px solid white; */
+    /* border-bottom: 1px solid #ffffff; */
+    /* border-top: 1px solid #ffffff; */
 }
 
 /* Table Itself */
@@ -267,6 +288,15 @@ p
     margin: auto;
     height: 100%;
     overflow: auto;
+}
+
+/* Table Rows */
+#squadTable tr
+{
+    /* Smooth Color Transition */
+    transition: background-color 0.1s linear;
+    -moz-transition: background-color 0.1s linear;
+    -webkit-transition: background-color 0.1s linear;
 }
 
 /* Highlights member row when mouse is hovering over it */
@@ -282,7 +312,7 @@ p
 #squadSearch
 {
     height: 20px;
-    width: 210px;
+    width: 260px;
     margin: 10px;
     border: 1px solid rgb(128, 128, 128); /* Add a grey border */
     border-radius: 6px;
@@ -296,8 +326,9 @@ p
 #infoContainer
 {
     height: 100%;
-    width: 300px;
+    width: 350px;
     background-color: rgb(34, 48, 94);;
+    /* visibility: hidden */
 }
 
 /* ==== MARKER BLINK ================================================ */
@@ -355,11 +386,11 @@ p
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-    background: rgb(185, 185, 185);
+    background: rgb(134, 134, 134);
     border-radius: 10px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-    background: rgb(126, 126, 126);
+    background: rgb(107, 107, 107);
 }
