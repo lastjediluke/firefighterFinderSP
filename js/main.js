@@ -101,10 +101,19 @@ function initMap()
 
         // Eventlistener enables users to "select" a shape by clicking it.
         google.maps.event.addListener(shape, 'click', function() {
-            setSelection(shape);
+            shapeSelect(shape);
         });
-        setSelection(shape);
+
+        // Select shape once it's been added
+        shapeSelect(shape);
     });
+
+    // Deselects a selected shape when clicking the map or changing drawing mode.
+    google.maps.event.addListener(drawingManager, 'drawingmode_changed', shapeClear);
+    google.maps.event.addListener(map, 'click', shapeClear);
+
+    // DomListener to delete a selected shape when the button is clicked
+    google.maps.event.addDomListener(document.getElementById('deleteShapeButton'), 'click', deleteSelectedShape);
 }
 
 // ==== SMALLER FUNCTIONS =====================================
@@ -587,6 +596,7 @@ function clickTableMapPosition(squadObj)
 
 // ==== DRAWING =====================================================
 
+// Selects the shape
 function shapeSelect(shape)
 {
     shapeClear();
@@ -594,9 +604,14 @@ function shapeSelect(shape)
     shape.setEditable(true);
 }
 
-function shapeClear(shape)
+// Deselects the shape
+function shapeClear()
 {
-
+    if(shapeSelection)
+    {
+        shapeSelection.setEditable(false);
+        shapeSelection = null;
+    }
 }
 
 // ==== GPS COORDINATES ======================================
