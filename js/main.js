@@ -11,6 +11,8 @@ var floorInputVal = 0;
 var newMapsArray = [];
 var newDivsArray = [];
 var beenPressed = 0;
+var drawingManager;
+var shapeSelection;
 
 // ==== IMPORTANT APIS/INITS =================================
 
@@ -51,6 +53,7 @@ var beenPressed = 0;
 // Google Maps Initialization
 function initMap() 
 {
+    // General Google Maps options
     var myOptions = 
     {
         center: new google.maps.LatLng(37.336294, -121.881068),
@@ -59,7 +62,49 @@ function initMap()
         mapTypeId: 'satellite',
         tilt: 0
     };
+
+    // Create the map
     map = new google.maps.Map(document.getElementById("map"), myOptions);
+
+    // Set the drawing options for each drawing type
+    var drawingOptions =
+    {
+        strokeColor: '#870000',
+        fillColor: '#ff0000',
+        editable: true
+    }
+
+    // Set general drawing preferences
+    drawingManager = new google.maps.drawing.DrawingManager
+    ({
+        drawingControl: true,
+        drawingControlOptions: {
+            position: google.maps.ControlPosition.BOTTOM_CENTER,
+            drawingModes: ['polygon', 'polyline', 'rectangle', 'circle']
+        },
+
+        // Set each type of drawing function to the drawingOptions structure
+        polygonOptions: drawingOptions,
+        polylineOptions: drawingOptions,
+        rectangleOptions: drawingOptions,
+        circleOptions: drawingOptions,
+    });
+    drawingManager.setMap(map);
+
+    // Once you've added a shape to the map, perform the following...
+    google.maps.event.addListener(drawingManager, 'overlaycomplete', function(obj) {
+        // Changes to default mode after making a drawing
+        drawingManager.setDrawingMode(null);
+        
+        var shape = obj.overlay;
+        shape.type = obj.type;
+
+        // Eventlistener enables users to "select" a shape by clicking it.
+        google.maps.event.addListener(shape, 'click', function() {
+            setSelection(shape);
+        });
+        setSelection(shape);
+    });
 }
 
 // ==== SMALLER FUNCTIONS =====================================
@@ -272,8 +317,10 @@ squadRef.on("child_changed", function(snapshot) {
     var squadMemSnap = snapshot.val();
     console.log("Updated Member: " + squadMemSnap.name);
 
-    // it has to have new!!
+    // New variables to change (it has to have new!)
     var latlng = new google.maps.LatLng(squadMemSnap.lat, squadMemSnap.long);
+    // var newColor = new google.maps.Symbol;
+    // console.log(newColor);
 
     // now I need to find the squad member object and update it
     for (var i = 0; i < squadArray.length; i = i + 1)
@@ -288,6 +335,7 @@ squadRef.on("child_changed", function(snapshot) {
             squadArray[i].lat = squadMemSnap.lat;
             squadArray[i].long = squadMemSnap.long;
             squadArray[i].marker.setPosition(latlng);
+            // squadArray[i].marker.setShape(shape);
             // markersArray[squadMemSnap.markerNum].setPosition(latlng);
             // markersArray[i].setPosition(latlng);
             break;
@@ -300,14 +348,14 @@ squadRef.on("child_changed", function(snapshot) {
     var tableRows = table.rows;
     
     // MADE A CHANGE HERE FROM 1 to 0
-    for (i = 1; i < tableRows.length; i++)
+    for (var j = 1; j < tableRows.length; j++)
     {
-        if (tableRows[i].cells[1].innerHTML == squadArray[squadArrayNum].name)
+        if (tableRows[j].cells[1].innerHTML == squadArray[squadArrayNum].name)
         {
             console.log("Match!");
-            tableRows[i].cells[0].innerHTML = squadArray[squadArrayNum].squad;
-            tableRows[i].cells[1].innerHTML = squadArray[squadArrayNum].name;
-            tableRows[i].cells[2].innerHTML = squadArray[squadArrayNum].status;
+            tableRows[j].cells[0].innerHTML = squadArray[squadArrayNum].squad;
+            tableRows[j].cells[1].innerHTML = squadArray[squadArrayNum].name;
+            tableRows[j].cells[2].innerHTML = squadArray[squadArrayNum].status;
             // tableRows[i].cells[3].innerText = squadArray[squadArrayNum].floor;
             // tableRows[i].cells[5].innerHTML = squadArray[squadArrayNum].heart;
             // tableRows[i].cells[6].innerText = squadArray[squadArrayNum].temp;
@@ -321,24 +369,34 @@ squadRef.on("child_changed", function(snapshot) {
         console.log("Status changed to Danger");
 
         // blink the text
-        tableRows[i].cells[2].className = "blink";
+        tableRows[j].cells[2].className = "blink";
 
         // change font to red
-        tableRows[i].cells[2].style.color = "red";
+        tableRows[j].cells[2].style.color = "red";
 
         // make the marker bounce 
         markersArray[squadMemSnap.markerNum].setAnimation(google.maps.Animation.BOUNCE);
+
+        // Change marker color
+        // markersArray[squadMemSnap.markerNum].setIcon({
+        //     path: google.maps.SymbolPath.TRIANGLE,
+        //     scale: 7,
+        //     fillColor: squadMemSnap.marker,
+        //     fillOpacity: 0.8,
+        //     strokeWeight: 1
+        // });
     }
 
     else if (squadArray[squadArrayNum].status == "Good")
     {
         console.log("Status changed to Good");
 
-        // stop the blink
-        tableRows[i].cells[2].className = "";
+        // Stop the blinking table text
+        tableRows[j].cells[2].className = "";
 
-        // back to black
-        tableRows[i].cells[2].style.color = "limegreen";
+        // Back to green table text
+        tableRows[j].cells[2].style.color = "limegreen";
+
         markersArray[squadMemSnap.markerNum].setIcon({
             path: google.maps.SymbolPath.CIRCLE,
             scale: 7,
@@ -525,6 +583,20 @@ function clickTableMapPosition(squadObj)
         setTimeout(function(){markersArray[obj.markerNum].setAnimation(google.maps.Animation.BOUNCE)}, 500);
         setTimeout(function(){markersArray[obj.markerNum].setAnimation(google.maps.Animation.NULL)}, 5000);
     }); 
+}
+
+// ==== DRAWING =====================================================
+
+function shapeSelect(shape)
+{
+    shapeClear();
+    shapeSelection = shape;
+    shape.setEditable(true);
+}
+
+function shapeClear(shape)
+{
+
 }
 
 // ==== GPS COORDINATES ======================================
