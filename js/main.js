@@ -79,7 +79,7 @@ function initMap()
     ({
         drawingControl: true,
         drawingControlOptions: {
-            position: google.maps.ControlPosition.BOTTOM_CENTER,
+            position: google.maps.ControlPosition.TOP_CENTER,
             drawingModes: ['polygon', 'polyline', 'rectangle', 'circle']
         },
 
@@ -113,7 +113,7 @@ function initMap()
     google.maps.event.addListener(map, 'click', shapeClear);
 
     // DomListener to delete a selected shape when the button is clicked
-    google.maps.event.addDomListener(document.getElementById('deleteShapeButton'), 'click', deleteSelectedShape);
+    google.maps.event.addDomListener(document.getElementById('deleteShapeButton'), 'click', shapeDelete);
 }
 
 // ==== SMALLER FUNCTIONS =====================================
@@ -599,20 +599,40 @@ function clickTableMapPosition(squadObj)
 // Selects the shape
 function shapeSelect(shape)
 {
-    shapeClear();
-    shapeSelection = shape;
-    shape.setEditable(true);
+    shapeClear();               // Deselect any currently selected shape
+    shapeSelection = shape;     // Select new shape
+    shape.setEditable(true);    // Make it editable
 }
 
 // Deselects the shape
 function shapeClear()
 {
+    // If a shape has been selected...
     if(shapeSelection)
     {
+        // Deselect it
         shapeSelection.setEditable(false);
         shapeSelection = null;
     }
 }
+
+// Deletes the selected shape
+function shapeDelete()
+{
+    console.log("Clearing shape...");
+    // If a shape has been selected...
+    if(shapeSelection)
+    {
+        // DELETE
+        shapeSelection.setMap(null);
+    }
+    else
+    {
+        alert("No shape has been selected!");
+    }
+}
+
+
 
 // ==== GPS COORDINATES ======================================
 // 37.337032, -121.880224 = Northeast
