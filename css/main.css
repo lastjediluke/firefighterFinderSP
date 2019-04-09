@@ -25,6 +25,7 @@ h1
 h2
 {
     margin: 0px;
+    font-size: 25px;
     background: rgb(48, 68, 131);
 }
 
@@ -33,15 +34,15 @@ h3
 {
     margin: 5px;
     padding: 0px;
-    border-bottom: 1px solid white;
+    /* border-bottom: 1px solid white; */
 }
 
 /* Header 4 */
 h4
 {
-    font-size: 30px;
     margin: 10px;
-    padding: 20px;
+    padding: 0px;
+    font-size: 20px;
 }
 
 /* Body Section */
@@ -49,7 +50,7 @@ body
 {
     background-color: #333;
     font-family: 'Montserrat';
-    font-size: 14px;
+    font-size: 10px;
     color: rgb(255, 255, 255);
     height: 100%;
     margin: 0px;
@@ -125,7 +126,7 @@ p
 #canvas
 {
     width: 100%;
-    height: 94%;
+    height: 96%;
     z-index: 1;
     bottom: 0px;
 }
@@ -148,7 +149,8 @@ p
     background: #333;
     /* border: 1px white Solid; */
     padding: 15px;
-    right: 60px
+    right: 60px;
+    font-size: 15px;
 }
 
 /* ==== SIDEBAR ================================================= */
@@ -158,14 +160,14 @@ p
 {
     /* border-right: 2px solid #333; */
     position: fixed;
-    width: 350px;
+    width: 300px;
     height: 100%;
     background: rgb(34, 48, 94);
     margin: 0px;
     padding: 0px;
     z-index: 2;
-    left: -350px;                                                   /* Hides the sidebar */
-    transition: all 150ms cubic-bezier(0.165, 0.84, 0.44, 1);       /* Transition settings */
+    left: -300px;                                                   /* Hides the sidebar */
+    transition: all 400ms cubic-bezier(0.165, 0.84, 0.44, 1);       /* Transition settings */
 }
 
 /* Sidebar (when clicked) properties */
@@ -191,7 +193,7 @@ p
     padding: 10px;
     background: #333;
     position: absolute;
-    left: 370px;
+    left: 320px;
     top: 100px;
 
     /* Smooth Color Transition */
@@ -225,8 +227,10 @@ p
 /* Title of sidebar menu */
 #sidebar-title
 {
-    padding: 20px;
-    border-bottom: 1px solid white
+    padding: 8px;
+    border-bottom: 1px solid white;
+    font-size: 20px;
+    background: rgb(48, 68, 131);
 }
 
 /* ==== MEMBER LIST ================================================= */
@@ -240,7 +244,7 @@ p
 #squadInput
 {
     border: 1px solid rgb(128, 128, 128); /* Add a grey border */
-    width: 260px;
+    width: 240px;
     background-color: #333;
     color: white;
     font-size: 15px;
@@ -252,9 +256,9 @@ p
     color: white;
     border: none;
     background-color: rgb(0, 92, 122);
-    width: 260px;
-    font-size: 17px;
-    height: 27px;
+    width: 240px;
+    font-size: 15px;
+    height: 22px;
     margin: 0.5em 0em 0em 0em;
     border-radius: 6px;
 
@@ -277,8 +281,8 @@ p
 #tableCell
 {
     background: rgb(48, 68, 131);
-    margin: 10px;
-    height: 400px;
+    margin: 15px;
+    height: 273px;
     box-shadow: 0px 0px 10px #333;
     padding: 8px;
     /* border: 1px solid white; */
@@ -288,8 +292,8 @@ p
 #tableContainer
 {
     background: rgb(48, 68, 131);
-    height: 380px;
-    margin: 10px;
+    height: 270px;
+    /* margin: 10px; */
     overflow: auto;
     /* border: 1px solid white; */
     /* border-bottom: 1px solid #ffffff; */
@@ -302,6 +306,8 @@ p
     margin: auto;
     height: 100%;
     overflow: auto;
+    font-size: 12px;
+    /* border: 1px solid white; */
 }
 
 /* Table Rows */
@@ -326,8 +332,7 @@ p
 #squadSearch
 {
     height: 20px;
-    width: 260px;
-    margin: 10px;
+    width: 240px;
     border: 1px solid rgb(128, 128, 128); /* Add a grey border */
     border-radius: 6px;
     background-color: #333;
@@ -340,7 +345,7 @@ p
 #infoContainer
 {
     height: 100%;
-    width: 350px;
+    width: 300px;
     background-color: rgb(34, 48, 94);;
     /* visibility: hidden */
 }
@@ -416,8 +421,8 @@ p
     padding: 10px;
     background: rgb(146, 0, 0);
     position: absolute;
-    top: 40px;
-    right: 150px;
+    top: 30px;
+    right: 470px;
 
     /* Smooth Color Transition */
     transition: background 0.1s linear;
