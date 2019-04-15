@@ -458,32 +458,23 @@ function displayInfoTable(squadObj)
     // Obtain a "snapshot" of the data
     memberRef.on("value", function(snapshot) {
         const obj = snapshot.val();
-        var text;
-        var display;
+        var cell;
 
-        display = document.getElementById("infoName");
-        text = obj.name;
-        display.textContent = (text);
-
-        display = document.getElementById("infoSquad");
-        text = obj.squad;
-        display.textContent = (text);
-
-        display = document.getElementById("infoStatus");
-        text = obj.status;
-        display.textContent = (text);
-
-        display = document.getElementById("infoLocation");
-        text = "(" + obj.lat + ", " + obj.long + ")";
-        display.textContent = (text);
-
-        display = document.getElementById("infoFloor");
-        text = obj.floor;
-        display.textContent = (text);
-
-        display = document.getElementById("infoColor");
-        text = obj.marker;
-        display.textContent = (text);
+        // Get the table object and the right cell spot
+        cell = document.getElementById("infoTable").rows[0].cells[1];
+        cell.innerHTML = obj.name;
+        cell = document.getElementById("infoTable").rows[1].cells[1];
+        cell.innerHTML = obj.squad;
+        cell = document.getElementById("infoTable").rows[2].cells[1];
+        cell.innerHTML = obj.status;
+        cell = document.getElementById("infoTable").rows[3].cells[1];
+        cell.innerHTML = obj.lat.toFixed(8);
+        cell = document.getElementById("infoTable").rows[4].cells[1];
+        cell.innerHTML = obj.long.toFixed(8);
+        cell = document.getElementById("infoTable").rows[5].cells[1];
+        cell.innerHTML = obj.floor;
+        cell = document.getElementById("infoTable").rows[6].cells[1];
+        cell.innerHTML = obj.marker;
     }); 
 }
 
@@ -498,55 +489,44 @@ function displayInfoMarker(squadObj)
     // Obtain a "snapshot" of the data
     memberRef.on("value", function(snapshot) {
         const obj = snapshot.val();
-        var text;
-        var display;
+        var cell;
 
-        display = document.getElementById("infoName");
-        text = obj.name;
-        display.textContent = (text);
-
-        display = document.getElementById("infoSquad");
-        text = obj.squad;
-        display.textContent = (text);
-
-        display = document.getElementById("infoStatus");
-        text = obj.status;
-        display.textContent = (text);
-
-        display = document.getElementById("infoLocation");
-        text = "(" + obj.lat + ", " + obj.long + ")";
-        display.textContent = (text);
-
-        display = document.getElementById("infoFloor");
-        text = obj.floor;
-        display.textContent = (text);
-
-        display = document.getElementById("infoColor");
-        text = obj.marker;
-        display.textContent = (text);
+        // Get the table object and the right cell spot
+        cell = document.getElementById("infoTable").rows[0].cells[1];
+        cell.innerHTML = obj.name;
+        cell = document.getElementById("infoTable").rows[1].cells[1];
+        cell.innerHTML = obj.squad;
+        cell = document.getElementById("infoTable").rows[2].cells[1];
+        cell.innerHTML = obj.status;
+        cell = document.getElementById("infoTable").rows[3].cells[1];
+        cell.innerHTML = obj.lat.toFixed(8);
+        cell = document.getElementById("infoTable").rows[4].cells[1];
+        cell.innerHTML = obj.long.toFixed(8);
+        cell = document.getElementById("infoTable").rows[5].cells[1];
+        cell.innerHTML = obj.floor;
+        cell = document.getElementById("infoTable").rows[6].cells[1];
+        cell.innerHTML = obj.marker;
     }); 
 }
 
 // Clears the info box when not hovering
 function displayClear()
 {
-    display = document.getElementById("infoName");
-    display.textContent = (" ");
-
-    display = document.getElementById("infoSquad");
-    display.textContent = (" ");
-
-    display = document.getElementById("infoStatus");
-    display.textContent = (" ");
-
-    display = document.getElementById("infoLocation");
-    display.textContent = (" ");
-
-    display = document.getElementById("infoFloor");
-    display.textContent = (" ");
-
-    display = document.getElementById("infoColor");
-    display.textContent = (" ");
+    // Get the table object and the right cell spot
+    cell = document.getElementById("infoTable").rows[0].cells[1];
+    cell.innerHTML = " ";
+    cell = document.getElementById("infoTable").rows[1].cells[1];
+    cell.innerHTML = " ";
+    cell = document.getElementById("infoTable").rows[2].cells[1];
+    cell.innerHTML = " ";
+    cell = document.getElementById("infoTable").rows[3].cells[1];
+    cell.innerHTML = " ";
+    cell = document.getElementById("infoTable").rows[4].cells[1];
+    cell.innerHTML = " ";
+    cell = document.getElementById("infoTable").rows[5].cells[1];
+    cell.innerHTML = " ";
+    cell = document.getElementById("infoTable").rows[6].cells[1];
+    cell.innerHTML = " ";
 }
 
 // ==== SEARCH BAR ==================================================
