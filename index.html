@@ -52,6 +52,9 @@
         <!-- GOOGLE MAPS API -->
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBSh3k5GTj5kOsmkuUM56wNk8QJ6NbCsTE&libraries=drawing&callback=initMap"async defer></script>
         
+        <!-- CHART.JS API -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+        
         <!-- BROWSER TAB ICON (FAVICON) -->
         <link rel="icon" href="FF_logo.png">
     </head>
@@ -120,16 +123,20 @@
             <div id='tableCell' align="center">
                 <div id='tableContainer' align="center">
                     <!-- Table itself -->
-                    <table id='squadTable' align="center">
-                        <thead align="center">
+                    <table id='squadTableHeader' align="center">
+                        <thead id='squadTableThread' align="center">
                             <tr align="center">
-                                <th>SQUAD</th>
-                                <th>MEMBER</th>
-                                <th>STATUS</th>
+                                <th>SQUAD MEMBER STATUS</th>
                             </tr>
                         </thead>
                     </table>
+                    <table id='squadTable' align="center">
+                        <thead align="center">
+                            <tr align="center"></tr>
+                        </thead>
+                    </table>
                 </div>
+                <div id="clearTableButton" onclick="clearTable()">CLEAR TABLE</div>
             </div>
 
             <!-- Info Container -->
@@ -148,15 +155,19 @@
         </div>
 
         <!-- ------------------------------------------------- -->
-        
+
+
         <!-- Clock -->
         <div align="center" id='time'></div>
         
         <!-- Display Map -->
         <div id="canvas">
-            <div id="map"></div>
+            <div id="map">
+            </div>
         </div>
-
+        
+        <!-- <canvas id="myChart"></canvas> -->
+        
         <!-- Delete shape button -->
         <div id="deleteShapeButton">DELETE SHAPE</div>
         

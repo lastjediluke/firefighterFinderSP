@@ -67,13 +67,20 @@ html
 th
 {
     padding: 5px;
-    border-bottom: 2px solid #ffffff;
+    border-bottom: 1px solid #ffffff;
+    word-spacing: 23px;
 }
 
 /* Table Row Entries */
 td
 {
-    padding: 5px;
+    width: 70px;
+
+    /* Smooth Color Transition */
+    transition: background 0.1s linear;
+    -moz-transition: background 0.1s linear;
+    -webkit-transition: background 0.1s linear;
+    
     /* border-bottom: 1px dashed white */
 }
 
@@ -160,6 +167,7 @@ p
 {
     /* border-right: 2px solid #333; */
     position: fixed;
+    top: 0px;
     width: 300px;
     height: 100%;
     background: rgb(34, 48, 94);
@@ -282,7 +290,7 @@ p
 {
     background: rgb(48, 68, 131);
     margin: 15px;
-    height: 273px;
+    height: 390px;
     box-shadow: 0px 0px 10px #333;
     padding: 8px;
     /* border: 1px solid white; */
@@ -292,7 +300,7 @@ p
 #tableContainer
 {
     background: rgb(48, 68, 131);
-    height: 270px;
+    height: 350px;
     /* margin: 10px; */
     overflow: auto;
     /* border: 1px solid white; */
@@ -306,6 +314,15 @@ p
     margin: auto;
     height: 100%;
     overflow: auto;
+    font-size: 12px;
+    /* border: 1px solid white; */
+}
+
+/* Table Header */
+#squadTableHeader
+{
+    margin: auto;
+    height: 100%;
     font-size: 12px;
     /* border: 1px solid white; */
 }
@@ -324,6 +341,33 @@ p
 {
     /* Add a grey background color to the table header and on hover */
     background-color: rgb(34, 48, 94);
+}
+
+/* Button to clear table */
+#clearTableButton
+{
+    padding: 10px;
+    background: rgb(146, 0, 0);
+    width: 120px;
+    font-size: 12px;
+    height: 13px;
+    margin: 0.5em 0em 0em 0em;
+    border-radius: 6px;
+
+    /* Smooth Color Transition */
+    transition: background 0.1s linear;
+    -moz-transition: background 0.1s linear;
+    -webkit-transition: background 0.1s linear;
+}
+
+#clearTableButton:hover
+{
+    background: rgb(185, 0, 0);
+}
+
+#clearTableButton:active
+{
+    background: rgb(255, 0, 0);
 }
 
 /* ==== MEMBER SEARCH =============================================== */
@@ -399,7 +443,7 @@ p
 
 /* Track */
 ::-webkit-scrollbar-track {
-    background: rgb(48, 68, 131);
+    background: rgba(0, 0, 0, 0.1);
     border-radius: 10px;
 }
 
@@ -423,6 +467,7 @@ p
     position: absolute;
     top: 30px;
     right: 470px;
+    border-radius: 6px;
 
     /* Smooth Color Transition */
     transition: background 0.1s linear;
@@ -438,4 +483,11 @@ p
 #deleteShapeButton:active
 {
     background: rgb(255, 0, 0);
+}
+
+/* ==== CHARTS ====================================================== */
+
+#myCanvas
+{
+    z-index: 2;
 }

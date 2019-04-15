@@ -230,7 +230,7 @@ function importSquad()
             newSquadMember = new squadMember(obj[key].Member, "Good", 1, 
                 addAMarker(obj[key], lat, lon), color[colorNum], lat, lon, 
                 time, obj[key].Squad, 50, 100, markerCount);
-            console.log(newSquadMember);
+            // console.log(newSquadMember);
 
             // Put new member into squad array
             squadArray.push(newSquadMember);
@@ -316,6 +316,32 @@ function addAMarker(squadObj, lat, lon)
     // Adding the marker to the map
     marker.setMap(map);
     return marker;
+}
+
+// Clears table
+function clearTable()
+{
+    var i = 0;  // Index
+
+    // Grabs table and clears the rows
+    var clear = document.getElementById('squadTable');
+    console.log(clear.rows.length);
+    for(i=markerCount; i>0; i--)
+    {
+        clear.deleteRow(i);
+    }
+
+    // Clear arrays and variables
+    for(i=0; i<markerCount; i++)
+    {
+        markersArray[i].setMap(null);
+    }
+    markerCount = 0;
+    markersArray = [];
+    squadArray = [];
+
+    // Clears firebase /Active
+    firebase.database().ref("/Active").set(null);
 }
 
 // ==== FIREBASE UPDATES ============================================
@@ -587,6 +613,9 @@ function clickTableMapPosition(squadObj)
             console.log("ALREADY BOUNCING!");
             return;
         }
+        
+        // markersArray[obj.markerNum].setAnimation(google.maps.Animation.DROP);
+        // markersArray[obj.markerNum].setAnimation(google.maps.Animation.NULL);
 
         // Marker bounces for 5s
         setTimeout(function(){markersArray[obj.markerNum].setAnimation(google.maps.Animation.BOUNCE)}, 500);
@@ -632,7 +661,25 @@ function shapeDelete()
     }
 }
 
+var ctx = document.getElementById('myChart').getContext('2d');
+var chart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: 'line',
 
+    // The data for our dataset
+    data: {
+        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+        datasets: [{
+            label: 'My First dataset',
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: [0, 10, 5, 2, 20, 30, 45]
+        }]
+    },
+
+    // Configuration options go here
+    options: {}
+});
 
 // ==== GPS COORDINATES ======================================
 // 37.337032, -121.880224 = Northeast
