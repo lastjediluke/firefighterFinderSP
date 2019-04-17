@@ -1,21 +1,17 @@
 // ==== GLOBALS ==============================================
-var map;
-var colon_tick = false;
-var markerCount = 0;
-var markersArray = [];
-var squadArray = [];
-var colorNum = 0;
+var map;                        // Map variable
+var colon_tick = false;         // Bool variable for clock function
+var markerCount = 0;            // Counts number of markers on map
+var markersArray = [];          // Holds all markers
+var squadArray = [];            // Holds all squad members
+var colorNum = 0;               // Index for the color array
 let color = ["lightred", "green", "blue", "purple", "yellow",
 "white", "brown", "gray", "orange", "black"];
-var floorInputVal = 0;
-var newMapsArray = [];
-var newDivsArray = [];
-var beenPressed = 0;
-var drawingManager;
-var shapeSelection;
-var simulationVariable;
-var infoCheck;
-var currentMemberDisplay;
+var drawingManager;             // Google Maps Drawing Options
+var shapeSelection;             // Holds currently selected shape
+var simulationVariable;         // Holds the simnulation function
+var infoCheck;                  // Holds the function that displays info in info table in real-time
+var currentMemberDisplay;       // Holds member that is being displayed in the info box
 
 // GPS Simulation Points
 var gpsIndex = 0;
@@ -279,7 +275,7 @@ function placeInTable(squadObj)
     cell3.style.color = "limegreen";
     cell3.innerHTML = squadObj.status;
 
-    row.addEventListener('mouseover', () => displayInfoTable(squadObj));
+    row.addEventListener('mouseover', () => updateTable(squadObj));
     row.addEventListener('mouseout', () => displayClear());
     row.addEventListener('click', () => clickTableMapPosition(squadObj));
 }
@@ -322,7 +318,7 @@ function addAMarker(squadObj, lat, lon)
     markersArray.push(marker);
 
     // Adds ability to hover over the marker for a function
-    marker.addListener('mouseover', () => displayInfoMarker(squadObj));
+    marker.addListener('mouseover', () => updateMarker(squadObj));
     marker.addListener('mouseout', () => displayClear());
 
     // Adding the marker to the map
@@ -459,17 +455,25 @@ squadRef.on("child_changed", function(snapshot) {
 
 // ==== DISPLAY INFO ================================================
 
-// function updateTable(squadObj)
-// {
-//     currentMemberDisplay = squadObj;
-//     infoCheck = setInterval(displayInfoTable(squadObj), 100);
-// }
+// Begins continuous call to display info in the info box (Table)
+function updateTable(squadObj)
+{
+    currentMemberDisplay = squadObj;
+    infoCheck = setInterval(displayInfoTable, 100);
+}
+
+// Begins continuous call to display info in the info box (Marker)
+function updateMarker(squadObj)
+{
+    currentMemberDisplay = squadObj;
+    infoCheck = setInterval(displayInfoMarker, 100);
+}
 
 // Hovering over a row displays info
-function displayInfoTable(squadObj)
+function displayInfoTable()
 {
     // Obtain a "snapshot" of the data
-    return firebase.database().ref('Active/' + squadObj.name).once('value').then(function(snapshot)
+    return firebase.database().ref('Active/' + currentMemberDisplay.name).once('value').then(function(snapshot)
     {
         const obj = snapshot.val();
         var cell;
@@ -493,9 +497,9 @@ function displayInfoTable(squadObj)
 }
 
 // Hovering over a marker displays info
-function displayInfoMarker(squadObj)
+function displayInfoMarker()
 {
-    return firebase.database().ref('Active/' + squadObj.Member).once('value').then(function(snapshot)
+    return firebase.database().ref('Active/' + currentMemberDisplay.Member).once('value').then(function(snapshot)
     {
         const obj = snapshot.val();
         var cell;
