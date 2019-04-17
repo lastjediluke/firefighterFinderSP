@@ -310,7 +310,7 @@ p
 {
     background: rgb(48, 68, 131);
     margin: 15px;
-    height: 570px;
+    height: 560px;
     box-shadow: 0px 0px 10px #333;
     padding: 8px;
     /* border: 1px solid white; */
@@ -320,7 +320,7 @@ p
 #tableContainer
 {
     background: rgb(48, 68, 131);
-    height: 530px;
+    height: 520px;
     /* margin: 10px; */
     overflow: auto;
     /* border: 1px solid white; */
@@ -520,7 +520,7 @@ p
     z-index: 2;
 }
 
-/* ==== SIMULATION ====================================================== */
+/* ==== SIMULATION ================================================== */
 
 #simulationStartButton
 {
@@ -571,3 +571,5 @@ p
 {
     background: rgb(31, 206, 0);
 }
+
+/* ==== TOOLTIP ===================================================== */
