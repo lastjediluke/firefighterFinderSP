@@ -116,6 +116,15 @@ function initMap()
         shapeSelect(shape);
     });
 
+    // Adds a reticle to the center of the map
+    var reticleShape = {coords:[0,0,0,0],type:'rect'};
+    var reticle = new google.maps.Marker({
+        map: map,
+        icon: 'https://www.daftlogic.com/images/cross-hairs.gif',
+        shape: reticleShape
+    });
+    reticle.bindTo('position', map, 'center');
+
     // Deselects a selected shape when clicking the map or changing drawing mode.
     google.maps.event.addListener(drawingManager, 'drawingmode_changed', shapeClear);
     google.maps.event.addListener(map, 'click', shapeClear);
