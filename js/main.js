@@ -13,6 +13,18 @@ var newDivsArray = [];
 var beenPressed = 0;
 var drawingManager;
 var shapeSelection;
+var simulationVariable;
+var infoCheck;
+var currentMemberDisplay;
+
+// GPS Simulation Points
+var gpsIndex = 0;
+var gps1lat = [37.337132, 37.337232, 37.337332, 37.337432];
+var gps1long = [-121.880224, -121.880324, -121.880424, -121.880524];
+var gps2lat = [37.337032, 37.336932, 37.336832, 37.336732];
+var gps2long = [-121.881224, -121.881324, -121.881424, -121.881524];
+var gps3lat = [37.335032, 37.334932, 37.334832, 37.334732];
+var gps3long = [-121.881224, -121.881124, -121.881024, -121.880924];
 
 // ==== IMPORTANT APIS/INITS =================================
 
@@ -59,7 +71,7 @@ function initMap()
         center: new google.maps.LatLng(37.336294, -121.881068),
         mapTypeId: google.maps.MapTypeId.ROADMAP,
         zoom: 18,
-        mapTypeId: 'satellite',
+        // mapTypeId: 'satellite',
         tilt: 0
     };
 
@@ -299,7 +311,7 @@ function addAMarker(squadObj, lat, lon)
         member: squadObj,
         icon: {
             path: google.maps.SymbolPath.CIRCLE,
-            scale: 10,
+            scale: 7,
             fillColor: color[colorNum],
             fillOpacity: 0.8,
             strokeWeight: 1
@@ -342,6 +354,10 @@ function clearTable()
 
     // Clears firebase /Active
     firebase.database().ref("/Active").set(null);
+
+    // Clear info display
+    simulationStop();
+    displayClear();
 }
 
 // ==== FIREBASE UPDATES ============================================
@@ -409,17 +425,13 @@ squadRef.on("child_changed", function(snapshot) {
         // change font to red
         tableRows[j].cells[2].style.color = "red";
 
-        // make the marker bounce 
+        // make the marker bounce
         markersArray[squadMemSnap.markerNum].setAnimation(google.maps.Animation.BOUNCE);
 
+        // console.log(markersArray[squadMemSnap.markerNum].icon.fillColor);
+
         // Change marker color
-        // markersArray[squadMemSnap.markerNum].setIcon({
-        //     path: google.maps.SymbolPath.TRIANGLE,
-        //     scale: 7,
-        //     fillColor: squadMemSnap.marker,
-        //     fillOpacity: 0.8,
-        //     strokeWeight: 1
-        // });
+        // markersArray[squadMemSnap.markerNum].icon.fillColor = "red";
     }
 
     else if (squadArray[squadArrayNum].status == "Good")
@@ -432,13 +444,13 @@ squadRef.on("child_changed", function(snapshot) {
         // Back to green table text
         tableRows[j].cells[2].style.color = "limegreen";
 
-        markersArray[squadMemSnap.markerNum].setIcon({
-            path: google.maps.SymbolPath.CIRCLE,
-            scale: 7,
-            fillColor: squadMemSnap.marker,
-            fillOpacity: 0.8,
-            strokeWeight: 1
-        });
+        // markersArray[squadMemSnap.markerNum].setIcon({
+        //     path: google.maps.SymbolPath.CIRCLE,
+        //     scale: 7,
+        //     fillColor: squadMemSnap.marker,
+        //     fillOpacity: 0.8,
+        //     strokeWeight: 1
+        // });
 
         // stop the bounce
         markersArray[squadMemSnap.markerNum].setAnimation(null);
@@ -447,16 +459,18 @@ squadRef.on("child_changed", function(snapshot) {
 
 // ==== DISPLAY INFO ================================================
 
+// function updateTable(squadObj)
+// {
+//     currentMemberDisplay = squadObj;
+//     infoCheck = setInterval(displayInfoTable(squadObj), 100);
+// }
+
 // Hovering over a row displays info
 function displayInfoTable(squadObj)
 {
-    // console.log(squadObj);
-
-    // Access member data at "Active/<name of member>" in Firebase
-    var memberRef = firebase.database().ref("Active/" + squadObj.name);
-
     // Obtain a "snapshot" of the data
-    memberRef.on("value", function(snapshot) {
+    return firebase.database().ref('Active/' + squadObj.name).once('value').then(function(snapshot)
+    {
         const obj = snapshot.val();
         var cell;
 
@@ -475,19 +489,14 @@ function displayInfoTable(squadObj)
         cell.innerHTML = obj.floor;
         cell = document.getElementById("infoTable").rows[6].cells[1];
         cell.innerHTML = obj.marker;
-    }); 
+    });
 }
 
 // Hovering over a marker displays info
 function displayInfoMarker(squadObj)
 {
-    // console.log(squadObj);
-
-    // Access member data at "Active/<name of member>" in Firebase
-    var memberRef = firebase.database().ref("Active/" + squadObj.Member);
-
-    // Obtain a "snapshot" of the data
-    memberRef.on("value", function(snapshot) {
+    return firebase.database().ref('Active/' + squadObj.Member).once('value').then(function(snapshot)
+    {
         const obj = snapshot.val();
         var cell;
 
@@ -527,6 +536,8 @@ function displayClear()
     cell.innerHTML = " ";
     cell = document.getElementById("infoTable").rows[6].cells[1];
     cell.innerHTML = " ";
+
+    clearInterval(infoCheck);
 }
 
 // ==== SEARCH BAR ==================================================
@@ -570,7 +581,8 @@ function clickTableMapPosition(squadObj)
     var memberRef = firebase.database().ref("Active/" + squadObj.name);
     
     // Obtain a "snapshot" of the data
-    memberRef.on("value", function(snapshot) {
+    return firebase.database().ref('Active/' + squadObj.name).once('value').then(function(snapshot)
+    {
         const obj = snapshot.val();
 
         // Pan the map to the appropriate marker / Set zoom to 20 (closer to the marker)
@@ -598,8 +610,8 @@ function clickTableMapPosition(squadObj)
         // markersArray[obj.markerNum].setAnimation(google.maps.Animation.NULL);
 
         // Marker bounces for 5s
-        setTimeout(function(){markersArray[obj.markerNum].setAnimation(google.maps.Animation.BOUNCE)}, 500);
-        setTimeout(function(){markersArray[obj.markerNum].setAnimation(google.maps.Animation.NULL)}, 5000);
+        // setTimeout(function(){markersArray[obj.markerNum].setAnimation(google.maps.Animation.BOUNCE)}, 500);
+        // setTimeout(function(){markersArray[obj.markerNum].setAnimation(google.maps.Animation.NULL)}, 5000);
     }); 
 }
 
@@ -641,6 +653,55 @@ function shapeDelete()
     }
 }
 
+// ==== SIMULATION ==================================================
+
+function simulationStart()
+{
+    simulationVariable = setInterval(simulation, 1000);
+    alert("Simulation Started!");
+}
+
+function simulationStop()
+{
+    clearInterval(simulationVariable);
+    alert("Simulation Stopped!");
+}
+
+function simulation()
+{
+    // for(var j=0; j<squadArray.length; j++)
+    // {
+
+    // }
+    var memberRef;
+
+    memberRef = firebase.database().ref("Active/Luke Dillon").update
+    ({
+        lat: gps1lat[gpsIndex],
+        long: gps1long[gpsIndex]
+    });
+    memberRef = firebase.database().ref("Active/Troy Kurniawan").update
+    ({
+        lat: gps2lat[gpsIndex],
+        long: gps2long[gpsIndex]
+    });
+    memberRef = firebase.database().ref("Active/Zijian Guan").update
+    ({
+        lat: gps3lat[gpsIndex],
+        long: gps3long[gpsIndex]
+    });
+    memberRef = firebase.database().ref("Active/William Wong").update
+    ({
+        lat: 37.335698,
+        long: -121.885128,
+        floor: gpsIndex+1
+    });
+
+    gpsIndex = (gpsIndex+1) % 4;
+}
+
+// ==== CHART =======================================================
+
 var ctx = document.getElementById('myChart').getContext('2d');
 var chart = new Chart(ctx, {
     // The type of chart we want to create
@@ -664,3 +725,5 @@ var chart = new Chart(ctx, {
 // ==== GPS COORDINATES ======================================
 // 37.337032, -121.880224 = Northeast
 // 37.336708, -121.879543 = Southeast
+
+// 37.335698, -121.885128 = Library

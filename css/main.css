@@ -148,6 +148,24 @@ p
     bottom: 0px;
 }
 
+/* #reticle
+{
+    top: 100px;
+    margin: auto;
+    display: block;
+    position: absolute;
+    padding: 10px;
+    border: 1px solid white;
+}
+
+#reticle_img
+{
+    display: block;
+    position: absolute;
+    padding: auto;
+    border: 1px solid white;
+} */
+
 /* ==== CLOCK =================================================== */
 
 /* Clock properties */
@@ -204,7 +222,7 @@ p
     background: #333;
     position: absolute;
     left: 380px;
-    top: 100px;
+    top: 140px;
 
     /* Smooth Color Transition */
     transition: background 0.1s linear;
@@ -500,4 +518,56 @@ p
 #myCanvas
 {
     z-index: 2;
+}
+
+/* ==== SIMULATION ====================================================== */
+
+#simulationStartButton
+{
+    padding: 10px;
+    background: rgb(22, 146, 0);
+    position: absolute;
+    bottom: 35px;
+    right: 200px;
+    border-radius: 6px;
+
+    /* Smooth Color Transition */
+    transition: background 0.1s linear;
+    -moz-transition: background 0.1s linear;
+    -webkit-transition: background 0.1s linear;
+}
+
+#simulationStartButton:hover
+{
+    background: rgb(27, 180, 0);
+}
+
+#simulationStartButton:active
+{
+    background: rgb(31, 206, 0);
+}
+
+#simulationStopButton 
+{
+    padding: 10px;
+    background: rgb(22, 146, 0);
+    position: absolute;
+    bottom: 35px;
+    right: 60px;
+    border-radius: 6px;
+
+    /* Smooth Color Transition */
+    transition: background 0.1s linear;
+    -moz-transition: background 0.1s linear;
+    -webkit-transition: background 0.1s linear;
+}
+
+#simulationStopButton:hover
+{
+    background: rgb(27, 180, 0);
+}
+
+#simulationStopButton:active
+{
+    background: rgb(31, 206, 0);
 }
