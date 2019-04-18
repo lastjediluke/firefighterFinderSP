@@ -88,6 +88,7 @@
                 <span></span>
                 <span></span>
                 <span></span>
+                <div class="tooltip-right">Open sidebar menu</div>
             </div>
 
             <!-- Sidebar Title -->
@@ -110,7 +111,10 @@
                         </select>
                     </form>
                     <!-- Enter Button -->
-                    <button id='squadButton' onclick="importSquad()">IMPORT</button>
+                    <button id='squadButton' onclick="importSquad()" class="squad-tooltip">
+                        IMPORT
+                        <div class="tooltip-right">Add all members from this squad</div>
+                    </button>
                 </section>
             </div>
 
@@ -137,7 +141,10 @@
                         </thead>
                     </table>
                 </div>
-                <div id="clearTableButton" onclick="clearTable()">CLEAR TABLE</div>
+                <div id="clearTableButton" onclick="clearTable()" class="clear-tooltip">
+                    CLEAR TABLE
+                    <div class="tooltip-right">Removes all members</div>
+                </div>
             </div>
 
             <!-- Info Container -->
@@ -176,7 +183,10 @@
         <!-- <canvas id="myChart"></canvas> -->
         
         <!-- Delete shape button -->
-        <div id="deleteShapeButton">DELETE SHAPE</div>
+        <div id="deleteShapeButton" class="delete-tooltip">
+            DELETE SHAPE
+            <div class="tooltip-bottom">Remove the selected drawing</div>
+        </div>
         
         <!-- Simulation -->
         <div id="simulationStartButton" onclick="simulationStart()">SIMULATION START</div>

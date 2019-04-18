@@ -289,6 +289,7 @@ p
     height: 22px;
     margin: 0.5em 0em 0em 0em;
     border-radius: 6px;
+    font-family: 'Montserrat';
 
     /* Smooth Color Transition */
     transition: background 0.1s linear;
@@ -368,7 +369,7 @@ p
 {
     padding: 10px;
     background: rgb(146, 0, 0);
-    width: 120px;
+    width: 100px;
     font-size: 12px;
     height: 13px;
     margin: 0.5em 0em 0em 0em;
@@ -496,6 +497,7 @@ p
     top: 30px;
     right: 470px;
     border-radius: 6px;
+    font-size: 15px;
 
     /* Smooth Color Transition */
     transition: background 0.1s linear;
@@ -573,3 +575,128 @@ p
 }
 
 /* ==== TOOLTIP ===================================================== */
+
+/* Tooltip itself */
+.toggle-btn .tooltip-right{
+    visibility: hidden;
+    width: 150px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    font-family: 'helvetica';
+    font-size: 15px;
+  
+    /* Position the tooltip text */
+    position: absolute;
+    z-index: 1;
+    top: 16%;
+    left: 120%;
+    /* margin-left: -60px; */
+  
+    /* Fade in tooltip */
+    opacity: 0;
+    transition: opacity 200ms linear;
+}
+
+/* Tooltip hover action */
+.toggle-btn:hover .tooltip-right{
+    visibility: visible;
+    opacity: 1;
+}
+
+/* --- */
+
+.squad-tooltip .tooltip-right {
+    visibility: hidden;
+    width: 240px;
+    background-color: rgb(223, 223, 223);
+    border: 1px solid #333;
+    color: rgb(0, 0, 0);
+    text-align: center;
+    padding: 10px 0;
+    font-family: 'helvetica';
+    font-size: 15px;
+    /* border-radius: 6px; */
+    box-shadow: 0px 0px 30px #333;
+  
+    /* Position the tooltip text */
+    position: absolute;
+    z-index: 1;
+    top: 83px;
+    /* margin-left: -60px; */
+    
+    /* Fade in tooltip */
+    opacity: 0;
+    transition: opacity 0.1s linear;
+    transition: all 200ms cubic-bezier(0.165, 0.84, 0.44, 1);       /* Transition settings */
+    left: 300px;
+}
+
+.squad-tooltip:hover .tooltip-right{
+    visibility: visible;
+    opacity: 1;
+    left: 330px;
+}
+
+/* --- */
+
+.delete-tooltip .tooltip-bottom {
+    visibility: hidden;
+    width: 220px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    font-family: 'helvetica';
+    /* font-size: 10px; */
+  
+    /* Position the tooltip text */
+    position: absolute; 
+    z-index: 1;
+    top: 130%;
+    left: -30%;
+  
+    /* Fade in tooltip */
+    opacity: 0;
+    transition: opacity 200ms linear;
+}
+
+.delete-tooltip:hover .tooltip-bottom{
+    visibility: visible;
+    opacity: 1;
+}
+
+/* --- */
+
+.clear-tooltip .tooltip-right {
+    visibility: hidden;
+    width: 170px;
+    background-color: rgb(223, 223, 223);
+    border: 1px solid #333;
+    color: rgb(0, 0, 0);
+    text-align: center;
+    padding: 10px 0;
+    font-family: 'helvetica';
+    font-size: 15px;
+    /* border-radius: 6px; */
+    box-shadow: 0px 0px 30px #333;
+  
+    /* Position the tooltip text */
+    position: absolute;
+    z-index: 1;
+    bottom: 215px;
+    /* margin-left: -60px; */
+    
+    /* Fade in tooltip */
+    opacity: 0;
+    transition: opacity 0.1s linear;
+    transition: all 200ms cubic-bezier(0.165, 0.84, 0.44, 1);       /* Transition settings */
+    left: 250px;
+}
+
+.clear-tooltip:hover .tooltip-right{
+    visibility: visible;
+    opacity: 1;
+    left: 280px;
+}
