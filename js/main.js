@@ -370,8 +370,16 @@ squadRef.on("child_changed", function(snapshot) {
 var gps = new GPS;
 
 // works with GPGGA, too 
-var sentence = '$GNGGA,014626.00,3720.19969,N,12152.86258,W,2,12,0.67,36.3,M,-29.9,M,,0000*43';
+var sentence = '$NGGA,014626.00,3720.19969,N,12152.86258,W,2,12,0.67,36.3,M,-29.9,M,,0000*43';
 // 014626.00,3720.19969,N,12152.86258,W,2,12,0.67,36.3,M,-29.9,M,,0000*43
+
+// if we find the bad $NGGA data, which we normally do, then we fix it
+if (sentence.indexOf("GNGGA") == -1)
+{
+    console.log("Old Sentence: " + sentence);
+    sentence = sentence.replace("$NGGA", "$GNGGA");
+    console.log("Updated Sentence: " + sentence);
+}
 
 var getParse;
 gps.on('data', function(parsed) {
@@ -381,6 +389,7 @@ gps.on('data', function(parsed) {
 
 gps.update(sentence);
 console.log(getParse);
+console.log(sentence.indexOf('gps'));
 console.log(getParse.lat);
 
 

@@ -14,13 +14,9 @@ exports.helloPubSub = functions.pubsub.topic('events').onPublish((message) => {
 
     var mGps = new GPS;
 
-    // works with GPGGA, too 
-    // var sentence = '$GNGGA,014626.00,3720.19969,N,12152.86258,W,2,12,0.67,36.3,M,-29.9,M,,0000*43';
-    // 014626.00,3720.19969,N,12152.86258,W,2,12,0.67,36.3,M,-29.9,M,,0000*43
-
+    // grabs the parsed object
     var getParsed;
     
-
     // turns message into base64...this one works
     const messageBody = message.data ? Buffer.from(message.data, 'base64').toString() : null;
 
@@ -35,11 +31,20 @@ exports.helloPubSub = functions.pubsub.topic('events').onPublish((message) => {
     console.log("GPS: " + gpsData);
 
     // get the gngga sentence from the message
-    var nggaBeg = messageBody.indexOf('PGGA');
+    var nggaBeg = messageBody.indexOf('NGGA');
     var nggaEnd = messageBody.indexOf("\n$");
-    var gngga = messageBody.substring(nggaBeg - 2, nggaEnd - 1);
+
+    // these might need to change depending if we get NGGA or GNGGA data
+    var gngga = messageBody.substring(nggaBeg - 1, nggaEnd - 1);
     console.log("GNGGA: " + gngga);
 
+    // if we find the bad $NGGA data, which we normally do, then we fix it
+    if (gngga.indexOf("GNGGA") == -1)
+    {
+        gngga = gngga.replace("$NGGA", "$GNGGA");
+    }
+
+    // the parser stuff
     mGps.on('data', function(parsed) {
         getParsed = parsed;
         console.log(parsed);
@@ -55,41 +60,16 @@ exports.helloPubSub = functions.pubsub.topic('events').onPublish((message) => {
     // take the msg and turn it into json
     var MsgToJson = JSON.parse(newMsg);
     console.log(MsgToJson.name);
-
-    let name = null;
-    let squad = null;
-    let lat = null;
-    let long = null;
-    let temp = null;
-    let floor = null;
-    let status = null;
-    let gps = null;
-    
     console.log( "Old: " + messageBody);
 
-    // json = JSON.parse(message);
-    // name = MsgToJson.json.name;
-    // squad = MsgToJson.json.squad;
-    // lat = message.json.lat;
-    // long = message.json.long;
-    // temp = message.json.temp;
-    // floor = message.json.floor;
-    // status = message.json.status;
-    // gps = message.json.gps;
-    // console.log(gps);
-    // console.log(name);
-    // console.log(squad);
-    // console.log(lat);
-    // console.log(long);
-
     // I don't think the try block is working
-    // try {
-        
-        
+    // try 
+    // {
     // } catch (e) {
     //     console.error('PubSub message was not JSON', e);
     // }
 
+    // this return updates the db
     return admin.database().ref("/Active/" + name).update({
         // lat: lat,
         // long:long,
