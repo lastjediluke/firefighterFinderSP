@@ -366,17 +366,24 @@ squadRef.on("child_changed", function(snapshot) {
 // 37.336708, -121.879543 = Southeast
 
 
-var GPS = require('../gps.js');
+// var GPS = require('../GPS/gps.js');
 var gps = new GPS;
 
-var sentence = '$GPGGA,224900.000,4832.3762,N,00903.5393,E,1,04,7.8,498.6,M,48.0,M,,0000*5E';
+// works with GPGGA, too 
+var sentence = '$GNGGA,014626.00,3720.19969,N,12152.86258,W,2,12,0.67,36.3,M,-29.9,M,,0000*43';
+// 014626.00,3720.19969,N,12152.86258,W,2,12,0.67,36.3,M,-29.9,M,,0000*43
 
+var getParse;
 gps.on('data', function(parsed) {
-
-  console.log(parsed);
+    getParse = parsed;
+    console.log(parsed);
 });
 
 gps.update(sentence);
+console.log(getParse);
+console.log(getParse.lat);
+
+
 
 
 
