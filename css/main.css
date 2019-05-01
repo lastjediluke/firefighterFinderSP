@@ -423,7 +423,7 @@ p
     font-size: 10px;
 }
 
-/* ==== MARKER BLINK ================================================ */
+/* ==== TEXT BLINK ================================================== */
 
 .blink {
 	-webkit-animation: blink .75s linear infinite;
@@ -685,7 +685,7 @@ p
     /* Position the tooltip text */
     position: absolute;
     z-index: 1;
-    bottom: 215px;
+    top: 705px;
     /* margin-left: -60px; */
     
     /* Fade in tooltip */

@@ -38,14 +38,14 @@ var gps3long = [-121.881224, -121.881124, -121.881024, -121.880924];
     };
     firebase.initializeApp(config);
 
+    // reset firebase data on page refresh
+    firebase.database().ref("/Active").set(null);
+    
     // const preObject = document.getElementById('object');
 
     // reference to the database
     // var db = firebase.database().ref().child('object');
 
-    // reset firebase data on page refresh
-    firebase.database().ref("/Active").set(null);
-    
     // key = 'object'
     // value = 'lala'
 
@@ -135,7 +135,7 @@ function initMap()
 
 // ==== SMALLER FUNCTIONS =====================================
 
-// Time Function (Updates every 0.5s)
+// Time Function (Updates every 1s)
 setInterval(updateTime, 1000);
 function updateTime()
 {
@@ -200,11 +200,11 @@ class squadMember
         this.color = color;
         this.lat = lat;
         this.long = long;
-        this.startTime = startTime;
+        // this.startTime = startTime;
         this.squad = squad;
-        this.heart = heart;
-        this.temp = temp;
-        this.ID = ID
+        // this.heart = heart;
+        // this.temp = temp;
+        // this.ID = ID
     }
 }
 
