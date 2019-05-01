@@ -1,160 +1,436 @@
-body 
-{
-    font-family: 'PT Sans', sans-serif;
-    /* width: 100%;
-    margin-top: 0;
-    margin-right: auto;
-    margin-bottom: 4em;
-    margin-left: auto;  */
-}
+/*
 
+== COLORS ==
+Dark Gray (Header):     #333
+Blue (Sidebar):         rgb(48, 68, 131);
+Dark Blue (Sidebar):    rgb(34, 48, 94);
+
+*/
+
+/* Generic Header */
 header
 {
-    padding-top: 1em;
-    background: #3d445e;
-    padding-bottom: 1em;
-    color: whitesmoke;
+    color: white;
 }
 
-#numFloorsInput
+/* Header 1 */
+h1
 {
-    margin: 1em;
+    height: 100%;
+    margin: 0px;
+    padding: 0px
+}
+
+/* Header 2 */
+h2
+{
+    margin: 0px;
+    font-size: 25px;
+    background: rgb(48, 68, 131);
+}
+
+/* Header 3 */
+h3
+{
+    margin: 5px;
+    padding: 0px;
+    /* border-bottom: 1px solid white; */
+}
+
+/* Header 4 */
+h4
+{
+    margin: 10px;
+    padding: 0px;
     font-size: 20px;
 }
 
+/* Body Section */
+body 
+{
+    background-color: #333;
+    font-family: 'Montserrat';
+    font-size: 10px;
+    color: rgb(255, 255, 255);
+    height: 100%;
+    margin: 0px;
+    padding: 0px
+}
+
+/* Generic HTML */
+html
+{
+    height: 100%
+}
+
+/* Table Header */
+th
+{
+    padding: 5px;
+    border-bottom: 1px solid #ffffff;
+    word-spacing: 23px;
+    font-size: 15px;
+}
+
+/* Table Cell Entries */
+td
+{
+    width: 70px;
+    font-size: 15px;
+
+    /* Smooth Color Transition */
+    transition: background 0.1s linear;
+    -moz-transition: background 0.1s linear;
+    -webkit-transition: background 0.1s linear;
+
+    /* border: 1px solid white */
+}
+
+p
+{
+    /* font-family: Courier; */
+    padding: 0px;
+    margin: 3px;
+    justify-items: left
+}
+
+/* ==== LOADING SCREEN ========================================== */
+
+#load_screen
+{
+    position: fixed;            /* Won't move when scrolling */
+    z-index: 20;                /* Falls on top of any other object */
+    top: 0;
+    left: 0;
+    width: 30%;
+    height: 30%;
+    background: #333;
+    display: flex;              /* Scretches to fit the screen */
+    justify-content: center;
+    align-items: center;
+}
+
+#load_screen > #loading
+{
+    position: fixed;            /* Won't move when scrolling */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #333;
+    display: flex;              /* Scretches to fit the screen */
+    justify-content: center;
+    align-items: center;
+}
+
+#load_screen > #loading > img
+{
+    width: 100px;
+    margin: 1em;
+}
+
+/* ==== MAP ===================================================== */
+
+/* Canvas size for the map */
+#canvas
+{
+    width: 100%;
+    height: 96%;
+    z-index: 1;
+    bottom: 0px;
+}
+
+/* Map itself */
+#map
+{
+    width: 100%;
+    height: 100%;
+    bottom: 0px;
+}
+
+/* #reticle
+{
+    top: 100px;
+    margin: auto;
+    display: block;
+    position: absolute;
+    padding: 10px;
+    border: 1px solid white;
+}
+
+#reticle_img
+{
+    display: block;
+    position: absolute;
+    padding: auto;
+    border: 1px solid white;
+} */
+
+/* ==== CLOCK =================================================== */
+
+/* Clock properties */
+#time
+{
+    z-index: 1;
+    position: absolute;
+    background: #333;
+    /* border: 1px white Solid; */
+    padding: 15px;
+    right: 60px;
+    font-size: 15px;
+}
+
+/* ==== SIDEBAR ================================================= */
+
+/* Sidebar properties */
+#sidebar
+{
+    /* border-right: 2px solid #333; */
+    position: fixed;
+    top: 0px;
+    width: 360px;
+    height: 100%;
+    background: rgb(34, 48, 94);
+    margin: 0px;
+    padding: 0px;
+    z-index: 2;
+    left: -360px;                                                   /* Hides the sidebar */
+    transition: all 400ms cubic-bezier(0.165, 0.84, 0.44, 1);       /* Transition settings */
+}
+
+/* Sidebar (when clicked) properties */
+#sidebar.active
+{
+    /* Moves the sidebar back into place when button is first clicked */
+    left: 0px;
+    box-shadow: 10px -15px 50px #333;
+}
+
+/* Sidebar List Properties */
+#sidebar ul li
+{
+    color: white;
+    list-style: none;
+    padding: 20px;
+    /* border-bottom: 1px solid white */
+}
+
+/* Sidebar toggle button properties */
+#sidebar .toggle-btn
+{
+    padding: 10px;
+    background: #333;
+    position: absolute;
+    left: 380px;
+    top: 140px;
+
+    /* Smooth Color Transition */
+    transition: background 0.1s linear;
+    -moz-transition: background 0.1s linear;
+    -webkit-transition: background 0.1s linear;
+}
+
+/* Sidebar button hover */
+#sidebar .toggle-btn:hover
+{
+    background: rgb(97, 97, 97);
+}
+
+/* Sidebar button click */
+#sidebar .toggle-btn:active
+{
+    background: rgb(146, 146, 146);
+}
+
+/* Sidebar toggle button <span> properties */
+#sidebar .toggle-btn span
+{
+    display: block;
+    width: 30px;
+    height: 5px;
+    background: white;
+    margin: 4px 0px
+}
+
+/* Title of sidebar menu */
+#sidebar-title
+{
+    padding: 8px;
+    border-bottom: 1px solid white;
+    font-size: 20px;
+    background: rgb(48, 68, 131);
+}
+
+/* ==== MEMBER LIST ================================================= */
+
+#squadContainer
+{
+    padding: 20px
+}
+
+/* Drop down menu to select a squad */
 #squadInput
 {
-    margin: 1em;
-    font-size: 20px;
+    border: 1px solid rgb(128, 128, 128); /* Add a grey border */
+    width: 240px;
+    background-color: #333;
+    color: white;
+    font-size: 15px;
 }
 
-#squadButton, #floorButton
+/* Member Enter button */
+#squadButton
 {
-    font-size: 20px;
-    margin: 0em 1em 1em 1em;
+    color: white;
+    border: none;
+    background-color: rgb(0, 92, 122);
+    width: 240px;
+    font-size: 15px;
+    height: 22px;
+    margin: 0.5em 0em 0em 0em;
+    border-radius: 6px;
+    font-family: 'Montserrat';
+
+    /* Smooth Color Transition */
+    transition: background 0.1s linear;
+    -moz-transition: background 0.1s linear;
+    -webkit-transition: background 0.1s linear;
 }
 
-#floorInput
+#squadButton:hover
 {
-    
-    background-color: #3b8e96;
-    
+    background-color: rgb(0, 129, 172);
 }
 
-#floorButton:hover
+#squadButton:active
 {
-    border: 1px solid yellow;
+    background-color: rgb(0, 191, 255);
 }
 
-#statusSection
+#tableCell
 {
-    background: #FFFFEB;
-    padding-bottom: 1em;
+    background: rgb(48, 68, 131);
+    margin: 15px;
+    height: 560px;
+    box-shadow: 0px 0px 10px #333;
+    padding: 8px;
+    /* border: 1px solid white; */
 }
 
-#map_canvas3
+/* Container that holds the table */
+#tableContainer
 {
-    height:500px;
-    width:90%;
-    background-color: gray;
-    margin: 1em auto; 
-    position: relative;
-    
-    
+    background: rgb(48, 68, 131);
+    height: 520px;
+    /* margin: 10px; */
+    overflow: auto;
+    /* border: 1px solid white; */
+    /* border-bottom: 1px solid #ffffff; */
+    /* border-top: 1px solid #ffffff; */
 }
 
-#newMapCanvas0
+/* Table Itself */
+#squadTable
 {
-    height:300px;
-    width:90%;
-    background-color: gray;
-    margin: 1em auto;
-    
+    margin: auto;
+    height: 100%;
+    overflow: auto;
+    font-size: 12px;
+    /* border: 1px solid white; */
 }
 
-#newMapCanvas1
+/* Table Header */
+#squadTableHeader
 {
-    height:300px;
-    width:90%;
-    background-color: gray;
-    margin: 1em auto;
-    
+    margin: auto;
+    height: 100%;
+    font-size: 12px;
+    /* border: 1px solid white; */
 }
 
-#blank0{}
-
-#blank1{}
-
-#maps_section
+/* Table Rows */
+#squadTable tr
 {
-    background: #FFFFEB;
-    color: #333;
-    padding-bottom: 10px;   
+    /* Smooth Color Transition */
+    transition: background-color 0.1s linear;
+    -moz-transition: background-color 0.1s linear;
+    -webkit-transition: background-color 0.1s linear;
 }
 
-.titleRow 
+/* Highlights member row when mouse is hovering over it */
+#squadTable tr:hover
 {
-    display: flex;   
-}
-  
-.titleColumn 
-{
-    flex: 50%;
-    
+    /* Add a grey background color to the table header and on hover */
+    background-color: rgb(34, 48, 94);
 }
 
-.row 
+/* Button to clear table */
+#clearTableButton
 {
-    display: flex;
-    margin: 1em;
-    /* border: 1px solid black; */
-}
-  
-.column 
-{
-    flex: 50%;
-    margin-left: 1em;  
+    padding: 10px;
+    background: rgb(146, 0, 0);
+    width: 100px;
+    font-size: 12px;
+    height: 13px;
+    margin: 0.5em 0em 0em 0em;
+    border-radius: 6px;
+
+    /* Smooth Color Transition */
+    transition: background 0.1s linear;
+    -moz-transition: background 0.1s linear;
+    -webkit-transition: background 0.1s linear;
 }
 
-#mapColumn 
+#clearTableButton:hover
 {
-    height:300px;
-    width: 100%;
-    background-color: gray;
-    margin: 0 auto;
-    flex: 50%; 
+    background: rgb(185, 0, 0);
 }
 
-.floorTableHeader
+#clearTableButton:active
 {
-    
-    width: 90%;
-    background-color: #3d445e;
+    background: rgb(255, 0, 0);
 }
 
-.floorTable
+/* ==== MEMBER SEARCH =============================================== */
+
+/* Search bar for squad members */
+#squadSearch
 {
-    width: 98%;
-    background-color: #3d445e;
-    
+    height: 20px;
+    width: 240px;
+    border: 1px solid rgb(128, 128, 128); /* Add a grey border */
+    border-radius: 6px;
+    background-color: #333;
+    color: white;
+    font-size: 15px;
 }
 
-#statusColor
+/* ==== INFORMATION DISPLAY ========================================= */
+
+#infoContainer
 {
-    color: green;
+    margin: 15px;
+    height: 18%;
+    width: 328px;
+    /* border: 1px solid white; */
+    /* visibility: hidden */
 }
 
-table, td, th
+#infoTable
 {
-    border: 1px solid #3b8e96;
+    /* border: 1px solid white; */
+    width: 320px;
+    font-size: 10px;
 }
+
+/* ==== TEXT BLINK ================================================== */
 
 .blink {
 	-webkit-animation: blink .75s linear infinite;
 	-moz-animation: blink .75s linear infinite;
 	-ms-animation: blink .75s linear infinite;
 	-o-animation: blink .75s linear infinite;
-	 animation: blink .75s linear infinite;
+    animation: blink .75s linear infinite;
 }
 @-webkit-keyframes blink {
 	0% { opacity: 1; }
@@ -187,50 +463,240 @@ table, td, th
 	100% { opacity: 0; }
 }
 
-.fixed_header tbody
+/* ==== SCROLLBAR =================================================== */
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: rgb(134, 134, 134);
+    border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: rgb(107, 107, 107);
+}
+
+/* ==== DELETE SHAPE BUTTON ========================================= */
+
+#deleteShapeButton
 {
-    display:block;
-    overflow:auto;
-    height:200px;
-    width:100%;
-  }
+    padding: 10px;
+    background: rgb(146, 0, 0);
+    position: absolute;
+    top: 30px;
+    right: 470px;
+    border-radius: 6px;
+    font-size: 15px;
 
-  .fixed_header thead tr
-  {
-    display:block;
-  }
+    /* Smooth Color Transition */
+    transition: background 0.1s linear;
+    -moz-transition: background 0.1s linear;
+    -webkit-transition: background 0.1s linear;
+}
 
-  .tableHeaderContainer
-  {
-    background-color: #3b8e96; 
-    padding: 1em 1em 0em 1em;
-    color: whitesmoke
-  }
+#deleteShapeButton:hover
+{
+    background: rgb(185, 0, 0);
+}
 
-  .tableContainer
-  {
-    overflow-y: scroll;
-    overflow-x: hidden;
-    height: 100px;
-    white-space: nowrap;
-    background-color: #3b8e96; 
-    padding: 0em 1em 1em 1em;   /* top right bottom left */
-    color: whitesmoke
-  }
+#deleteShapeButton:active
+{
+    background: rgb(255, 0, 0);
+}
 
-  .logContainer
-  {
-    overflow-y: scroll;
-    height: 100px;
-  }
+/* ==== CHARTS ====================================================== */
 
-  #time
-  {
-      
-      background-color: #3b8e96;
-      text-align: right;
-  }
+#myCanvas
+{
+    z-index: 2;
+}
 
+/* ==== SIMULATION ================================================== */
 
+#simulationStartButton
+{
+    padding: 10px;
+    background: rgb(22, 146, 0);
+    position: absolute;
+    bottom: 35px;
+    right: 200px;
+    border-radius: 6px;
 
+    /* Smooth Color Transition */
+    transition: background 0.1s linear;
+    -moz-transition: background 0.1s linear;
+    -webkit-transition: background 0.1s linear;
+}
 
+#simulationStartButton:hover
+{
+    background: rgb(27, 180, 0);
+}
+
+#simulationStartButton:active
+{
+    background: rgb(31, 206, 0);
+}
+
+#simulationStopButton 
+{
+    padding: 10px;
+    background: rgb(22, 146, 0);
+    position: absolute;
+    bottom: 35px;
+    right: 60px;
+    border-radius: 6px;
+
+    /* Smooth Color Transition */
+    transition: background 0.1s linear;
+    -moz-transition: background 0.1s linear;
+    -webkit-transition: background 0.1s linear;
+}
+
+#simulationStopButton:hover
+{
+    background: rgb(27, 180, 0);
+}
+
+#simulationStopButton:active
+{
+    background: rgb(31, 206, 0);
+}
+
+/* ==== TOOLTIP ===================================================== */
+
+/* Tooltip itself */
+.toggle-btn .tooltip-right{
+    visibility: hidden;
+    width: 150px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    font-family: 'helvetica';
+    font-size: 15px;
+  
+    /* Position the tooltip text */
+    position: absolute;
+    z-index: 1;
+    top: 16%;
+    left: 120%;
+    /* margin-left: -60px; */
+  
+    /* Fade in tooltip */
+    opacity: 0;
+    transition: opacity 200ms linear;
+}
+
+/* Tooltip hover action */
+.toggle-btn:hover .tooltip-right{
+    visibility: visible;
+    opacity: 1;
+}
+
+/* --- */
+
+.squad-tooltip .tooltip-right {
+    visibility: hidden;
+    width: 240px;
+    background-color: rgb(223, 223, 223);
+    border: 1px solid #333;
+    color: rgb(0, 0, 0);
+    text-align: center;
+    padding: 10px 0;
+    font-family: 'helvetica';
+    font-size: 15px;
+    /* border-radius: 6px; */
+    box-shadow: 0px 0px 30px #333;
+  
+    /* Position the tooltip text */
+    position: absolute;
+    z-index: 1;
+    top: 83px;
+    /* margin-left: -60px; */
+    
+    /* Fade in tooltip */
+    opacity: 0;
+    transition: opacity 0.1s linear;
+    transition: all 200ms cubic-bezier(0.165, 0.84, 0.44, 1);       /* Transition settings */
+    left: 300px;
+}
+
+.squad-tooltip:hover .tooltip-right{
+    visibility: visible;
+    opacity: 1;
+    left: 330px;
+}
+
+/* --- */
+
+.delete-tooltip .tooltip-bottom {
+    visibility: hidden;
+    width: 220px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    font-family: 'helvetica';
+    /* font-size: 10px; */
+  
+    /* Position the tooltip text */
+    position: absolute; 
+    z-index: 1;
+    top: 130%;
+    left: -30%;
+  
+    /* Fade in tooltip */
+    opacity: 0;
+    transition: opacity 200ms linear;
+}
+
+.delete-tooltip:hover .tooltip-bottom{
+    visibility: visible;
+    opacity: 1;
+}
+
+/* --- */
+
+.clear-tooltip .tooltip-right {
+    visibility: hidden;
+    width: 170px;
+    background-color: rgb(223, 223, 223);
+    border: 1px solid #333;
+    color: rgb(0, 0, 0);
+    text-align: center;
+    padding: 10px 0;
+    font-family: 'helvetica';
+    font-size: 15px;
+    /* border-radius: 6px; */
+    box-shadow: 0px 0px 30px #333;
+  
+    /* Position the tooltip text */
+    position: absolute;
+    z-index: 1;
+    top: 705px;
+    /* margin-left: -60px; */
+    
+    /* Fade in tooltip */
+    opacity: 0;
+    transition: opacity 0.1s linear;
+    transition: all 200ms cubic-bezier(0.165, 0.84, 0.44, 1);       /* Transition settings */
+    left: 250px;
+}
+
+.clear-tooltip:hover .tooltip-right{
+    visibility: visible;
+    opacity: 1;
+    left: 280px;
+}
