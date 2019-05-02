@@ -203,7 +203,7 @@ class squadMember
         // this.startTime = startTime;
         this.squad = squad;
         // this.heart = heart;
-        // this.temp = temp;
+        this.temp = temp;
         // this.ID = ID
     }
 }
@@ -300,7 +300,8 @@ function activateMember(newSquadMember)
         marker: newSquadMember.color,
         lat: newSquadMember.lat,
         long: newSquadMember.long,
-        markerNum: markerCount
+        markerNum: markerCount,
+        temp: 30
     });
 }
 
@@ -391,6 +392,7 @@ squadRef.on("child_changed", function(snapshot) {
             squadArray[i].lat = squadMemSnap.lat;
             squadArray[i].long = squadMemSnap.long;
             squadArray[i].marker.setPosition(latlng);
+            squadArray[i].temp = squadMemSnap.temp;
             // squadArray[i].marker.setShape(shape);
             // markersArray[squadMemSnap.markerNum].setPosition(latlng);
             // markersArray[i].setPosition(latlng);
@@ -502,6 +504,8 @@ function displayInfoTable()
         cell.innerHTML = obj.floor;
         cell = document.getElementById("infoTable").rows[6].cells[1];
         cell.innerHTML = obj.marker;
+        cell = document.getElementById("infoTable").rows[7].cells[1];
+        cell.innerHTML = obj.temp;
     });
 }
 
@@ -528,6 +532,8 @@ function displayInfoMarker()
         cell.innerHTML = obj.floor;
         cell = document.getElementById("infoTable").rows[6].cells[1];
         cell.innerHTML = obj.marker;
+        cell = document.getElementById("infoTable").rows[7].cells[1];
+        cell.innerHTML = obj.temp;
     }); 
 }
 
@@ -548,6 +554,8 @@ function displayClear()
     cell = document.getElementById("infoTable").rows[5].cells[1];
     cell.innerHTML = " ";
     cell = document.getElementById("infoTable").rows[6].cells[1];
+    cell.innerHTML = " ";
+    cell = document.getElementById("infoTable").rows[7].cells[1];
     cell.innerHTML = " ";
 
     clearInterval(infoCheck);
@@ -597,6 +605,11 @@ function clickTableMapPosition(squadObj)
     return firebase.database().ref('Active/' + squadObj.name).once('value').then(function(snapshot)
     {
         const obj = snapshot.val();
+
+        if(obj.lat == null || obj.long == null)
+        {
+            break;
+        }
 
         // Pan the map to the appropriate marker / Set zoom to 20 (closer to the marker)
         var center = new google.maps.LatLng(obj.lat, obj.long);
