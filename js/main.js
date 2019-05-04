@@ -606,11 +606,6 @@ function clickTableMapPosition(squadObj)
     {
         const obj = snapshot.val();
 
-        if(obj.lat == null || obj.long == null)
-        {
-            break;
-        }
-
         // Pan the map to the appropriate marker / Set zoom to 20 (closer to the marker)
         var center = new google.maps.LatLng(obj.lat, obj.long);
         map.panTo(center);
