@@ -6,7 +6,7 @@ Full documentation can be found here: https://docs.google.com/document/d/1DxI_6I
 
 You can visit the website here: https://lastjediluke.github.io/firefighterFinderSP/
 
-(Alternatively, you can access the website by simply opening the index.html file in a web browser)
+(Alternatively, you can access the website by simply downloading the entire repository and opening the "index.html" file in a web browser)
 
 **Code Structure:**
 The code layout of the website is as follows:
