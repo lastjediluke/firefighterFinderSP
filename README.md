@@ -8,6 +8,13 @@ You can visit the website here: https://lastjediluke.github.io/firefighterFinder
 
 (Alternatively, you can access the website by simply opening the index.html file in a web browser)
 
+**Code Structure:**
+The code layout of the website is as follows:
+- index.html (info layout)
+- main.css (stylizing)
+- main.js (scripting)
+- Various Firebase files to interact with the Firebase database.
+
 ## Features
 
 **1. Fully functional Google Map that can be used the same way as a normal Google Map.**
